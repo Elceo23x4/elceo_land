@@ -119,6 +119,13 @@ const idempotencyRequiredReadKeys = new Set<string>([
   "GET /api/portfolio/watchlist/{entryId}"
 ]);
 
+const documentedUnavailableKeys = new Set<string>([
+  "GET /api/account/profile/social-identifiers",
+  "GET /api/dashboard/{asset}",
+  "PATCH /api/account/profile/social-identifiers",
+  "POST /api/billing/checkout"
+]);
+
 const responseContractOverrides: Partial<Record<(typeof browserOperationKeys)[number], string>> = {
   "GET /api/billing/intention": "handler_specific_json",
   "GET /api/billing/subscription": "handler_specific_json",
@@ -139,6 +146,7 @@ type BrowserRuntimePolicy = Readonly<{
   responseContract: string;
   idempotency: 'required' | 'not_required';
   allowedHeaders: readonly string[];
+  unavailableStatuses: readonly number[];
 }>;
 
 const createRuntimePolicy = (key: BrowserOperationKey): BrowserRuntimePolicy => {
@@ -155,6 +163,7 @@ const createRuntimePolicy = (key: BrowserOperationKey): BrowserRuntimePolicy => 
     responseContract: responseContractOverrides[key] ?? 'standard_api_envelope',
     idempotency,
     allowedHeaders: idempotency === 'required' ? ['Idempotency-Key'] : [],
+    unavailableStatuses: documentedUnavailableKeys.has(key) ? [503] : [],
   };
 };
 
