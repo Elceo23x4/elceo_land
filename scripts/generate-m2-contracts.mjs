@@ -194,6 +194,21 @@ try {
   const idempotencyRequiredReadKeys = browserUserKeys.filter((key) => (
     registry[key].method === 'GET' && registry[key].idempotency === 'required'
   ));
+
+  // The frozen route inventory contributes explicit 503 evidence. The frozen UI
+  // state matrix additionally documents canonical dashboard-unavailable as 503,
+  // even though the static route extractor does not surface that helper status.
+  const dashboardUnavailableKey = 'GET /api/dashboard/{asset}';
+  if (!browserUserKeys.includes(dashboardUnavailableKey)
+      || registry[dashboardUnavailableKey].responseContract
+        !== 'DashboardChartWorkspaceViewModel_or_KickOffDashboardViewModelV1') {
+    throw new Error('Frozen dashboard unavailable-state evidence no longer matches the browser contract.');
+  }
+  const documentedUnavailableKeys = [...new Set([
+    ...browserUserKeys.filter((key) => registry[key].explicitStatuses.includes(503)),
+    dashboardUnavailableKey,
+  ])].sort();
+
   const responseContractOverrides = Object.fromEntries(
     browserUserKeys
       .filter((key) => registry[key].responseContract !== 'standard_api_envelope')
@@ -230,6 +245,7 @@ try {
 
   const browserRegistryText = `${provenance}const browserOperationKeys = ${JSON.stringify(browserUserKeys, null, 2)} as const;\n\n`
     + `const idempotencyRequiredReadKeys = new Set<string>(${JSON.stringify(idempotencyRequiredReadKeys, null, 2)});\n\n`
+    + `const documentedUnavailableKeys = new Set<string>(${JSON.stringify(documentedUnavailableKeys, null, 2)});\n\n`
     + `const responseContractOverrides: Partial<Record<(typeof browserOperationKeys)[number], string>> = ${JSON.stringify(responseContractOverrides, null, 2)};\n\n`
     + 'type BrowserOperationKey = (typeof browserOperationKeys)[number];\n\n'
     + 'type BrowserRuntimePolicy = Readonly<{\n'
@@ -239,6 +255,7 @@ try {
     + '  responseContract: string;\n'
     + "  idempotency: 'required' | 'not_required';\n"
     + '  allowedHeaders: readonly string[];\n'
+    + '  unavailableStatuses: readonly number[];\n'
     + '}>;\n\n'
     + 'const createRuntimePolicy = (key: BrowserOperationKey): BrowserRuntimePolicy => {\n'
     + "  const separator = key.indexOf(' ');\n"
@@ -254,6 +271,7 @@ try {
     + "    responseContract: responseContractOverrides[key] ?? 'standard_api_envelope',\n"
     + '    idempotency,\n'
     + "    allowedHeaders: idempotency === 'required' ? ['Idempotency-Key'] : [],\n"
+    + '    unavailableStatuses: documentedUnavailableKeys.has(key) ? [503] : [],\n'
     + '  };\n'
     + '};\n\n'
     + 'export const browserOperationRegistry = Object.fromEntries(\n'
