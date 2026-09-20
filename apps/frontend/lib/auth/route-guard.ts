@@ -1,4 +1,4 @@
-import { isCanonicalAdminRole, sanitizeCallbackPath, type SessionResolution } from './core';
+import { isCanonicalAdminRole, sanitizeCallbackPath, type SessionResolution } from './core.ts';
 
 const protectedPrefixes = [
   '/dashboard',
