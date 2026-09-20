@@ -261,3 +261,37 @@ The Webpack failure was inspected through actual job logs (job `106042129292`, N
 Primary preview recovery is established for the repaired code. Historical Vercel root cause remains unproven without the historical deployment logs. The secondary deployment failure is still unresolved. This report-only follow-up does not change the verified repair tree outside this report; its resulting head's primary deployment must also be observed before handoff.
 
 **M0 review disposition:** approved local foundation repairs complete, primary preview green on the repair commit, remaining CI/secondary deployment and architectural decisions explicitly open. PR #57 remains draft; no merge-readiness declaration and no M1 authorization.
+
+
+## Final M0 CI hygiene closure — 2026-09-20
+
+Architectural review accepted the M0 foundation repairs and authorized only CI hygiene. This supersedes the prior request to authorize the stale Webpack workflow correction. It does not authorize M1 or declaring PR #57 merge-ready.
+
+Only `.github/workflows/webpack.yml` and this evidence report change in this closure. The existing workflow is now named **Frontend Production Build**, checks out the exact PR head, installs the committed lockfile with `npm ci`, and runs the canonical `npm run build` (`tsc -b && vite build`). Its matrix is restricted to `^20.19.0` and `^22.12.0`; Node 18 and the Webpack invocation are removed. Matrix fail-fast is disabled so both retained versions produce evidence. npm's download cache is used, not a cached node_modules tree. No package, lockfile or build-system changes were made.
+
+### Verified CI evidence
+
+Workflow correction commit: `7af97f86a4c3dab360f685d211fb17a86684874e`.
+
+| Check | Result | Evidence |
+|---|---|---|
+| Clean locked install + TypeScript/Vite, Node 20 | Pass; Node 20.20.2 / npm 10.8.2; 171 packages installed; Vite completed | [Job 106044142825](https://github.com/Elceo23x4/elceo_land/actions/runs/35497862550/job/106044142825) |
+| Clean locked install + TypeScript/Vite, Node 22 | Pass; Node 22.23.2 / npm 10.9.8; 171 packages installed; Vite completed | [Job 106044142705](https://github.com/Elceo23x4/elceo_land/actions/runs/35497862550/job/106044142705) |
+| Frontend Production Build matrix | Success on both retained versions | [Run 35497862550](https://github.com/Elceo23x4/elceo_land/actions/runs/35497862550) |
+| UI Foundation Integrity | Success | [Run 35497862511](https://github.com/Elceo23x4/elceo_land/actions/runs/35497862511) |
+| Backend Handoff Snapshot | Success | [Run 35497862598](https://github.com/Elceo23x4/elceo_land/actions/runs/35497862598) |
+| Primary Vercel – elceo-land | Success | [Deployment 6skc4fFznitVQWNCMSdLTujZrMpC](https://vercel.com/elceo23x4s-projects/elceo-land/6skc4fFznitVQWNCMSdLTujZrMpC) |
+| Secondary Vercel – elceo-land-l353 | Unchanged pre-existing failure; not the M0 deployment acceptance context | [Deployment GCjGt5ZwoVw5h7FK5vxNLtgnjUSn](https://vercel.com/elceo23x4s-projects/elceo-land-l353/GCjGt5ZwoVw5h7FK5vxNLtgnjUSn) |
+
+Actual build logs confirm checkout of the correction commit and execution of `npm ci` followed by `tsc -b && vite build` on both Node lines. Node 20 emits an **unsuppressed, nonfatal engine warning** for the existing locked transitive `camera-controls@3.1.2`, whose declared Node requirement is >=22. Both installs and builds succeed. This is a recorded dependency engine caveat, not proof that every transitive package supports Node 20. No dependency adjustment or engine bypass was applied under this CI-only authorization. Existing bundle/SVG size warnings remain as recorded above.
+
+### Preservation checks
+
+- `git diff --exit-code` against the accepted M0 head for `package.json`, `package-lock.json`, `docs/backend-contract/**`, `contracts/backend/**`, `docs/design/references/**`, `src/**`, `public/**`, `vite.config.ts`, `vercel.json` and `tsconfig.json`: no changes.
+- `check:ui-foundation`: pass; exact original PNG identity and complete decode preserved.
+- `verify:backend-handoff`: pass; all 28 canonical files plus snapshot preserved, source commit remains `771487b46874afc28a21f260a2c12f92bfe8f736`, and functional-freeze provenance is unchanged.
+- React/ReactDOM 19.2.8, R3F 9.7.0 and the lockfile are unchanged.
+- `git diff --check`: pass.
+- No application, dashboard, backend runtime, product behavior, Vercel application configuration or framework migration changes.
+
+This report-only evidence update produces the final review head. Its workflows and primary preview must be observed again; the handoff response supplies that exact-head result without repeatedly changing the report to record its own commit. PR #57 remains draft and awaits architectural review of that final head. Stop at M0; do not start M1.
