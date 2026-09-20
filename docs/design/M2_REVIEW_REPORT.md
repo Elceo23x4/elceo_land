@@ -10,123 +10,155 @@
 
 **Frozen functional commit/tree:** `20266494efd3a8d3a97c3ea9335c672e20fe7fa5` / `6f81f55269031e0ec6467cd60283593dd5b7c2d3`
 
-M2 adds a generated, policy-constrained TypeScript contract layer. It does not add authentication/session behavior, pages, dashboard migration, backend runtime behavior, or a production Next.js cutover.
+M2 adds a generated, policy-constrained TypeScript contract layer. It does not add authentication/session behavior, product pages, landing implementation, dashboard migration, backend runtime behavior, or a production Next.js cutover. The only `apps/frontend/app/**` change is an engineering-only hidden browser-client proof inside the existing noindex `/m1-proof` fixture.
 
 ## Generator decision and provenance
 
-The generator is pinned exactly to `@hey-api/openapi-ts@0.99.0`. Its published engine is Node `>=22.18.0`, its TypeScript peer range includes the repository's TypeScript 6 line, and the selected `@hey-api/typescript` plugin emits types only. The result adds no browser runtime. The upstream project recommends exact pinning while its release line is below 1.0.
+The generator is pinned exactly to `@hey-api/openapi-ts@0.99.0`. The selected `@hey-api/typescript` plugin emits type-only OpenAPI output; it does not add an OpenAPI runtime client to the browser.
 
-Evidence:
+`scripts/generate-m2-contracts.mjs` always reads the committed `contracts/backend/openapi.json`, route inventory, handoff summary, source provenance and canonical mocks. It rejects source-pin changes, provenance mismatches, missing or duplicate operations, inventory/OpenAPI set drift, stale mock provenance, incompatible compact-browser assumptions and unexpected generated files. Every generated TypeScript file identifies the source repository/commit, frozen functional tree, input SHA-256, exact generator version and regeneration command.
 
-- [Hey API OpenAPI TypeScript setup](https://heyapi.dev/docs/openapi/typescript/get-started)
-- [Hey API TypeScript plugin](https://heyapi.dev/docs/openapi/typescript/plugins/typescript)
-- the exact package engine, peer dependency, tarball and integrity are locked in `package-lock.json`
-
-`openapi-typescript@7.13.0` was evaluated but not selected because its published TypeScript peer range is `^5.x`, which does not match the accepted TypeScript 6 toolchain.
-
-`scripts/generate-m2-contracts.mjs` always reads the committed `contracts/backend/openapi.json`, route inventory, handoff summary, source provenance and canonical mocks. It rejects source-pin changes, provenance mismatches, missing or duplicate operations, inventory/OpenAPI set drift, stale mock provenance and unexpected generated files. Every generated TypeScript file identifies the source repository/commit, frozen functional tree, input SHA-256, exact generator version and regeneration command. Generated output is never hand-corrected.
+The rich full operation registry remains the mechanically generated audit authority and is `server-only`. Browser execution receives a separate generated projection rather than importing the audit registry.
 
 ## Frozen inventory and authority partition
 
-The counts below are derived and checked from the frozen artifacts; they are not used to replace those artifacts with a parallel inventory.
+The counts below remain derived from the frozen artifacts and were not changed by the runtime-closure work.
 
 | Evidence | Verified count |
 |---|---:|
 | Route files | 153 |
 | Unique method/path operations | 168 |
 | OpenAPI method/path operations | 168 |
-| Inventory/OpenAPI missing or duplicate operations | 0 |
-| Inventory operations marked `browserSafe` | 99 |
 | Browser-safe `user_ui` operations exposed by the browser client | 95 |
 | Admin/super-admin trusted bridge operations exposed server-side | 55 |
 | Framework/webhook/internal operations excluded from general clients | 18 |
-| Operations requiring idempotency | 98 |
-| Browser operations whose mutation type requires idempotency | 60 |
+| Browser operations requiring logical idempotency context | 60 |
+| Canonical mocks | 13 |
+| Explicitly unresolved field-constraint operations | 50 |
 
-The 18 excluded operations are four Auth.js framework operations, four provider webhooks, nine backend-internal operations, and `POST /api/notifications/delivery/dispatch`, which the frozen inventory marks non-browser-safe and internal-token protected despite its `user_ui` audience value.
+The 18 excluded operations remain outside both general clients. Trusted/admin authority remains behind `server-only`, and the browser key union cannot name trusted, webhook or backend-internal operations.
 
-The generated full and trusted registries are `server-only`. The browser module imports only its 95-entry allowlist. It cannot name admin, super-admin, webhook or backend-internal keys. There is no exported `request(path: string)` escape hatch.
+## Compact browser runtime registry
 
-## Typed transport
+The first M2 review found that the browser registry carried the same large audit/provenance payload used for server/build-time verification. That was unnecessary browser authority and payload.
 
-The transport requires an injected HTTP(S) base origin and `fetch` implementation. It accepts only the generated operation key, generated OpenAPI input fields, operation-allowed headers and an explicit request context. It contains no backend hostname, session minting, credential forwarding, cookie/CSRF decision, Auth.js setup, internal-token source or unrestricted proxy.
+The closure therefore splits the concerns mechanically:
 
-Reads and mutations are distinct at the type level. An operation marked `idempotency: required` cannot use the typed mutation interface without a caller-supplied logical-action key. Controlled retry tests prove that all network attempts reuse that same key. No helper generates a replacement key.
+- the full generated registry keeps route files, declared policy expectations, handler-guard evidence, runtime-test evidence, validators, source provenance and related audit material behind `server-only`;
+- the generated browser runtime registry contains only execution data needed by the browser transport: operation key, method, route path, response contract, idempotency requirement, allowed caller headers and evidence-backed unavailable statuses;
+- no second hand-maintained API inventory is introduced; the compact projection is emitted from the frozen rich registry by the same deterministic generator.
 
-The result union keeps the inventory's `responseContract` discriminator and the generated operation response type. It distinguishes success, validation failure, unauthenticated, forbidden, not found, conflict, rate limited, unavailable/degraded, known commercial-pending and unknown errors. It does not flatten Auth.js, dashboard and handler-specific responses into an invented standard envelope. Opaque or unrecognized failures remain `unknown_error`.
+Measured checked-in source size:
 
-### Recorded frozen-contract refinement
-
-No generated DTO was manually refined. One result classification is evidence-backed outside the conservative OpenAPI schema: `POST /api/billing/checkout` recognizes `processing`, `unknown` and `reconciliation_required` as pending/ambiguous commercial outcomes. Evidence is `docs/backend-contract/billing-payment-state-machine.md`, `docs/backend-contract/ui-page-inventory.md`, the inventory entry and `contracts/backend/mocks/billing-checkout-processing.json`. This classification never grants entitlement or claims payment success.
-
-## Response contracts and mocks
-
-The registry preserves all frozen response-contract families rather than normalizing them:
-
-| Response contract | Operations |
+| Browser registry | Bytes |
 |---|---:|
-| `standard_api_envelope` | 152 |
-| `handler_specific_json` | 11 |
-| `authjs_framework_owned` | 4 |
-| `DashboardChartWorkspaceViewModel_or_KickOffDashboardViewModelV1` | 1 |
+| Pre-closure reviewed registry | 290,891 |
+| Closure compact registry | 6,713 |
+| Reduction | 284,178 bytes (97.69%) |
 
-All 13 canonical mocks remain byte unchanged. Each is mechanically mapped exactly once by its `_meta.method` and `_meta.route`, checked against frozen provenance, connected at compile time to its generated OpenAPI operation response, and runtime-checked according to its response-contract family. These fixtures prove frozen contract shape only; they are not evidence of live backend readiness or production behavior.
+The compact generator also fails if a future frozen browser route unexpectedly requires a caller-authored header other than the controlled idempotency header, or if a non-GET browser operation violates the current frozen idempotency evidence. This prevents the compact representation from silently guessing new semantics.
 
-Kick Off and Focus Plan dashboard contracts remain separate. Passive `latest`, `current`, `history` and dashboard GET operations are asserted as read-only and non-idempotency mutations are not inferred. The client contains no directional-bias, confidence, evidence weighting/deduplication, freshness, entitlement, billing, subscription, role or permission calculation.
+## Typed transport and idempotency ownership
 
-## Validation and unresolved contract constraints
+The transport still requires an injected HTTP(S) origin and `fetch` implementation. It contains no fixed backend hostname, Auth.js/session assumptions, internal-token source, unrestricted proxy, entitlement calculation or intelligence calculation.
 
-`apps/frontend/lib/contracts/generated/unresolved-contracts.generated.json` lists the exact 50 operations whose OpenAPI extension says `Unspecified beyond frozen handler/type contract.` It includes the operation key, route file, referenced validators and source provenance, and states that the frontend may not create a rule without new canonical evidence.
+Logical mutation identity and transport retry policy are now deliberately separate:
 
-The remaining operations' frozen entries point to referenced validators, but M2 does not transcribe those validators into a second hand-maintained schema. The conservative OpenAPI leaves a number of request bodies/results unknown or `never`; M2 preserves that limitation rather than inventing DTO fields, validation limits or permissions. Resolving those gaps requires a future corrected backend handoff or an explicitly reviewed evidence-backed refinement.
+- `idempotency` contains only the caller-supplied logical-action key;
+- the previously invented `maxAttempts?: 1 | 2 | 3` policy is removed;
+- automatic retry is disabled by default;
+- an optional injected `shouldRetry(context)` policy owns retry cadence/limits when a future caller intentionally supplies one;
+- any configured retry reuses the same `Idempotency-Key` and serialized request body for the same logical action;
+- caller cancellation (`AbortError`) is never retried;
+- deterministic local contract/programming failures such as an invalid base origin, missing path parameter, forbidden header or missing required idempotency context remain explicit errors instead of being converted into ambiguous network outcomes;
+- a genuine ambiguous transport failure that is not explicitly retried remains `unknown_error`, preserving the frozen guidance to reconcile/read back authoritative state before creating a new logical mutation.
 
-## Boundary and negative evidence
+Both compile-time and runtime negative proofs prevent callers from authoring `Idempotency-Key` directly through the ordinary headers object, including casing variations.
 
-- Type-negative tests reject a required-idempotency mutation without idempotency context.
-- Type-negative tests reject admin and provider-webhook keys through the browser client.
-- The compile-only type proof uses a `.typecheck.ts` suffix so the M1 Playwright runner cannot misclassify JSON fixture imports as browser tests.
-- The client graph checker first proves it detects a synthetic client-to-`server-only` import, then checks every real client entry graph.
-- The full and trusted registries are `server-only`; the browser registry contains no internal-token header or admin bridge entry.
-- The production browser-bundle scanner rejects the internal header name, internal credential marker and trusted-client implementation symbols.
-- M1's broad source scan now excludes only generated contract evidence, where the internal header *name* must be represented. Its runtime/browser-bundle protections remain active and pass.
+## Canonical result-state preservation
 
-## Exact-head acceptance evidence
+The closure corrected two semantic collapses in the original M2 result adapter.
 
-Local verification used canonical Node `v22.23.2` and npm `11.9.0` from a clean `npm ci` (364 packages installed). The final PR check results are recorded against the exact review head after publication.
+The client now preserves these frozen distinctions:
 
-| Gate | Command | Result |
-|---|---|---|
-| Clean locked install | `npm ci` | PASS |
-| Dependency tree | `npm ls --all` | PASS (platform optional dependencies reported as optional) |
-| Vite rollback/parity build | `npm run build:vite` | PASS; 549 modules transformed |
-| Next candidate build | `npm run build:next` | PASS; `/m1-proof` remains the only product-facing candidate fixture |
-| Next typecheck | `npm run typecheck:next` | PASS |
-| Deterministic generation | `npm run check:m2-contracts` | PASS; 168 operations, 13 mocks, 50 unresolved constraints |
-| Contract/runtime/boundary tests | `npm run test:m2` | PASS; 11 tests plus negative graph guard |
-| Browser bundle authority scan | `npm run check:m2-browser-bundles` | PASS; 10 bundles scanned |
-| M1 regression evidence | `npm run test:m1` | PASS; 4 tests |
-| UI Foundation Integrity | `npm run check:ui-foundation` | PASS; approved 941x1672 PNG, 2,888,188 bytes, SHA/CRC/decode verified |
-| Frozen Backend Handoff Snapshot | `npm run verify:backend-handoff` | PASS; 28 pinned path/blob/byte/SHA identities |
-| Foundation negative tests | `npm run test:foundation` | PASS; 3 tests |
+| Backend evidence | Client result |
+|---|---|
+| HTTP 400 / validation-family evidence | `validation_failure` |
+| HTTP 413 / `payload_too_large` | `payload_too_large` |
+| HTTP 424 / `dependency_failed` | `unavailable_degraded` |
+| Documented HTTP 503 unavailable state | `unavailable_degraded` |
+| HTTP 500 / `internal_error` | `internal_failure` |
+| Unrecognized status/envelope | `unknown_error` |
 
-CI adds the same Node-22 contract-generation, typecheck, Next build, M2 tests, browser-bundle scan, backend snapshot and UI authority checks. The existing frontend production workflow continues to own the independent Vite build.
+A generic 503 is **not** treated as degraded merely because of its number. The compact browser policy carries 503 only where frozen evidence supports it. The route inventory supplies explicit 503 evidence, while the frozen UI state matrix separately documents `GET /api/dashboard/{asset}` returning 503 when canonical dashboard materialization is unavailable. The generator verifies that the dashboard operation still has the expected frozen dashboard response contract before emitting that refinement. An undocumented 503 remains `unknown_error`.
+
+`502` and `504` are no longer generalized into degraded state without operation-specific canonical evidence.
+
+The pre-existing evidence-backed checkout refinement remains: `POST /api/billing/checkout` recognizes `processing`, `unknown` and `reconciliation_required` as commercial-pending outcomes and never claims payment success or entitlement.
+
+## Response contracts, mocks and unresolved constraints
+
+The frozen response-contract families remain separate; Auth.js, dashboard and handler-specific payloads are not forced into an invented standard envelope.
+
+All 13 canonical mocks remain byte unchanged and mapped to their frozen operation contracts. The exact 50 operations marked `Unspecified beyond frozen handler/type contract.` remain listed in `apps/frontend/lib/contracts/generated/unresolved-contracts.generated.json`; M2 does not create client-side minimums, maximums, enums, permissions or DTO fields that the frozen handoff does not prove.
+
+Kick Off and Focus Plan dashboard contracts remain separate. The browser/client layer contains no directional-bias, confidence, evidence-weighting, freshness, billing truth, entitlement, role or permission computation.
+
+## Browser/server boundary proof
+
+The closure strengthens the boundary proof in two ways.
+
+First, `scripts/check-m2-client-boundaries.mjs` now models JavaScript runtime reachability rather than treating erased TypeScript-only edges as runtime imports. A synthetic type-only client path to a `server-only` type module is allowed; a synthetic real runtime client import of `server-only` must fail. Every actual `"use client"` entry is then traversed under the same rule.
+
+Second, the existing noindex `/m1-proof` engineering fixture now imports a hidden `M2BrowserClientProof` client component. That component genuinely instantiates `createBrowserApiClient` with an inert `.invalid` origin and a fetch implementation that throws if ever called. It performs no network request and adds no product behavior. Its purpose is to force the real browser client and compact runtime registry into a production Next browser graph.
+
+The production bundle scan therefore has both positive and negative evidence:
+
+- it must find the browser-client proof sentinel, so the test cannot pass because the client was tree-shaken away;
+- it rejects internal-token names/credential markers;
+- it rejects the trusted registry/client;
+- it rejects backend handler-guard/runtime-test/source-provenance/policy-inventory metadata and backend API source paths.
+
+The original M1 `/m1-proof` geometry, SVG proof attributes and existing engineering content are otherwise preserved.
+
+## Acceptance status
+
+The original M2 reviewed head `8eb2a0db7bc2e8c9d17de6ae189b2d17136b4052` had green exact-head acceptance, including the Vite production build, M1 Next candidate build/typecheck/routing proof, M2 contract workflow, UI Foundation Integrity, Vercel, frozen backend snapshot verification, deterministic generation and M2 tests.
+
+The runtime-closure commits were written through the connected GitHub API. GitHub does not start `pull_request` Actions workflows from these connector-authored branch writes, and closing/reopening the draft PR did not create an exact-head Actions run. Therefore the old green run is **not** being represented as evidence for the closure head.
+
+Final closure acceptance remains pending one genuine exact-head CI run. That run must prove at minimum:
+
+- clean Node 22 `npm ci`;
+- Vite production build;
+- Next production build and typecheck;
+- deterministic `npm run check:m2-contracts` with 168 operations, 13 mocks and 50 unresolved constraints;
+- M2 runtime/contract tests including same-key retry, no default retry, AbortError behavior, local-error preservation, direct-header rejection and distinct 413/424/500/documented-503/unknown mapping;
+- corrected runtime client/server graph proof;
+- real browser-client production bundle proof and authority scan;
+- M1 regression suite;
+- UI Foundation Integrity;
+- frozen 28-file backend handoff snapshot verification;
+- foundation negative tests.
+
+No merge recommendation should rely on the prior head once the closure changed executable code. M2 remains at the architectural review gate until that exact-head run is green.
 
 ## Scope preservation
 
-The exact changed-file list is `docs/design/M2_CHANGED_FILES.txt`. There are no changes under `src/**`, `public/**`, `apps/frontend/app/**`, `contracts/backend/**`, `docs/backend-contract/**`, `docs/design/reference/**`, `vite.config.ts`, `index.html`, or `vercel.json`. Therefore:
+The exact changed-file list is `docs/design/M2_CHANGED_FILES.txt`.
 
-- legacy landing/dashboard source, SVGs, geometry and Vite rollback evidence remain unchanged;
-- the frozen backend pin, all 28 mirrored files and snapshot remain unchanged;
-- the approved landing PNG remains unchanged;
-- `/m1-proof` remains noindex and unchanged;
-- no authentication/session implementation, product page, dashboard migration, backend runtime behavior or production framework cutover was added.
+There are no changes under `src/**`, `public/**`, `contracts/backend/**`, `docs/backend-contract/**`, `docs/design/reference/**`, `vite.config.ts`, `index.html` or `vercel.json`.
+
+The only `apps/frontend/app/**` delta is the existing noindex `/m1-proof` engineering fixture described above. No product route/page, landing implementation, dashboard implementation, authentication/session behavior, backend runtime behavior or production framework cutover was added.
+
+The frozen source pin, mirrored backend handoff, canonical mocks and approved UI authority assets remain unchanged.
 
 ## Remaining architectural decisions (M3 or later)
 
-1. Authentication/session ownership, credential forwarding, cookie attributes, CSRF and logout remain undecided for M3.
-2. The source of the internal server credential is intentionally absent; trusted operations cannot execute without an injected transport and future reviewed header authority.
-3. The frozen OpenAPI's conservative request/response schemas and the 50 explicitly unresolved field-constraint operations need corrected backend evidence before stricter client validation can exist.
+1. Authentication/session ownership, credential forwarding, cookie attributes, CSRF and logout remain M3 work and have not started.
+2. The source of the internal server credential remains intentionally absent; trusted operations cannot execute without future reviewed authority injection.
+3. The 50 explicitly unresolved field-constraint operations require corrected canonical backend evidence before stricter frontend validation can be introduced.
 4. Trusted BFF route design and operation-specific mediation remain unimplemented; there is no general proxy.
-5. UI behavior for ambiguous checkout state, reconciliation and entitlement refresh remains future work; M2 only preserves the server-owned states.
+5. UI behavior for ambiguous checkout state, reconciliation and entitlement refresh remains future work; M2 only preserves server-owned states.
 
 M2 stops here. M3 authentication/session work, M4 dashboard migration, landing/public/product work and production Next.js cutover have not started.
