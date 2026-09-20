@@ -18,7 +18,7 @@ Exact candidate dependencies: Next `16.3.5`, React/ReactDOM `19.2.8`, `server-on
 
 Evidence: [official installation](https://nextjs.org/docs/app/getting-started/installation), [Next package metadata](https://registry.npmjs.org/next/16.3.5), [server/client boundaries](https://nextjs.org/docs/app/getting-started/server-and-client-components), [Turbopack SVG loader rules](https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack). Verified 2026-09-20 before dependency edits.
 
-The single root lockfile covers both workspaces. Comparison of all pre-existing lockfile package paths/versions with the merged baseline found zero version changes. R3F stays `9.7.0`. Added SVGR `8.1.0` is a Next Turbopack loader, not a second Webpack build system. Playwright `1.63.0` is candidate verification tooling.
+The single root lockfile covers both workspaces. Comparison of all pre-existing lockfile package paths/versions with the merged baseline found zero version changes. R3F stays `9.7.0`. Added SVGR `8.1.0` is a Next Turbopack loader, not a second Webpack build system. Playwright `1.63.0` is candidate verification tooling. Explicit `@types/node@22.20.4` closes a CI-proven missing type dependency that the local environment had supplied indirectly; first candidate run 35518300569 failed at that check, not at compilation.
 
 Commands: `npm ci`; `npm run build:vite` (also unchanged `npm run build`); `npm run dev:vite`; `npm run dev:next`; `npm run build:next`; `npm run start:next`; `npm run typecheck:next`; `npm run test:m1`. Browser tests: `cd apps/frontend && npx playwright install chromium && npx playwright test`.
 
@@ -48,11 +48,11 @@ Root global CSS declares only a namespaced reading-font token; it does not assig
 
 Local canonical Node 22.23.2:
 
-- Clean `npm ci`: exit 0, 318 packages installed; no peer bypass.
+- Clean `npm ci`: exit 0, 320 packages installed; no peer bypass.
 - `npm ls next react react-dom @react-three/fiber`: exit 0.
 - Legacy TypeScript/Vite production build: exit 0; existing SVG/bundle size and ineffective Lightweight Charts dynamic-import warnings remain.
 - Candidate Next 16.3.5 Turbopack production build: exit 0; only not-found and `/m1-proof` routes.
-- `npm run typecheck:next`: exit 0.
+- `npm run typecheck:next`: exit 0. A temporary negative client-import fixture caused the expected server-only build rejection; fixture removed and normal candidate build restored successfully.
 - `npm run test:m1`: 4/4 pass: immutable legacy/frozen paths, byte-identical SVG, narrow client/no backend implementation, production browser-bundle authority scan.
 - `check:ui-foundation`: exit 0, exact approved PNG CRC/hash/full decode passes.
 - `verify:backend-handoff`: exit 0, all 28 paths/blobs/bytes/local SHA-256 checks against `771487b46874afc28a21f260a2c12f92bfe8f736` pass. Snapshot and functional-freeze provenance unchanged.

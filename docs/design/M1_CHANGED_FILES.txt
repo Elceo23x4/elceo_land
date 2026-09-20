@@ -1,6 +1,8 @@
 M1 changed files relative to merged M0 baseline
 
+.github/workflows/backend-handoff-snapshot.yml
 .github/workflows/m1-candidate.yml
+.github/workflows/ui-foundation-integrity.yml
 .github/workflows/webpack.yml
 .gitignore
 .nvmrc
