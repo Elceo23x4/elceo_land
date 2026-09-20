@@ -71,12 +71,24 @@ test('browser, trusted-server and excluded operations form one exact authority p
   }
 });
 
-test('browser registry cannot carry internal authority into a client bundle', async () => {
+test('browser runtime registry is a compact execution projection, not backend audit evidence', async () => {
   const browserRegistry = await readFile(path.join(root,
     'apps/frontend/lib/contracts/generated/browser-operation-registry.generated.ts'), 'utf8');
-  assert.doesNotMatch(browserRegistry, /x-elceo-internal-token|"internalToken": "required"|admin_server_bridge|super_admin_server_bridge/iu);
   const serverRegistry = await readFile(path.join(root,
     'apps/frontend/lib/contracts/generated/trusted-operation-registry.generated.ts'), 'utf8');
+
+  assert.ok(Buffer.byteLength(browserRegistry) < 290891,
+    'browser runtime registry must be smaller than the reviewed pre-closure 290,891-byte registry');
+
+  for (const key of partitions.browserUserOperationKeys) {
+    assert.ok(browserRegistry.includes(JSON.stringify(key)), `browser runtime key missing: ${key}`);
+  }
+  for (const key of [...partitions.trustedServerOperationKeys, ...partitions.excludedFrontendOperationKeys]) {
+    assert.ok(!browserRegistry.includes(JSON.stringify(key)), `non-browser operation leaked: ${key}`);
+  }
+
+  assert.doesNotMatch(browserRegistry,
+    /x-elceo-internal-token|routeFile|sourceProvenance|declaredPolicyExpectation|handlerGuardEvidence|runtimeTestEvidence|testCoverageStatus|policyInventory|admin_server_bridge|super_admin_server_bridge/iu);
   assert.match(serverRegistry, /^import 'server-only';/mu);
 });
 

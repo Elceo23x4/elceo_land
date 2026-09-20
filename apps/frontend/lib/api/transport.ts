@@ -11,7 +11,10 @@ import type { ContractResult, SafeBackendError } from '../contracts/result';
 type GeneratedRequest<K extends OperationKey> = OpenApiOperationTypes[K]['request'];
 type GeneratedResponse<K extends OperationKey> = OpenApiOperationTypes[K]['response'];
 
-type CallerHeaderName<K extends OperationKey> = Exclude<AllowedHeaderName<K>, 'Idempotency-Key'>;
+type NonIdempotencyHeader<H extends string> = H extends unknown
+  ? Lowercase<H> extends 'idempotency-key' ? never : H
+  : never;
+type CallerHeaderName<K extends OperationKey> = NonIdempotencyHeader<AllowedHeaderName<K>>;
 type CallerHeaders<K extends OperationKey> = [CallerHeaderName<K>] extends [never]
   ? { headers?: never }
   : { headers?: Partial<Record<CallerHeaderName<K>, string>> };
@@ -26,8 +29,6 @@ type IdempotencyInput<K extends OperationKey> = OperationPolicy<K>['idempotency'
   ? Readonly<{
       idempotency: Readonly<{
         key: string;
-        /** Network attempts for the same logical mutation; the key is reused verbatim. */
-        maxAttempts?: 1 | 2 | 3;
       }>;
     }>
   : Readonly<{ idempotency?: never }>;
@@ -40,7 +41,6 @@ type RuntimePolicy = Readonly<{
   routePath: string;
   responseContract: string;
   idempotency: 'required' | 'not_required';
-  sideEffectRisk: string;
   allowedHeaders: readonly string[];
 }>;
 
@@ -50,12 +50,31 @@ type RuntimeInput = {
   body?: unknown;
   headers?: Record<string, string>;
   context?: RequestContext;
-  idempotency?: { key: string; maxAttempts?: 1 | 2 | 3 };
+  idempotency?: { key: string };
 };
+
+export type TransportRetryContext = Readonly<{
+  operation: string;
+  method: string;
+  url: string;
+  attempt: number;
+  error: unknown;
+  idempotencyKey?: string;
+}>;
+
+export type TransportRetryPolicy = (
+  context: TransportRetryContext,
+) => boolean | Promise<boolean>;
 
 export type TransportConfiguration = Readonly<{
   baseOrigin: string;
   fetchImplementation: typeof fetch;
+  /**
+   * No automatic retry is performed by default. An injected policy owns
+   * transport retry cadence/limits and receives the attempt number and stable
+   * logical-mutation key. Caller cancellation is never retried.
+   */
+  shouldRetry?: TransportRetryPolicy;
 }>;
 
 export type PolicyClient<K extends OperationKey> = Readonly<{
@@ -119,20 +138,38 @@ const mapResult = <K extends OperationKey>(
       value: payload as GeneratedResponse<K>,
     } as ContractResult<K, GeneratedResponse<K>>;
   }
+
   const error = safeError(payload, 'The backend returned an unrecognized error response.');
   const base = { operation, status, responseContract: policy.responseContract, error };
-  if (status === 400 || status === 413 || status === 422
+
+  if (status === 413 || error.code === 'payload_too_large') {
+    return { kind: 'payload_too_large', ...base } as ContractResult<K, GeneratedResponse<K>>;
+  }
+  if (status === 500 || error.code === 'internal_error') {
+    return { kind: 'internal_failure', ...base } as ContractResult<K, GeneratedResponse<K>>;
+  }
+  if (status === 424 || status === 503 || error.code === 'dependency_failed') {
+    return { kind: 'unavailable_degraded', ...base } as ContractResult<K, GeneratedResponse<K>>;
+  }
+  if (status === 400 || status === 422
       || error.code === 'validation_error' || error.code === 'bad_request'
-      || error.code === 'payload_too_large' || error.code === 'unprocessable_entity') {
+      || error.code === 'unprocessable_entity') {
     return { kind: 'validation_failure', ...base } as ContractResult<K, GeneratedResponse<K>>;
   }
-  if (status === 401 || error.code === 'unauthorized') return { kind: 'unauthenticated', ...base } as ContractResult<K, GeneratedResponse<K>>;
-  if (status === 403 || error.code === 'forbidden') return { kind: 'forbidden', ...base } as ContractResult<K, GeneratedResponse<K>>;
-  if (status === 404 || error.code === 'not_found') return { kind: 'not_found', ...base } as ContractResult<K, GeneratedResponse<K>>;
-  if (status === 409 || error.code === 'conflict') return { kind: 'conflict', ...base } as ContractResult<K, GeneratedResponse<K>>;
-  if (status === 429) return { kind: 'rate_limited', ...base } as ContractResult<K, GeneratedResponse<K>>;
-  if ([424, 500, 502, 503, 504].includes(status) || error.code === 'dependency_failed' || error.code === 'internal_error') {
-    return { kind: 'unavailable_degraded', ...base } as ContractResult<K, GeneratedResponse<K>>;
+  if (status === 401 || error.code === 'unauthorized') {
+    return { kind: 'unauthenticated', ...base } as ContractResult<K, GeneratedResponse<K>>;
+  }
+  if (status === 403 || error.code === 'forbidden') {
+    return { kind: 'forbidden', ...base } as ContractResult<K, GeneratedResponse<K>>;
+  }
+  if (status === 404 || error.code === 'not_found') {
+    return { kind: 'not_found', ...base } as ContractResult<K, GeneratedResponse<K>>;
+  }
+  if (status === 409 || error.code === 'conflict') {
+    return { kind: 'conflict', ...base } as ContractResult<K, GeneratedResponse<K>>;
+  }
+  if (status === 429) {
+    return { kind: 'rate_limited', ...base } as ContractResult<K, GeneratedResponse<K>>;
   }
   return { kind: 'unknown_error', ...base } as ContractResult<K, GeneratedResponse<K>>;
 };
@@ -153,6 +190,21 @@ const renderUrl = (baseOrigin: string, policy: RuntimePolicy, input: RuntimeInpu
   return url;
 };
 
+const isAbortError = (error: unknown) => error instanceof Error && error.name === 'AbortError';
+
+const unknownTransportResult = <K extends OperationKey>(
+  operation: K,
+  policy: RuntimePolicy,
+): ContractResult<K, GeneratedResponse<K>> => ({
+  kind: 'unknown_error',
+  operation,
+  status: null,
+  responseContract: policy.responseContract,
+  error: {
+    message: 'The transport outcome is unknown; reconcile authoritative state before a new logical mutation.',
+  },
+}) as ContractResult<K, GeneratedResponse<K>>;
+
 export const createPolicyClient = <K extends OperationKey>(
   allowedRegistry: Readonly<Record<K, RuntimePolicy>>,
   configuration: TransportConfiguration,
@@ -161,16 +213,25 @@ export const createPolicyClient = <K extends OperationKey>(
   if (!['http:', 'https:'].includes(origin.protocol) || origin.username || origin.password) {
     throw new TypeError('baseOrigin must be an HTTP(S) origin without embedded credentials.');
   }
+
   const execute = async <P extends K>(operation: P, supplied: unknown) => {
     const policy = allowedRegistry[operation];
     if (!policy) throw new TypeError(`Operation is not allowed by this client: ${operation}`);
+
     const input = (supplied ?? {}) as RuntimeInput;
     const headers = new Headers();
     const allowed = new Set(policy.allowedHeaders.map((name) => name.toLowerCase()));
+
     for (const [name, value] of Object.entries(input.headers ?? {})) {
-      if (!allowed.has(name.toLowerCase())) throw new TypeError(`Header ${name} is not allowed for ${operation}`);
+      if (name.toLowerCase() === 'idempotency-key') {
+        throw new TypeError(`Header ${name} must be supplied through idempotency context for ${operation}`);
+      }
+      if (!allowed.has(name.toLowerCase())) {
+        throw new TypeError(`Header ${name} is not allowed for ${operation}`);
+      }
       headers.set(name, value);
     }
+
     if (policy.idempotency === 'required') {
       if (!input.idempotency || typeof input.idempotency.key !== 'string' || input.idempotency.key.length === 0) {
         throw new TypeError(`Idempotency context is required for ${operation}`);
@@ -179,28 +240,47 @@ export const createPolicyClient = <K extends OperationKey>(
     } else if (input.idempotency) {
       throw new TypeError(`Idempotency context is not accepted for ${operation}`);
     }
+
+    const url = renderUrl(origin.origin, policy, input);
+    const serializedBody = input.body === undefined ? undefined : JSON.stringify(input.body);
     if (input.body !== undefined) headers.set('Content-Type', 'application/json');
-    const attempts = input.idempotency?.maxAttempts ?? 1;
-    for (let attempt = 1; attempt <= attempts; attempt += 1) {
+
+    let attempt = 1;
+    for (;;) {
       try {
-        const response = await configuration.fetchImplementation(renderUrl(origin.origin, policy, input), {
+        const response = await configuration.fetchImplementation(url, {
           method: policy.method,
           headers,
           signal: input.context?.signal,
-          ...(input.body === undefined ? {} : { body: JSON.stringify(input.body) }),
+          ...(serializedBody === undefined ? {} : { body: serializedBody }),
         });
         const payload = await parsePayload(response);
         return mapResult(operation, policy, response.status, response.ok, payload);
       } catch (error) {
-        if (attempt < attempts) continue;
-        return {
-          kind: 'unknown_error', operation, status: null, responseContract: policy.responseContract,
-          error: { message: 'The transport outcome is unknown; reconcile authoritative state before a new logical mutation.' },
-        } as ContractResult<P, GeneratedResponse<P>>;
+        if (isAbortError(error)) throw error;
+
+        const replayProtected = policy.idempotency === 'required'
+          || ['GET', 'HEAD', 'OPTIONS'].includes(policy.method);
+        const retry = replayProtected && configuration.shouldRetry
+          ? await configuration.shouldRetry({
+              operation,
+              method: policy.method,
+              url: url.toString(),
+              attempt,
+              error,
+              ...(input.idempotency ? { idempotencyKey: input.idempotency.key } : {}),
+            })
+          : false;
+
+        if (retry) {
+          attempt += 1;
+          continue;
+        }
+        return unknownTransportResult(operation, policy);
       }
     }
-    throw new Error('Unreachable transport state.');
   };
+
   return {
     read: (operation, input) => execute(operation, input),
     mutate: (operation, input) => execute(operation, input),

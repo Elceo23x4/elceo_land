@@ -1,61 +1,107 @@
-import assert from 'node:assert/strict';
-import { mkdtemp, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-const importPattern = /(?:import|export)\s+(?:type\s+)?(?:[^'";]+?\s+from\s+)?['"]([^'"]+)['"]/gu;
+const root = process.cwd();
+const frontend = path.join(root, 'apps/frontend');
 
-const resolveRelative = async (from, specifier) => {
-  const candidate = path.resolve(path.dirname(from), specifier);
-  for (const suffix of ['', '.ts', '.tsx', '.js', '.mjs', '/index.ts', '/index.tsx']) {
-    const file = candidate + suffix;
-    if (await stat(file).then((item) => item.isFile()).catch(() => false)) return file;
+const walk = async (dir) => {
+  const out = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    if (entry.name === '.next' || entry.name === 'node_modules') continue;
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...await walk(full));
+    else if (/\.(?:ts|tsx)$/u.test(entry.name) && !entry.name.endsWith('.d.ts')) out.push(full);
+  }
+  return out;
+};
+
+const resolveImport = async (from, specifier) => {
+  if (!specifier.startsWith('.')) return null;
+  const base = path.resolve(path.dirname(from), specifier);
+  for (const candidate of [
+    base,
+    `${base}.ts`,
+    `${base}.tsx`,
+    path.join(base, 'index.ts'),
+    path.join(base, 'index.tsx'),
+  ]) {
+    try {
+      await readFile(candidate);
+      return candidate;
+    } catch {
+      // Continue through the deterministic local resolution candidates.
+    }
   }
   return null;
 };
 
-export const assertClientGraphSafe = async (entries) => {
+const runtimeSpecifiers = (source) => {
+  const found = new Set();
+
+  // Static imports/exports that survive TypeScript erasure. `import type` and
+  // `export type` are intentionally excluded from the runtime graph.
+  const fromPattern = /(?:^|\n)\s*(?:import|export)\s+(?!type\b)[^;]+?\s+from\s+['"]([^'"]+)['"]\s*;?/gu;
+  const bareImportPattern = /(?:^|\n)\s*import\s+['"]([^'"]+)['"]\s*;?/gu;
+  const dynamicImportPattern = /\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)/gu;
+
+  for (const pattern of [fromPattern, bareImportPattern, dynamicImportPattern]) {
+    for (const match of source.matchAll(pattern)) found.add(match[1]);
+  }
+  return [...found];
+};
+
+const assertNoServerOnlyReachable = async (entry) => {
+  const queue = [entry];
   const visited = new Set();
-  const visit = async (file, chain) => {
-    if (visited.has(file)) return;
+  while (queue.length) {
+    const file = queue.pop();
+    if (!file || visited.has(file)) continue;
     visited.add(file);
     const source = await readFile(file, 'utf8');
-    for (const match of source.matchAll(importPattern)) {
-      const specifier = match[1];
-      if (specifier === 'server-only') {
-        throw new Error(`Client graph reached server-only through ${[...chain, file].join(' -> ')}`);
-      }
-      if (!specifier.startsWith('.')) continue;
-      const resolved = await resolveRelative(file, specifier);
-      if (resolved) await visit(resolved, [...chain, file]);
+    if (/^\s*import\s+['"]server-only['"]/mu.test(source)) {
+      throw new Error(`Client runtime graph reaches server-only module: ${path.relative(root, file)}`);
     }
-  };
-  for (const entry of entries) await visit(path.resolve(entry), []);
-};
-
-const root = process.cwd();
-const collect = async (directory) => {
-  const files = [];
-  for (const item of await readdir(directory, { withFileTypes: true })) {
-    if (item.name === '.next' || item.name === 'node_modules') continue;
-    const file = path.join(directory, item.name);
-    if (item.isDirectory()) files.push(...await collect(file));
-    else if (/\.(?:ts|tsx)$/u.test(item.name) && (await readFile(file, 'utf8')).match(/^['"]use client['"]/u)) files.push(file);
+    for (const specifier of runtimeSpecifiers(source)) {
+      const resolved = await resolveImport(file, specifier);
+      if (resolved) queue.push(resolved);
+    }
   }
-  return files;
 };
 
-const temporary = await mkdtemp(path.join(tmpdir(), 'elceo-client-boundary-'));
+const temporary = await mkdtemp(path.join(tmpdir(), 'elceo-m2-boundary-'));
 try {
-  const client = path.join(temporary, 'client.ts');
-  const forbidden = path.join(temporary, 'forbidden.ts');
-  await writeFile(client, "'use client';\nimport './forbidden.ts';\n");
-  await writeFile(forbidden, "import 'server-only';\n");
-  await assert.rejects(() => assertClientGraphSafe([client]), /reached server-only/u);
+  const server = path.join(temporary, 'server.ts');
+  const runtime = path.join(temporary, 'runtime.ts');
+  const runtimeClient = path.join(temporary, 'runtime-client.tsx');
+  const typeOnly = path.join(temporary, 'type-only.ts');
+  const typeClient = path.join(temporary, 'type-client.tsx');
+
+  await writeFile(server, "import 'server-only';\nexport const secret = 1;\n");
+  await writeFile(runtime, "export { secret } from './server';\n");
+  await writeFile(runtimeClient, "'use client';\nimport { secret } from './runtime';\nvoid secret;\n");
+  await writeFile(typeOnly, "import type { secret } from './server';\nexport type Proof = typeof secret;\n");
+  await writeFile(typeClient, "'use client';\nimport type { Proof } from './type-only';\nconst proof: Proof | null = null;\nvoid proof;\n");
+
+  await assertNoServerOnlyReachable(typeClient);
+
+  let caught = false;
+  try {
+    await assertNoServerOnlyReachable(runtimeClient);
+  } catch (error) {
+    caught = /server-only/u.test(String(error));
+  }
+  if (!caught) throw new Error('Synthetic runtime client/server violation was not detected.');
+
+  const files = await walk(frontend);
+  const clientEntries = [];
+  for (const file of files) {
+    const source = await readFile(file, 'utf8');
+    if (/^\s*['"]use client['"];?/u.test(source)) clientEntries.push(file);
+  }
+  for (const entry of clientEntries) await assertNoServerOnlyReachable(entry);
+
+  console.log(`M2 client runtime boundaries verified across ${clientEntries.length} client entries; type-only imports are erased from the graph.`);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }
-
-const entries = await collect(path.join(root, 'apps/frontend'));
-await assertClientGraphSafe(entries);
-console.log(`Client boundary guard rejected its forbidden fixture and verified ${entries.length} real client entry graph(s).`);

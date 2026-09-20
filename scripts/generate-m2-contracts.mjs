@@ -175,6 +175,31 @@ try {
     throw new Error(`Unresolved constraint count mismatch: ${unresolved.length}`);
   }
 
+  const browserUnexpectedHeaders = browserUserKeys.flatMap((key) => (
+    registry[key].allowedHeaders
+      .filter((name) => name.toLowerCase() !== 'idempotency-key')
+      .map((name) => `${key}: ${name}`)
+  ));
+  if (browserUnexpectedHeaders.length) {
+    throw new Error(`Browser runtime requires unsupported caller-authored headers: ${browserUnexpectedHeaders.join(', ')}`);
+  }
+
+  const browserNonGetWithoutIdempotency = browserUserKeys.filter((key) => (
+    registry[key].method !== 'GET' && registry[key].idempotency !== 'required'
+  ));
+  if (browserNonGetWithoutIdempotency.length) {
+    throw new Error(`Compact browser policy cannot infer idempotency for: ${browserNonGetWithoutIdempotency.join(', ')}`);
+  }
+
+  const idempotencyRequiredReadKeys = browserUserKeys.filter((key) => (
+    registry[key].method === 'GET' && registry[key].idempotency === 'required'
+  ));
+  const responseContractOverrides = Object.fromEntries(
+    browserUserKeys
+      .filter((key) => registry[key].responseContract !== 'standard_api_envelope')
+      .map((key) => [key, registry[key].responseContract]),
+  );
+
   const mockRecords = [];
   for (const name of (await readdir(mocksDir)).filter((file) => file.endsWith('.json')).sort()) {
     const mock = await parse(path.join(mocksDir, name));
@@ -200,9 +225,41 @@ try {
     + `export const browserUserOperationKeys = ${JSON.stringify(browserUserKeys, null, 2)} as const;\n`
     + `export const trustedServerOperationKeys = ${JSON.stringify(trustedServerKeys, null, 2)} as const;\n`
     + `export const excludedFrontendOperationKeys = ${JSON.stringify(excludedFrontendKeys, null, 2)} as const;\n`;
-  const browserRegistry = Object.fromEntries(browserUserKeys.map((key) => [key, registry[key]]));
+
   const trustedRegistry = Object.fromEntries(trustedServerKeys.map((key) => [key, registry[key]]));
-  const browserRegistryText = `${provenance}export const browserOperationRegistry = ${JSON.stringify(browserRegistry, null, 2)} as const;\n`;
+
+  const browserRegistryText = `${provenance}const browserOperationKeys = ${JSON.stringify(browserUserKeys, null, 2)} as const;\n\n`
+    + `const idempotencyRequiredReadKeys = new Set<string>(${JSON.stringify(idempotencyRequiredReadKeys, null, 2)});\n\n`
+    + `const responseContractOverrides: Partial<Record<(typeof browserOperationKeys)[number], string>> = ${JSON.stringify(responseContractOverrides, null, 2)};\n\n`
+    + 'type BrowserOperationKey = (typeof browserOperationKeys)[number];\n\n'
+    + 'type BrowserRuntimePolicy = Readonly<{\n'
+    + '  key: BrowserOperationKey;\n'
+    + '  method: string;\n'
+    + '  routePath: string;\n'
+    + '  responseContract: string;\n'
+    + "  idempotency: 'required' | 'not_required';\n"
+    + '  allowedHeaders: readonly string[];\n'
+    + '}>;\n\n'
+    + 'const createRuntimePolicy = (key: BrowserOperationKey): BrowserRuntimePolicy => {\n'
+    + "  const separator = key.indexOf(' ');\n"
+    + '  const method = key.slice(0, separator);\n'
+    + '  const routePath = key.slice(separator + 1);\n'
+    + "  const idempotency = method === 'GET' && !idempotencyRequiredReadKeys.has(key)\n"
+    + "    ? 'not_required'\n"
+    + "    : 'required';\n"
+    + '  return {\n'
+    + '    key,\n'
+    + '    method,\n'
+    + '    routePath,\n'
+    + "    responseContract: responseContractOverrides[key] ?? 'standard_api_envelope',\n"
+    + '    idempotency,\n'
+    + "    allowedHeaders: idempotency === 'required' ? ['Idempotency-Key'] : [],\n"
+    + '  };\n'
+    + '};\n\n'
+    + 'export const browserOperationRegistry = Object.fromEntries(\n'
+    + '  browserOperationKeys.map((key) => [key, createRuntimePolicy(key)]),\n'
+    + ') as Readonly<Record<BrowserOperationKey, BrowserRuntimePolicy>>;\n';
+
   const trustedRegistryText = `${provenance}import 'server-only';\n\nexport const trustedOperationRegistry = ${JSON.stringify(trustedRegistry, null, 2)} as const;\n`;
   const partitionsText = `${JSON.stringify({
     schemaVersion: 1,
