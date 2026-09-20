@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test';
 test('server routing, source SVGs and scoped portal inheritance', async ({ page, request }) => {
- for (const path of ['/', '/dashboard', '/settings', '/admin', '/api/session', '/login']) expect((await request.get(path)).status()).toBe(404);
+ for (const path of ['/', '/api/session', '/login']) expect((await request.get(path)).status()).toBe(404);
+ // M3 adds a fail-closed document guard before protected pages exist. With the
+ // engineering server's deliberately absent auth topology, protected paths must
+ // not fall through as anonymously accessible pages.
+ for (const path of ['/dashboard', '/settings', '/admin']) expect((await request.get(path)).status()).toBe(503);
  const response=await request.get('/m1-proof');
  expect(response.status()).toBe(200);
  expect(await response.text()).toContain('Mediation:');

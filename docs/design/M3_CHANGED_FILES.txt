@@ -1,0 +1,38 @@
+M3 exact changed-file inventory
+Baseline: main@91aca7af01d81e66d167194ca9b4773757332ed4
+
+.github/workflows/m3-auth-topology.yml
+apps/frontend/app/api/[...elceo]/route.ts
+apps/frontend/app/api/auth/[...nextauth]/route.ts
+apps/frontend/app/m1-proof/M2BrowserClientProof.tsx
+apps/frontend/lib/api/authenticated-browser.ts
+apps/frontend/lib/auth/config.ts
+apps/frontend/lib/auth/core.ts
+apps/frontend/lib/auth/route-guard.ts
+apps/frontend/lib/auth/server.ts
+apps/frontend/playwright.config.ts
+apps/frontend/proxy.ts
+apps/frontend/tests/auth/topology.runtime.test.ts
+apps/frontend/tests/shell.spec.ts
+docs/design/M3_AUTH_TOPOLOGY.md
+docs/design/M3_CHANGED_FILES.txt
+docs/design/M3_REVIEW_REPORT.md
+package.json
+scripts/check-m3-browser-bundles.mjs
+scripts/m1-foundation.test.mjs
+scripts/m3-auth-topology.test.mjs
+
+Preserved / unchanged by M3:
+src/**
+public/**
+contracts/backend/**
+docs/backend-contract/**
+docs/design/references/**
+vite.config.ts
+index.html
+vercel.json
+approved landing PNG
+frozen backend source pin
+M2 generated contract authority
+
+The branch baseline already includes the user's post-M2 root deletions of reference1.jpg and elceo_fig.svg; M3 does not restore or modify them.
