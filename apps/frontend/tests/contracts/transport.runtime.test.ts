@@ -122,6 +122,7 @@ test('deterministic local contract errors are not converted into transport ambig
       responseContract: 'DashboardChartWorkspaceViewModel_or_KickOffDashboardViewModelV1',
       idempotency: 'not_required',
       allowedHeaders: [],
+      unavailableStatuses: [503],
     },
   } as const;
   const client = createPolicyClient(dashboardPolicy, {
@@ -165,12 +166,11 @@ test('caller cannot author Idempotency-Key directly even with casing variation',
   assert.equal(fetchCalls, 0);
 });
 
-test('canonical 413, 424, 500 and documented 503 states remain distinct', async (t) => {
+test('canonical 413, 424 and 500 states remain distinct', async (t) => {
   const cases = [
     [413, { ok: false, error: { code: 'payload_too_large', message: 'too large' } }, 'payload_too_large'],
     [424, { ok: false, error: { code: 'dependency_failed', message: 'dependency unavailable' } }, 'unavailable_degraded'],
     [500, { ok: false, error: { code: 'internal_error', message: 'internal failure' } }, 'internal_failure'],
-    [503, { error: 'Dashboard unavailable' }, 'unavailable_degraded'],
   ] as const;
 
   for (const [status, body, expectedKind] of cases) {
@@ -184,6 +184,37 @@ test('canonical 413, 424, 500 and documented 503 states remain distinct', async 
       assert.equal(result.status, status);
     });
   }
+});
+
+test('documented dashboard 503 is unavailable/degraded', async () => {
+  const dashboardPolicy = {
+    'GET /api/dashboard/{asset}': {
+      key: 'GET /api/dashboard/{asset}',
+      method: 'GET',
+      routePath: '/api/dashboard/{asset}',
+      responseContract: 'DashboardChartWorkspaceViewModel_or_KickOffDashboardViewModelV1',
+      idempotency: 'not_required',
+      allowedHeaders: [],
+      unavailableStatuses: [503],
+    },
+  } as const;
+  const client = createPolicyClient(dashboardPolicy, {
+    baseOrigin: 'https://backend.example.invalid',
+    fetchImplementation: async () => jsonResponse(503, { error: 'Dashboard unavailable' }),
+  });
+  const result = await client.read('GET /api/dashboard/{asset}', { path: { asset: 'xau_usd' } });
+  assert.equal(result.kind, 'unavailable_degraded');
+  assert.equal(result.status, 503);
+});
+
+test('an undocumented 503 remains unknown rather than being generalized as degraded', async () => {
+  const client = createPolicyClient(readPolicy, {
+    baseOrigin: 'https://backend.example.invalid',
+    fetchImplementation: async () => jsonResponse(503, { error: 'opaque unavailable response' }),
+  });
+  const result = await client.read('GET /api/workspace/current', {});
+  assert.equal(result.kind, 'unknown_error');
+  assert.equal(result.status, 503);
 });
 
 test('unrecognized errors remain safe unknown outcomes', async () => {
@@ -208,6 +239,7 @@ test('checkout processing remains a dedicated commercial-pending outcome', async
       responseContract: 'handler_specific_json',
       idempotency: 'required',
       allowedHeaders: ['Idempotency-Key'],
+      unavailableStatuses: [503],
     },
   } as const;
   const client = createPolicyClient(checkoutPolicy, {
