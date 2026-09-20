@@ -43,6 +43,8 @@ The sync must remain pinned to the commit declared by `docs/backend-contract/SOU
 
 Never edit generated files under the mirrored handoff manually.
 
+Commit the generated snapshot back to the active foundation/implementation branch so the frontend repository permanently records the exact contract it was built against.
+
 ## First Work task: M0 audit only
 
 The first substantive Work task is an architecture/migration audit. Do **not** start by rebuilding the landing page.
@@ -63,11 +65,17 @@ Inspect and report:
 - migration sequencing and rollback/parity strategy;
 - current performance/memory baseline where measurable.
 
+### Deployment baseline gate
+
+Before attributing deployment failures to new UI work, compare the active branch with the existing `main` deployment state and inspect actual Vercel/build logs. Do not suppress or ignore a new primary deployment failure merely because another historical Vercel project/context was already red.
+
+For the current foundation PR, the primary Vercel preview is red while the last accepted `main` commit had the primary `Vercel – elceo-land` context green and the secondary `Vercel – elceo-land-l353` context red. Diagnose the primary preview failure during M0/snapshot closure and distinguish pre-existing secondary-project failure from any regression introduced by the branch.
+
 Deliver a written M0 report before undertaking the framework migration.
 
 ## Review gate
 
-Do not proceed from M0 audit to M1 migration automatically if the audit exposes a material architectural conflict, unsupported backend requirement, loss of dashboard behavior, secret-exposure risk, or large design/performance tradeoff. Surface it for review.
+Do not proceed from M0 audit to M1 migration automatically if the audit exposes a material architectural conflict, unsupported backend requirement, loss of dashboard behavior, secret-exposure risk, deployment regression, or large design/performance tradeoff. Surface it for review.
 
 ## M1+ implementation order
 
@@ -94,7 +102,8 @@ Stop and report rather than improvise when:
 - performance requires a material visual compromise not already covered by responsive/reduced-motion rules;
 - legal/eligibility semantics are ambiguous;
 - dashboard parity would be lost;
-- any server-only secret would need to reach browser JavaScript.
+- any server-only secret would need to reach browser JavaScript;
+- a new deployment/build failure is not understood.
 
 ## Definition of a good Work report
 
@@ -107,5 +116,5 @@ Every substantial Work completion report should state:
 - desktop/mobile/reduced-motion handling;
 - accessibility checks;
 - performance/memory observations;
-- tests/build/typecheck results;
+- tests/build/typecheck/deployment results;
 - unresolved gaps or deliberate deferrals.
