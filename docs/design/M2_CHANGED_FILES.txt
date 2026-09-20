@@ -2,6 +2,8 @@ M2 exact changed-file inventory
 Baseline: main@886aeff49700093cfe5df1b4f1d7257490c609ad
 
 .github/workflows/m2-contract-layer.yml
+apps/frontend/app/m1-proof/M2BrowserClientProof.tsx
+apps/frontend/app/m1-proof/page.tsx
 apps/frontend/lib/api/browser.ts
 apps/frontend/lib/api/server.ts
 apps/frontend/lib/api/transport.ts
@@ -28,6 +30,11 @@ scripts/generate-m2-contracts.mjs
 scripts/m1-foundation.test.mjs
 scripts/m2-contracts.test.mjs
 
-Protected-path result: no changes under src/**, public/**, apps/frontend/app/**,
-contracts/backend/**, docs/backend-contract/**, docs/design/reference/**,
-vite.config.ts, index.html, or vercel.json.
+Protected-path result: no changes under src/**, public/**, contracts/backend/**,
+docs/backend-contract/**, docs/design/reference/**, vite.config.ts, index.html,
+or vercel.json.
+
+The only apps/frontend/app/** delta is the existing noindex /m1-proof engineering
+fixture: one hidden M2 browser-client graph proof component plus its import/render.
+No product route, page, landing implementation, dashboard implementation, auth/session
+surface, or production framework-routing behavior was added.
