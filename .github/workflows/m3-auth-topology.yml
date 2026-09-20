@@ -1,0 +1,38 @@
+name: M3 Canonical Session Topology
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  auth-topology:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Verify frozen generated contracts
+        run: npm run check:m2-contracts
+      - name: Typecheck Next candidate
+        run: npm run typecheck:next
+      - name: Build Next candidate
+        run: npm run build:next
+      - name: Verify canonical session and mediation topology
+        run: npm run test:m3 && npm run check:m3-browser-bundles
+      - name: Re-run accepted M2 contract boundaries
+        run: npm run test:m2 && npm run check:m2-browser-bundles
+      - name: Re-run M1 architecture regressions
+        run: npm run test:m1
+      - name: Verify frozen backend snapshot and UI authority
+        run: npm run verify:backend-handoff && npm run check:ui-foundation && npm run test:foundation
