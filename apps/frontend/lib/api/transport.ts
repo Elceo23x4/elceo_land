@@ -42,6 +42,9 @@ type RuntimePolicy = Readonly<{
   responseContract: string;
   idempotency: 'required' | 'not_required';
   allowedHeaders: readonly string[];
+  /** Compact browser policy uses this; rich server policy carries explicitStatuses. */
+  unavailableStatuses?: readonly number[];
+  explicitStatuses?: readonly number[];
 }>;
 
 type RuntimeInput = {
@@ -141,6 +144,9 @@ const mapResult = <K extends OperationKey>(
 
   const error = safeError(payload, 'The backend returned an unrecognized error response.');
   const base = { operation, status, responseContract: policy.responseContract, error };
+  const statusIsDocumentedUnavailable = status === 503
+    && (policy.unavailableStatuses?.includes(status) === true
+      || policy.explicitStatuses?.includes(status) === true);
 
   if (status === 413 || error.code === 'payload_too_large') {
     return { kind: 'payload_too_large', ...base } as ContractResult<K, GeneratedResponse<K>>;
@@ -148,7 +154,7 @@ const mapResult = <K extends OperationKey>(
   if (status === 500 || error.code === 'internal_error') {
     return { kind: 'internal_failure', ...base } as ContractResult<K, GeneratedResponse<K>>;
   }
-  if (status === 424 || status === 503 || error.code === 'dependency_failed') {
+  if (status === 424 || statusIsDocumentedUnavailable || error.code === 'dependency_failed') {
     return { kind: 'unavailable_degraded', ...base } as ContractResult<K, GeneratedResponse<K>>;
   }
   if (status === 400 || status === 422
