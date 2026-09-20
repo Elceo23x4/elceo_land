@@ -16,7 +16,7 @@ apps/frontend/lib/contracts/generated/unresolved-contracts.generated.json
 apps/frontend/lib/contracts/policy.ts
 apps/frontend/lib/contracts/result.ts
 apps/frontend/tests/contracts/transport.runtime.test.ts
-apps/frontend/tests/contracts/types.test.ts
+apps/frontend/tests/contracts/types.typecheck.ts
 apps/frontend/tsconfig.json
 docs/design/M2_CHANGED_FILES.txt
 docs/design/M2_REVIEW_REPORT.md

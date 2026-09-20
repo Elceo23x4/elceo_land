@@ -84,6 +84,7 @@ The remaining operations' frozen entries point to referenced validators, but M2 
 
 - Type-negative tests reject a required-idempotency mutation without idempotency context.
 - Type-negative tests reject admin and provider-webhook keys through the browser client.
+- The compile-only type proof uses a `.typecheck.ts` suffix so the M1 Playwright runner cannot misclassify JSON fixture imports as browser tests.
 - The client graph checker first proves it detects a synthetic client-to-`server-only` import, then checks every real client entry graph.
 - The full and trusted registries are `server-only`; the browser registry contains no internal-token header or admin bridge entry.
 - The production browser-bundle scanner rejects the internal header name, internal credential marker and trusted-client implementation symbols.
