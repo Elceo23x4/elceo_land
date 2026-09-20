@@ -6,16 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check:ui-foundation": "node scripts/check-ui-foundation.mjs",
+    "sync:backend-handoff": "node scripts/sync-backend-handoff.mjs",
+    "verify:backend-handoff": "node scripts/verify-backend-handoff.mjs",
+    "check:reference": "node scripts/check-reference-image.mjs",
+    "test:foundation": "node --test scripts/foundation-integrity.test.mjs"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "react-router-dom": "^7.0.0",
     "gsap": "^3.15.0",
     "clsx": "^2.1.1",
     "three": "^0.170.0",
-    "@react-three/fiber": "^9.0.0",
+    "@react-three/fiber": "9.7.0",
     "@react-three/drei": "^10.0.0",
     "framer-motion": "^11.11.0",
     "lightweight-charts": "^5.2.0"

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "Elceo23x4/Elceo-Mi",
+  "sourceCommit": "771487b46874afc28a21f260a2c12f92bfe8f736",
+  "authority": "read-only snapshot",
+  "documents": [
+    {"source":"docs/ui-handoff/README.md","destination":"docs/backend-contract/CANONICAL_README.md","gitBlobSha":"3d835041ca6ed05e165226988569b5fa4edd4b43"},
+    {"source":"docs/ui-handoff/api-explorer.html","destination":"docs/backend-contract/api-explorer.html","gitBlobSha":"6cb617adf57e59604e14f835967a7923983756e5"},
+    {"source":"docs/ui-handoff/auth-session-and-authorization.md","destination":"docs/backend-contract/auth-session-and-authorization.md","gitBlobSha":"a207f30de4cf70060d32f90af85bc901083a13eb"},
+    {"source":"docs/ui-handoff/billing-payment-state-machine.md","destination":"docs/backend-contract/billing-payment-state-machine.md","gitBlobSha":"26e606bfc09a5df372a333783d6ec8af67f9de17"},
+    {"source":"docs/ui-handoff/contract-gaps.md","destination":"docs/backend-contract/contract-gaps.md","gitBlobSha":"3e6f09923b59b3223906444c408bda5ce3701e24"},
+    {"source":"docs/ui-handoff/frontend-integration-map.md","destination":"docs/backend-contract/frontend-integration-map.md","gitBlobSha":"3a478fccd968cf61181896774b4deda654586e83"},
+    {"source":"docs/ui-handoff/notifications-ui-contract.md","destination":"docs/backend-contract/notifications-ui-contract.md","gitBlobSha":"24d8ddd39941b0b97426641514305083ce66b8b6"},
+    {"source":"docs/ui-handoff/state-ownership.md","destination":"docs/backend-contract/state-ownership.md","gitBlobSha":"c9cd3a76511a45968a093c132d795661a1164915"},
+    {"source":"docs/ui-handoff/ui-page-inventory.md","destination":"docs/backend-contract/ui-page-inventory.md","gitBlobSha":"87f484fca3479d0b705230bb8e8bc2a146d5fa06"},
+    {"source":"docs/ui-handoff/ui-state-matrix.md","destination":"docs/backend-contract/ui-state-matrix.md","gitBlobSha":"0c5d3eee40b333f1683ea5679d4482c3a87d5e42"},
+    {"source":"docs/ui-handoff/validation-and-field-rules.md","destination":"docs/backend-contract/validation-and-field-rules.md","gitBlobSha":"fd2896f9c5302abc994d37c1041b74690dfef6e9"}
+  ],
+  "artifacts": [
+    {"source":"artifacts/ui-handoff/backend-freeze-manifest.json","destination":"contracts/backend/backend-freeze-manifest.json","gitBlobSha":"f7227ba994a9252f333b5a2c85440c7424976475"},
+    {"source":"artifacts/ui-handoff/handoff-summary.json","destination":"contracts/backend/handoff-summary.json","gitBlobSha":"da9e57f093e474639bb02276247535216248a779"},
+    {"source":"artifacts/ui-handoff/openapi.json","destination":"contracts/backend/openapi.json","gitBlobSha":"f510421916e8914861fedc5eaf71e6b47e49a064"},
+    {"source":"artifacts/ui-handoff/route-inventory.json","destination":"contracts/backend/route-inventory.json","gitBlobSha":"669a5f0076231b7623dd26e13f0ff7bd736cfe28"}
+  ],
+  "mocks": [
+    {
+      "source": "artifacts/ui-handoff/mocks/account-billing.json",
+      "destination": "contracts/backend/mocks/account-billing.json",
+      "gitBlobSha": "d8fc6e6a3bd9499ffffa573805ddcec72fc129e3"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/account-entitlements.json",
+      "destination": "contracts/backend/mocks/account-entitlements.json",
+      "gitBlobSha": "a09e68504c91a0708763836ab3492bea2a34d25e"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/admin-system-summary.json",
+      "destination": "contracts/backend/mocks/admin-system-summary.json",
+      "gitBlobSha": "da8d6cd8772914f3ec5ac5ab63e4807513d2ffb4"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/analytics-latest.json",
+      "destination": "contracts/backend/mocks/analytics-latest.json",
+      "gitBlobSha": "92062ad9c6791b650ebd0040ddef2c227abad62f"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/auth-session.json",
+      "destination": "contracts/backend/mocks/auth-session.json",
+      "gitBlobSha": "d8bd0bb93e2a6224fba8d831e2b304288127a79d"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/billing-checkout-processing.json",
+      "destination": "contracts/backend/mocks/billing-checkout-processing.json",
+      "gitBlobSha": "8dc32898b0ecf8c717d2245e16e7d1bfca1e2e17"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/coaching-latest.json",
+      "destination": "contracts/backend/mocks/coaching-latest.json",
+      "gitBlobSha": "b661636763c6d65a8f0788e8f282122a84057e48"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/dashboard-focus-plan.json",
+      "destination": "contracts/backend/mocks/dashboard-focus-plan.json",
+      "gitBlobSha": "0f4fcec7d423daa341f61ae49266d22a346a9ce8"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/journal-cases-list.json",
+      "destination": "contracts/backend/mocks/journal-cases-list.json",
+      "gitBlobSha": "39db98f012d1599d9eb66bf6f4b38aec135f7ee7"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/notifications-summary.json",
+      "destination": "contracts/backend/mocks/notifications-summary.json",
+      "gitBlobSha": "ef52bd65a0b0b78b8eca2c406c7c4be76b7d59d4"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/portfolio-watchlist.json",
+      "destination": "contracts/backend/mocks/portfolio-watchlist.json",
+      "gitBlobSha": "4150187d69e8fbe0a97291063faab5759d9ae38b"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/super-admin-control-snapshot.json",
+      "destination": "contracts/backend/mocks/super-admin-control-snapshot.json",
+      "gitBlobSha": "aedb393bfeaa4652975932c54bc86b3ad50a3ad5"
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/workspace-current.json",
+      "destination": "contracts/backend/mocks/workspace-current.json",
+      "gitBlobSha": "3b38666038227e8cd15d0a631fc073dcc40cbb01"
+    }
+  ]
+}

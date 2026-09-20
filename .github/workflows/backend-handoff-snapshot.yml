@@ -1,0 +1,83 @@
+name: Backend Handoff Snapshot
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - docs/backend-contract/**
+      - contracts/backend/**
+      - scripts/backend-handoff-lib.mjs
+      - scripts/sync-backend-handoff.mjs
+      - scripts/verify-backend-handoff.mjs
+      - .github/workflows/backend-handoff-snapshot.yml
+  push:
+    branches:
+      - main
+      - foundation/elceo-ui-work-handoff
+    paths:
+      - docs/backend-contract/**
+      - contracts/backend/**
+      - scripts/backend-handoff-lib.mjs
+      - scripts/sync-backend-handoff.mjs
+      - scripts/verify-backend-handoff.mjs
+      - .github/workflows/backend-handoff-snapshot.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backend-handoff-snapshot-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    env:
+      TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Sync pinned backend handoff
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run sync:backend-handoff
+
+      - name: Verify snapshot
+        run: npm run verify:backend-handoff
+
+      - name: Test integrity rejection cases
+        run: npm run test:foundation
+
+      - name: Commit generated snapshot when changed
+        if: github.event_name != 'push' || github.ref_name != 'main'
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain --untracked-files=all -- docs/backend-contract contracts/backend)" ]; then
+            echo "Backend handoff snapshot already synchronized."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/backend-contract contracts/backend
+          git commit -m "chore(contract): materialize frozen backend handoff snapshot"
+          git push origin HEAD:${TARGET_BRANCH}
+
+      - name: Enforce synchronized snapshot on main
+        if: github.event_name == 'push' && github.ref_name == 'main'
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain --untracked-files=all -- docs/backend-contract contracts/backend)" ]; then
+            echo "Frozen backend snapshot is stale or missing on main. Regenerate it through an approved PR."
+            git diff --stat -- docs/backend-contract contracts/backend
+            exit 1
+          fi
