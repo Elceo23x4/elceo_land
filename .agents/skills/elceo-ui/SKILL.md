@@ -24,7 +24,7 @@ Read in this order:
 9. `docs/backend-contract/README.md` and the mirrored backend contract
 10. `docs/ui-handoff` in `Elceo-Mi` only when deeper canonical evidence is needed
 
-The approved landing image is `docs/design/references/approved-landing-reference.webp`.
+The approved landing image is `docs/design/references/approved-landing-reference.png`.
 
 ## Visual rules
 

@@ -21,11 +21,8 @@ jobs:
       - name: Check ELCEO UI foundation
         run: npm run check:ui-foundation
 
-      - name: Verify materialized backend snapshot when present
-        shell: bash
-        run: |
-          if [ -f docs/backend-contract/SNAPSHOT.json ]; then
-            npm run verify:backend-handoff
-          else
-            echo "Backend snapshot not materialized in this checkout; SOURCE.json + sync protocol remain authoritative until synchronization is performed."
-          fi
+      - name: Verify complete frozen backend snapshot
+        run: npm run verify:backend-handoff
+
+      - name: Test integrity rejection cases
+        run: npm run test:foundation

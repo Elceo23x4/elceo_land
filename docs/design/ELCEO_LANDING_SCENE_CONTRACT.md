@@ -2,7 +2,7 @@
 
 ## Authority
 
-Primary visual reference: `docs/design/references/approved-landing-reference.webp`.
+Primary visual reference: `docs/design/references/approved-landing-reference.png`.
 
 This document describes implementation behavior around that approved composition. The image is the visual-direction authority; the canonical UI inventory remains page-scope authority and the backend handoff remains behavioral authority.
 

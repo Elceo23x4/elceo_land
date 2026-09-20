@@ -2,7 +2,7 @@
 
 This directory is the durable visual, motion, responsive, performance, editorial, legal-UX, asset-planning, and migration authority for the production frontend.
 
-The approved landing-page mockup at `references/approved-landing-reference.webp` is the visual reference. The documents in this directory explain how that reference and the wider ELCEO product language are to be implemented without generic substitution or unauthorized redesign.
+The approved landing-page mockup at `references/approved-landing-reference.png` is the visual reference. The documents in this directory explain how that reference and the wider ELCEO product language are to be implemented without generic substitution or unauthorized redesign.
 
 ## Authorities
 

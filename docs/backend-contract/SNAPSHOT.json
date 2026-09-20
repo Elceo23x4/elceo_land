@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "Elceo23x4/Elceo-Mi",
+  "sourceCommit": "771487b46874afc28a21f260a2c12f92bfe8f736",
+  "authority": "read-only snapshot",
+  "fileCount": 28,
+  "files": [
+    {
+      "source": "artifacts/ui-handoff/backend-freeze-manifest.json",
+      "destination": "contracts/backend/backend-freeze-manifest.json",
+      "gitBlobSha": "f7227ba994a9252f333b5a2c85440c7424976475",
+      "sha256": "21a453d9b7d45b974d9b1c8d0e56cb13b840a3e56d03d2452a459a8d8a141dc4",
+      "bytes": 1237
+    },
+    {
+      "source": "artifacts/ui-handoff/handoff-summary.json",
+      "destination": "contracts/backend/handoff-summary.json",
+      "gitBlobSha": "da9e57f093e474639bb02276247535216248a779",
+      "sha256": "c3bcc64db58202aff9795d5ff84295f2b5f55989ac09e4da8ffa87c2ce5fb1bc",
+      "bytes": 969
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/account-billing.json",
+      "destination": "contracts/backend/mocks/account-billing.json",
+      "gitBlobSha": "d8fc6e6a3bd9499ffffa573805ddcec72fc129e3",
+      "sha256": "beba799753523d5449cee31a0b2dc376670f5d7905aa428ab4f41bd2c60af5dd",
+      "bytes": 859
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/account-entitlements.json",
+      "destination": "contracts/backend/mocks/account-entitlements.json",
+      "gitBlobSha": "a09e68504c91a0708763836ab3492bea2a34d25e",
+      "sha256": "531acfe5e58dc866338094fe9128347597bc07257f430468047779b1cd83ef8a",
+      "bytes": 1299
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/admin-system-summary.json",
+      "destination": "contracts/backend/mocks/admin-system-summary.json",
+      "gitBlobSha": "da8d6cd8772914f3ec5ac5ab63e4807513d2ffb4",
+      "sha256": "a49145ef33a526830da3d5f32b0bce48435c8376e716a670dcc1ba506dcc8760",
+      "bytes": 1110
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/analytics-latest.json",
+      "destination": "contracts/backend/mocks/analytics-latest.json",
+      "gitBlobSha": "92062ad9c6791b650ebd0040ddef2c227abad62f",
+      "sha256": "72e5ba9a55d78b6f834fa9c76542545b71b96dfcc7ef0baf10bdb07dbeb2e32b",
+      "bytes": 3239
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/auth-session.json",
+      "destination": "contracts/backend/mocks/auth-session.json",
+      "gitBlobSha": "d8bd0bb93e2a6224fba8d831e2b304288127a79d",
+      "sha256": "a051411edbf0fb601bdc2602f9b48fc30ca28eff2f86cf9b5584c0fdd4dbaed1",
+      "bytes": 532
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/billing-checkout-processing.json",
+      "destination": "contracts/backend/mocks/billing-checkout-processing.json",
+      "gitBlobSha": "8dc32898b0ecf8c717d2245e16e7d1bfca1e2e17",
+      "sha256": "c9ca4a28409a1c8473ac70902cbf6b9515af63f22a16f5397232b45552bce1fc",
+      "bytes": 1853
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/coaching-latest.json",
+      "destination": "contracts/backend/mocks/coaching-latest.json",
+      "gitBlobSha": "b661636763c6d65a8f0788e8f282122a84057e48",
+      "sha256": "d54e2013456aefde1b22be9f32ffe8b35f04a6d60b4df04bf04f19eab5e40197",
+      "bytes": 2449
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/dashboard-focus-plan.json",
+      "destination": "contracts/backend/mocks/dashboard-focus-plan.json",
+      "gitBlobSha": "0f4fcec7d423daa341f61ae49266d22a346a9ce8",
+      "sha256": "510a966f4651d2aaa3494abd9889b857023bd4bb5052d1e4c5b74a6928f3c1d6",
+      "bytes": 2380
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/journal-cases-list.json",
+      "destination": "contracts/backend/mocks/journal-cases-list.json",
+      "gitBlobSha": "39db98f012d1599d9eb66bf6f4b38aec135f7ee7",
+      "sha256": "58118ff9d8a92f1049d591786cea23c80726fe4b75b1314548225380ca5bbf02",
+      "bytes": 2184
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/notifications-summary.json",
+      "destination": "contracts/backend/mocks/notifications-summary.json",
+      "gitBlobSha": "ef52bd65a0b0b78b8eca2c406c7c4be76b7d59d4",
+      "sha256": "59ce3378ad2574cb814ba19d48c255886293a9a3f0338c877a068962d596d023",
+      "bytes": 973
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/portfolio-watchlist.json",
+      "destination": "contracts/backend/mocks/portfolio-watchlist.json",
+      "gitBlobSha": "4150187d69e8fbe0a97291063faab5759d9ae38b",
+      "sha256": "fb889045650ec6e022d6cb8c112aba5986dccd8ccded69ab976e2cf9aa2e1290",
+      "bytes": 1645
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/super-admin-control-snapshot.json",
+      "destination": "contracts/backend/mocks/super-admin-control-snapshot.json",
+      "gitBlobSha": "aedb393bfeaa4652975932c54bc86b3ad50a3ad5",
+      "sha256": "9c50d4958566567d0409d801c65b2e61d7d7ca0bbabc660b2865854bff15541f",
+      "bytes": 903
+    },
+    {
+      "source": "artifacts/ui-handoff/mocks/workspace-current.json",
+      "destination": "contracts/backend/mocks/workspace-current.json",
+      "gitBlobSha": "3b38666038227e8cd15d0a631fc073dcc40cbb01",
+      "sha256": "784290cdfceb6cad8220e810e92ea9b2089885631c61c30b28036caa794327fa",
+      "bytes": 3567
+    },
+    {
+      "source": "artifacts/ui-handoff/openapi.json",
+      "destination": "contracts/backend/openapi.json",
+      "gitBlobSha": "f510421916e8914861fedc5eaf71e6b47e49a064",
+      "sha256": "c6d2fdedbf0535258f695ed19e6e2028c38b39eae4fe14c513d8273fccfa24ae",
+      "bytes": 510695
+    },
+    {
+      "source": "artifacts/ui-handoff/route-inventory.json",
+      "destination": "contracts/backend/route-inventory.json",
+      "gitBlobSha": "669a5f0076231b7623dd26e13f0ff7bd736cfe28",
+      "sha256": "f9a5afd189b3c10ffebfbb768642f2d37419acc69bd40a53a1c9421af8926c1c",
+      "bytes": 469612
+    },
+    {
+      "source": "docs/ui-handoff/api-explorer.html",
+      "destination": "docs/backend-contract/api-explorer.html",
+      "gitBlobSha": "6cb617adf57e59604e14f835967a7923983756e5",
+      "sha256": "9896b090d5a160b35edc508381569dbfc9ce45f82d1a175618110a84717d4f1a",
+      "bytes": 76741
+    },
+    {
+      "source": "docs/ui-handoff/auth-session-and-authorization.md",
+      "destination": "docs/backend-contract/auth-session-and-authorization.md",
+      "gitBlobSha": "a207f30de4cf70060d32f90af85bc901083a13eb",
+      "sha256": "685a70fcc9de9082734f7eec8567af97dad4802cf85a78cab504705101ced0e5",
+      "bytes": 5495
+    },
+    {
+      "source": "docs/ui-handoff/billing-payment-state-machine.md",
+      "destination": "docs/backend-contract/billing-payment-state-machine.md",
+      "gitBlobSha": "26e606bfc09a5df372a333783d6ec8af67f9de17",
+      "sha256": "e77764cd8b78cd390abc99468389e63dd09ba71932e455a54cd953b396deeb3c",
+      "bytes": 7331
+    },
+    {
+      "source": "docs/ui-handoff/README.md",
+      "destination": "docs/backend-contract/CANONICAL_README.md",
+      "gitBlobSha": "3d835041ca6ed05e165226988569b5fa4edd4b43",
+      "sha256": "9ecc1a9d0f69797f27b164628f8633062775fb5491abfada0aa770de1696661a",
+      "bytes": 7281
+    },
+    {
+      "source": "docs/ui-handoff/contract-gaps.md",
+      "destination": "docs/backend-contract/contract-gaps.md",
+      "gitBlobSha": "3e6f09923b59b3223906444c408bda5ce3701e24",
+      "sha256": "8b7e758907f4211f567fe82ed1d52c0100eca4de8267c8ea503626495b5b799d",
+      "bytes": 3857
+    },
+    {
+      "source": "docs/ui-handoff/frontend-integration-map.md",
+      "destination": "docs/backend-contract/frontend-integration-map.md",
+      "gitBlobSha": "3a478fccd968cf61181896774b4deda654586e83",
+      "sha256": "9b7ff1adda89f767f112b90d52450b7981868d587e82344a28efe7fa43aecf3e",
+      "bytes": 8743
+    },
+    {
+      "source": "docs/ui-handoff/notifications-ui-contract.md",
+      "destination": "docs/backend-contract/notifications-ui-contract.md",
+      "gitBlobSha": "24d8ddd39941b0b97426641514305083ce66b8b6",
+      "sha256": "08ff78260429b9263fcaaa958a8867199471fe38bbcbcc9438b4399c21c0b2ef",
+      "bytes": 4665
+    },
+    {
+      "source": "docs/ui-handoff/state-ownership.md",
+      "destination": "docs/backend-contract/state-ownership.md",
+      "gitBlobSha": "c9cd3a76511a45968a093c132d795661a1164915",
+      "sha256": "155236f0ca0ddfad51e9f9e2d5569b8de2b23459ca3f15a47ad54de302c3e1e3",
+      "bytes": 6100
+    },
+    {
+      "source": "docs/ui-handoff/ui-page-inventory.md",
+      "destination": "docs/backend-contract/ui-page-inventory.md",
+      "gitBlobSha": "87f484fca3479d0b705230bb8e8bc2a146d5fa06",
+      "sha256": "5a8621831421d3dd89d1e52b7eef11acd766724b61cb4cc45d32a7d32b3cb2a4",
+      "bytes": 29729
+    },
+    {
+      "source": "docs/ui-handoff/ui-state-matrix.md",
+      "destination": "docs/backend-contract/ui-state-matrix.md",
+      "gitBlobSha": "0c5d3eee40b333f1683ea5679d4482c3a87d5e42",
+      "sha256": "1a22c266b208fc874c9f25720f08ac782c9a17614349d653c0e2722b669e3a30",
+      "bytes": 7504
+    },
+    {
+      "source": "docs/ui-handoff/validation-and-field-rules.md",
+      "destination": "docs/backend-contract/validation-and-field-rules.md",
+      "gitBlobSha": "fd2896f9c5302abc994d37c1041b74690dfef6e9",
+      "sha256": "a80a144ddb8cf8ef8d8ab904453ceac3cf22ae55920e958409bef9297acde1a2",
+      "bytes": 7036
+    }
+  ]
+}

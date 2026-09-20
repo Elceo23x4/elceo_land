@@ -12,7 +12,7 @@ User-facing language must therefore avoid claims or verbs that imply execution, 
 
 ## Visual authority
 
-The approved landing mockup stored under `docs/design/references/approved-landing-reference.webp` is the primary visual reference for the landing page.
+The approved landing mockup stored under `docs/design/references/approved-landing-reference.png` is the primary visual reference for the landing page.
 
 The mockup is a visual-direction authority, not a page-scope or backend-contract authority. Do not infer missing pages, API behavior, entitlements, persistence, or legal semantics from the image.
 

@@ -57,3 +57,11 @@ Explicit age eligibility attestation is required in the UI, but backend persiste
 ## Cross-repository reading
 
 GPT Work may also read `Elceo-Mi` directly because both repositories are authorized. Use direct backend-repo inspection when a mirrored document is insufficient, but never silently supersede the pinned snapshot with an unreviewed newer backend state.
+
+## Integrity verification
+
+Sync and verification read the exact `SOURCE.json` commit's Git tree. Every manifest source path must exist with the declared Git blob identity; the manifest must cover the complete pinned handoff tree. Source bytes are checked against Git tree byte counts and blob hashes before copying. Verification independently compares local bytes, Git blob identity, source byte count and snapshot SHA-256, and rejects duplicate/unexpected/missing mirror files.
+
+By default the tools fetch that exact commit into a temporary Git repository and remove it afterward. For an existing authorized clone, `BACKEND_HANDOFF_SOURCE_DIR=/absolute/path/to/clone` avoids another fetch; its working tree and current branch are never used. The exact commit and tree are still checked. Network/Git source access is therefore required unless the pinned commit is available locally.
+
+The materialized snapshot contains 28 canonical files (11 documents, four machine artifacts and 13 canonically named mocks), plus `SNAPSHOT.json`. The backend source pin and the underlying functional-freeze provenance are unchanged.

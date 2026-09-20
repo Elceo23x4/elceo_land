@@ -15,7 +15,7 @@ Read completely:
 - `/docs/backend-contract/SOURCE.json`
 - `/docs/backend-contract/MIRROR_MANIFEST.json`
 
-Treat `Elceo23x4/Elceo-Mi` as backend/source-contract authority and the approved landing image in `/docs/design/references/approved-landing-reference.webp` as landing visual authority.
+Treat `Elceo23x4/Elceo-Mi` as backend/source-contract authority and the approved landing image in `/docs/design/references/approved-landing-reference.png` as landing visual authority.
 
 ## 2. Materialize the frozen backend snapshot
 

@@ -25,7 +25,7 @@ Before modifying production UI code, read:
 
 For landing work also inspect:
 
-- `/docs/design/references/approved-landing-reference.webp`
+- `/docs/design/references/approved-landing-reference.png`
 - `/docs/design/ELCEO_LANDING_SCENE_CONTRACT.md`
 
 For dashboard work also inspect the existing dashboard design/code/docs before proposing any migration changes.

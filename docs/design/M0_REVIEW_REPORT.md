@@ -2,7 +2,7 @@
 
 Audit date: 2026-09-20. Repository: `Elceo23x4/elceo_land`, PR #57, branch `foundation/elceo-ui-work-handoff`. Examined frontend commit: `e38d6d1cf1d8a2fc1104f10fb00de6a58f08a490`; comparison base: `df3893c62451fc33e5f95a732dc42ac9b04acc7b`.
 
-**Disposition: M0 blocked; do not start M1 or mark the foundation merge-ready.** This report records a static audit and failed validation attempts, not successful migration, deployment, or performance acceptance. No application, dependency, backend, geometry, SVG, or contract-authority changes were made.
+**Original audit disposition: M0 blocked. See the approved repair rerun below for current local verification; M0 architectural acceptance remains pending. Do not start M1 or mark the foundation merge-ready.** This report records a static audit and failed validation attempts, not successful migration, deployment, or performance acceptance. No application, dependency, backend, geometry, SVG, or contract-authority changes were made.
 
 The repository agent instructions, project UI skill, every design authority indexed by `docs/design/README.md`, first assignment, backend README/source/manifest, dashboard agent rules, and relevant dashboard implementation/contracts were read. Because the mirror cannot be completed, backend handoff documents were inspected directly from the exact pinned Git commit, read-only.
 
@@ -195,3 +195,50 @@ All paths below are relative to `artifacts/ui-handoff/mocks/` at the unchanged p
 | `portfolio-watchlist.json` | `4150187d69e8fbe0a97291063faab5759d9ae38b` |
 | `super-admin-control-snapshot.json` | `aedb393bfeaa4652975932c54bc86b3ad50a3ad5` |
 | `workspace-current.json` | `3b38666038227e8cd15d0a631fc073dcc40cbb01` |
+
+
+## Approved M0 foundation repair rerun — 2026-09-20
+
+This section supersedes the original audit's local foundation failure results while preserving the before-state evidence above. Work remains exclusively on PR #57 / `foundation/elceo-ui-work-handoff`. No application page, dashboard, landing implementation, backend runtime, framework configuration or migration was changed.
+
+### Before / after
+
+| Gate | Original result | Repair rerun |
+|---|---|---|
+| Frozen mirror | 12 invalid mock entries; partial sync | Only manifest mock block replaced with the 13 exact paths/blob identities independently checked against the pinned tree and Appendix A; all 28 source files plus snapshot materialized |
+| Provenance | Exact source and functional freeze recorded | `SOURCE.json` unchanged; canonical freeze manifest copied byte-for-byte |
+| Verification | Snapshot absent; SHA-256-only local verification | Exact pinned Git tree coverage, path, blob identity, Git source byte count, source bytes, copied bytes, snapshot metadata/SHA-256 and extra-file rejection |
+| Sync partial writes | Missing source could leave partial files | All source entries validated before any output is written; copied files verified before snapshot publication |
+| Workflow coverage | Manifest/generated paths omitted; untracked files missed | Full mirror directories and shared helper trigger sync; porcelain status includes untracked files before accepting synchronization; UI workflow now requires a complete verified snapshot |
+| Visual authority | Truncated WebP | Original uploaded PNG copied without re-encoding or visual modification; all authority path references updated |
+| PNG integrity | No decode check | Exact original SHA-256/byte count, all PNG chunk CRCs, complete zlib scanlines and RGBA pixel reconstruction; truncation/corruption/trailing-data rejection tests |
+| Dependency resolution | React 19.3.0 versus R3F peer `<19.3` | Exact React/React DOM 19.2.8 and R3F 9.7.0; npm registry peer evidence checked; complete dependency tree valid |
+| Reproducibility | No lockfile | npm lockfile v3 committed; clean `npm ci` succeeds without peer suppression |
+| Type/build | Compiler unavailable after failed install | `tsc -b` and existing `npm run build` succeed |
+
+### Exact local validation and scope
+
+- Runtime: Node `v24.19.0`, npm `11.9.0`.
+- `npm view react@19.2.8 version`, `npm view react-dom@19.2.8 peerDependencies`, `npm view @react-three/fiber@9.7.0 peerDependencies`: compatible published pairing confirmed.
+- `npm install --no-audit --no-fund`: pass, no force/legacy-peer-deps/peer suppression.
+- Move the installed dependency directory out of the repository, then `npm ci --no-audit --no-fund`: pass from absent `node_modules`; 171 packages installed.
+- `npm ls --all`: pass before and after clean install, including Motion/Drei/R3F and their peer requirements. Other direct dependency ranges remain unchanged; the new lockfile captures their normal resolution because no prior lock existed.
+- `./node_modules/.bin/tsc -b`: pass.
+- `npm run build`: pass with Vite 8.3.0, 549 transformed modules.
+- `npm run check:ui-foundation`, `npm run check:reference`: pass.
+- `npm run sync:backend-handoff`, `npm run verify:backend-handoff`: pass using the default fresh pinned Git fetch, as well as the existing-clone path. Copied count is exactly 28; generated total is 29 including `SNAPSHOT.json`.
+- `npm run test:foundation`: integrity rejection tests pass; covers damaged/truncated PNG, local bytes with recomputed SHA-256, wrong source byte counts, forged snapshot metadata, missing pinned source path and incorrect source blob.
+- Repository skill validation: pass; only its authority image extension changed.
+- `git diff --check`: pass. Source pin, document/artifact manifest blocks, `src/`, `public/`, `vite.config.ts`, `vercel.json`, `tsconfig.json` and `index.html` remain unchanged by this repair.
+
+The PNG is 941×1672, 2,888,188 bytes, SHA-256 `a8a689790431cd2d3d4423383a45122e3b5a10abaae43bd6b8815396bd8db4d6`. It is the original supplied attachment, not a generated replacement. Scene-contract edits are limited to the authority filename extension.
+
+### Build observations and deployment boundary
+
+The successful build emits CSS 130.51 kB (gzip 22.71 kB) and main JavaScript 10,245.20 kB (gzip 2,922.30 kB). Vite warns about oversized chunks; Babel reports four SVGs over 500 kB. Lightweight Charts is dynamically imported in `ChartEngine.tsx` but also statically imported by `chartTheme.ts`, so it does not split into a separate chunk. These are measured build artifacts, not browser-memory or Web Vitals measurements. No bundle/performance refactor is authorized in this M0 repair.
+
+The local dependency failure is repaired. **It is not established as the historical Vercel root cause.** No historic build logs have been obtained. After publishing this repair, the exact resulting head's primary Vercel status must be observed and reported; an inaccessible red deployment remains a stop condition, not permission to change framework/application configuration.
+
+### Remaining review decisions
+
+M0 architectural acceptance is still required. The original auth-origin/cookie/callback ownership, production fixture-to-DTO mapping, Kick Off entitlement projection, mobile cockpit geometry, development preview exposure, font provenance, age-attestation persistence, accessibility and browser-memory/performance decisions remain open. The dependency/build repair does not approve M1, production readiness or merge readiness. Keep PR #57 draft.

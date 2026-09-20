@@ -1,3 +1,4 @@
+import './check-reference-image.mjs';
 import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -17,7 +18,7 @@ const requiredFiles = [
   'docs/design/ELCEO_ASSET_REGISTER.md',
   'docs/design/NEXTJS_MIGRATION_PLAN.md',
   'docs/design/WORK_START_PROTOCOL.md',
-  'docs/design/references/approved-landing-reference.webp',
+  'docs/design/references/approved-landing-reference.png',
   'docs/backend-contract/README.md',
   'docs/backend-contract/SOURCE.json',
   'docs/backend-contract/MIRROR_MANIFEST.json',
@@ -48,8 +49,8 @@ if (
   throw new Error('MIRROR_MANIFEST.json is not aligned with SOURCE.json.');
 }
 const mirrorEntries = [...manifest.documents, ...manifest.artifacts, ...manifest.mocks];
-if (mirrorEntries.length !== 27) {
-  throw new Error(`Expected 27 canonical backend mirror files, found ${mirrorEntries.length}.`);
+if (mirrorEntries.length !== 28) {
+  throw new Error(`Expected 28 canonical backend mirror files, found ${mirrorEntries.length}.`);
 }
 for (const entry of mirrorEntries) {
   if (!entry.source || !entry.destination || !/^[0-9a-f]{40}$/.test(entry.gitBlobSha)) {
@@ -78,7 +79,7 @@ for (const file of textualAuthorities) {
 const landing = await readFile(path.join(root, 'docs/design/ELCEO_LANDING_SCENE_CONTRACT.md'), 'utf8');
 for (const requiredPhrase of [
   'seven narrative scenes plus footer',
-  'approved-landing-reference.webp',
+  'approved-landing-reference.png',
   'Exploded-continent choreography',
   'Do not add orange glowing borders around the cards',
   'Do not use `Continue with Google` as the primary landing CTA label',
