@@ -24,7 +24,7 @@ The video preview is not a generic embedded player. On activation it expands fro
 
 The hero does not need a large primary onboarding CTA; the conversion CTA belongs later in the story.
 
-#### Persistent globe behavior
+#### Exploded-continent choreography
 
 The hero globe is a real narrative object. During scroll:
 
