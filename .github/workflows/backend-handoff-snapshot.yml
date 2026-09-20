@@ -2,8 +2,17 @@ name: Backend Handoff Snapshot
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - docs/backend-contract/SOURCE.json
+      - scripts/sync-backend-handoff.mjs
+      - scripts/verify-backend-handoff.mjs
+      - .github/workflows/backend-handoff-snapshot.yml
   push:
     branches:
+      - main
       - foundation/elceo-ui-work-handoff
     paths:
       - docs/backend-contract/SOURCE.json
@@ -15,17 +24,19 @@ permissions:
   contents: write
 
 concurrency:
-  group: backend-handoff-snapshot-${{ github.ref }}
+  group: backend-handoff-snapshot-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
   sync:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
+    env:
+      TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
@@ -41,6 +52,7 @@ jobs:
         run: npm run verify:backend-handoff
 
       - name: Commit generated snapshot when changed
+        if: github.event_name != 'push' || github.ref_name != 'main'
         shell: bash
         run: |
           if git diff --quiet -- docs/backend-contract contracts/backend; then
@@ -51,4 +63,14 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/backend-contract contracts/backend
           git commit -m "chore(contract): materialize frozen backend handoff snapshot"
-          git push origin HEAD:${{ github.ref_name }}
+          git push origin HEAD:${TARGET_BRANCH}
+
+      - name: Enforce synchronized snapshot on main
+        if: github.event_name == 'push' && github.ref_name == 'main'
+        shell: bash
+        run: |
+          if ! git diff --quiet -- docs/backend-contract contracts/backend; then
+            echo "Frozen backend snapshot is stale or missing on main. Regenerate it through an approved PR."
+            git diff --stat -- docs/backend-contract contracts/backend
+            exit 1
+          fi
