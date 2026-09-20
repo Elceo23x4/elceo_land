@@ -242,3 +242,22 @@ The local dependency failure is repaired. **It is not established as the histori
 ### Remaining review decisions
 
 M0 architectural acceptance is still required. The original auth-origin/cookie/callback ownership, production fixture-to-DTO mapping, Kick Off entitlement projection, mobile cockpit geometry, development preview exposure, font provenance, age-attestation persistence, accessibility and browser-memory/performance decisions remain open. The dependency/build repair does not approve M1, production readiness or merge readiness. Keep PR #57 draft.
+
+
+### Published repair verification
+
+Repair commit `64a4018226804d2a8b7a17399183b83dc595875c` was published to the existing foundation branch. Its remote Git tree `082f5ef2c0fc27903c604efe00e63e7abebd002a` exactly matches the locally staged and tested tree, including original PNG bytes and all 29 generated snapshot files.
+
+| Remote check on repair commit | Observed result | Evidence |
+|---|---|---|
+| Primary Vercel – elceo-land | **Success** | [Deployment 5YWXUUjUb7RWf4HNvJo5GVACbMav](https://vercel.com/elceo23x4s-projects/elceo-land/5YWXUUjUb7RWf4HNvJo5GVACbMav) |
+| UI Foundation Integrity | **Success** | [Run 35497154171](https://github.com/Elceo23x4/elceo_land/actions/runs/35497154171) |
+| Backend Handoff Snapshot | **Success** | [Run 35497154173](https://github.com/Elceo23x4/elceo_land/actions/runs/35497154173) |
+| Secondary Vercel – elceo-land-l353 | Failure | [Deployment H32MrRGHPpLcoAEvtFp2r6Rtcotq](https://vercel.com/elceo23x4s-projects/elceo-land-l353/H32MrRGHPpLcoAEvtFp2r6Rtcotq) |
+| Existing NodeJS with Webpack | Failure | [Run 35497154175](https://github.com/Elceo23x4/elceo_land/actions/runs/35497154175) |
+
+The Webpack failure was inspected through actual job logs (job `106042129292`, Node 22.23.2/npm 10.9.8). Dependency installation succeeds: 171 packages, zero reported vulnerabilities. The subsequent `npx webpack` command attempts an unconfigured Webpack invocation and stops at an interactive request to install `webpack-cli`, exiting 1. The Node 18/20 matrix jobs are cancelled. The unchanged `.github/workflows/webpack.yml` runs `npm install; npx webpack`, whereas this repository's existing application build is Vite via `npm run build`. No Webpack dependency, bypass, workflow suppression or out-of-scope configuration change was made. Review should authorize a separate tight CI correction to use the canonical reproducible Vite build and supported Node matrix.
+
+Primary preview recovery is established for the repaired code. Historical Vercel root cause remains unproven without the historical deployment logs. The secondary deployment failure is still unresolved. This report-only follow-up does not change the verified repair tree outside this report; its resulting head's primary deployment must also be observed before handoff.
+
+**M0 review disposition:** approved local foundation repairs complete, primary preview green on the repair commit, remaining CI/secondary deployment and architectural decisions explicitly open. PR #57 remains draft; no merge-readiness declaration and no M1 authorization.
