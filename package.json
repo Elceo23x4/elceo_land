@@ -11,7 +11,14 @@
     "sync:backend-handoff": "node scripts/sync-backend-handoff.mjs",
     "verify:backend-handoff": "node scripts/verify-backend-handoff.mjs",
     "check:reference": "node scripts/check-reference-image.mjs",
-    "test:foundation": "node --test scripts/foundation-integrity.test.mjs"
+    "test:foundation": "node --test scripts/foundation-integrity.test.mjs",
+    "dev:vite": "vite",
+    "build:vite": "tsc -b && vite build",
+    "dev:next": "npm run dev --workspace=@elceo/frontend-candidate --",
+    "build:next": "npm run build --workspace=@elceo/frontend-candidate",
+    "start:next": "npm run start --workspace=@elceo/frontend-candidate --",
+    "typecheck:next": "npm run typecheck --workspace=@elceo/frontend-candidate",
+    "test:m1": "node --test scripts/m1-foundation.test.mjs"
   },
   "dependencies": {
     "react": "19.2.8",
@@ -32,5 +39,11 @@
     "vite-plugin-svgr": "^5.2.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0"
+  },
+  "workspaces": [
+    "apps/frontend"
+  ],
+  "engines": {
+    "node": ">=22 <23"
   }
 }
