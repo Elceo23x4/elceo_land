@@ -4,5 +4,6 @@
   "sourceBranch": "main",
   "authority": "read-only snapshot",
   "frontendRepository": "Elceo23x4/elceo_land",
+  "syncProtocolVersion": 1,
   "notes": "Elceo-Mi is canonical. Files mirrored here must not be manually edited; regenerate them using scripts/sync-backend-handoff.mjs."
 }
