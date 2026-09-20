@@ -57,7 +57,7 @@ Local canonical Node 22.23.2:
 - `check:ui-foundation`: exit 0, exact approved PNG CRC/hash/full decode passes.
 - `verify:backend-handoff`: exit 0, all 28 paths/blobs/bytes/local SHA-256 checks against `771487b46874afc28a21f260a2c12f92bfe8f736` pass. Snapshot and functional-freeze provenance unchanged.
 - Direct production HTTP proof: GET/HEAD `/m1-proof` return 200 with server-rendered boundary/SVG content; six absent product/auth/API paths return 404.
-- Browser proof: local Chromium download returned HTTP 502. Desktop/mobile reduced-motion browser assertions remain required in the new candidate CI workflow; do not infer browser acceptance from build success.
+- Browser proof: local Chromium download returned HTTP 502; GitHub-hosted Chromium verification passed both desktop and mobile/reduced-motion projects. Assertions prove production HTTP semantics, hydration without page errors, component/URL SVG rendering and portal font/color inheritance alongside isolated public styles.
 
 The static bundle scan covers the actual candidate JS output and known internal authority markers. No credentials are read by candidate source. This is not a general secret scanner or authorization integration test.
 
@@ -73,3 +73,17 @@ The static bundle scan covers the actual candidate JS output and known internal 
 8. The secondary Vercel failure remains outside this shell's authority. No application configuration changes are used to repair it.
 
 Exact changed files are recorded in `M1_CHANGED_FILES.txt`. CI evidence and final PR head must be reviewed with this report before accepting M1. This report does not grant merge readiness or M2 authorization.
+
+## CI review evidence
+
+Implementation revision `cf72e99c287c6390e4e5eca2caa41e7fff9db677` passed all four workflows:
+
+| Check | Evidence |
+| --- | --- |
+| Node 22 locked install, Next production build, TypeScript, four boundary/integrity checks, both Chromium projects | [M1 Next Candidate run 35518427802](https://github.com/Elceo23x4/elceo_land/actions/runs/35518427802) |
+| Existing Vite/TypeScript production build | [Frontend Production Build run 35518427790](https://github.com/Elceo23x4/elceo_land/actions/runs/35518427790) |
+| Approved PNG, UI foundation, pinned backend verification and rejection tests | [UI Foundation Integrity run 35518427831](https://github.com/Elceo23x4/elceo_land/actions/runs/35518427831) |
+| Frozen snapshot synchronization/verification | [Backend Handoff Snapshot run 35518427798](https://github.com/Elceo23x4/elceo_land/actions/runs/35518427798) |
+| Primary Vercel preview, existing Vite production path | [Successful primary preview](https://vercel.com/elceo23x4s-projects/elceo-land/Y4w3pQgrrTYRBs3VqUgrrwBk7tGY) |
+
+This final evidence-only report update changes no implementation. Its exact-head rerun is visible on [draft PR #58](https://github.com/Elceo23x4/elceo_land/pull/58/checks). The initial missing Node type declaration was corrected; no unrelated dependency version changed. All 49 changed paths are enumerated in `M1_CHANGED_FILES.txt`. M1 remains subject to architectural review; M2 and production cutover remain closed.
