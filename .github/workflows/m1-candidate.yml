@@ -1,0 +1,28 @@
+name: M1 Next Candidate
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build:next
+      - run: npm run typecheck:next
+      - run: npm run test:m1
+      - run: npx playwright install --with-deps chromium
+        working-directory: apps/frontend
+      - run: npx playwright test
+        working-directory: apps/frontend
