@@ -1,0 +1,8 @@
+{
+  "sourceRepository": "Elceo23x4/Elceo-Mi",
+  "sourceCommit": "771487b46874afc28a21f260a2c12f92bfe8f736",
+  "sourceBranch": "main",
+  "authority": "read-only snapshot",
+  "frontendRepository": "Elceo23x4/elceo_land",
+  "notes": "Elceo-Mi is canonical. Files mirrored here must not be manually edited; regenerate them using scripts/sync-backend-handoff.mjs."
+}
