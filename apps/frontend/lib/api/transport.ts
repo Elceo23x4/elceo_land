@@ -33,6 +33,7 @@ type IdempotencyInput<K extends OperationKey> = OperationPolicy<K>['idempotency'
     }>
   : Readonly<{ idempotency?: never }>;
 
+export type ReadInput<K extends OperationKey> = OperationInput<K> & IdempotencyInput<K>;
 export type MutationInput<K extends OperationKey> = OperationInput<K> & IdempotencyInput<K>;
 
 type RuntimePolicy = Readonly<{
@@ -83,7 +84,7 @@ export type TransportConfiguration = Readonly<{
 export type PolicyClient<K extends OperationKey> = Readonly<{
   read<P extends ReadOperationKey<K>>(
     operation: P,
-    input: OperationInput<P>,
+    input: ReadInput<P>,
   ): Promise<ContractResult<P, GeneratedResponse<P>>>;
   mutate<P extends MutationOperationKey<K>>(
     operation: P,

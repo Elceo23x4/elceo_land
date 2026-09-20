@@ -11,12 +11,14 @@ test('legacy implementation and frozen authorities are byte unchanged', () => {
 test('source SVG URL proof preserves exact original bytes', () => {
  assert.deepEqual(readFileSync('apps/frontend/public/m1-assets/arrow-up.svg'),readFileSync('src/assets/source/dashboard/arrows/elceo-svg-14-arrow-up.svg'));
 });
-test('candidate keeps narrow client ownership and only reviewed frontend mediation routes', () => {
+test('candidate keeps reviewed client ownership and only reviewed frontend mediation routes', () => {
  const files=walk('apps/frontend').filter(p=>/\.(tsx?|css)$/.test(p)&&!p.endsWith('.d.ts'));
  const client=files.filter(p=>/^[\"']use client[\"']/.test(read(p)));
  assert.deepEqual(client,[
+  'apps/frontend/app/(app)/dashboard/error.tsx',
   'apps/frontend/app/m1-proof/M2BrowserClientProof.tsx',
   'apps/frontend/components/primitives/ScopedPortal.tsx',
+  'apps/frontend/features/dashboard/DashboardParityClient.tsx',
   'apps/frontend/lib/api/authenticated-browser.ts',
  ]);
  for(const p of client) assert.doesNotMatch(read(p),/NEXT_PUBLIC_|x-elceo-internal-token|ELCEO_(?:BACKEND|PUBLIC|INTERNAL)|AUTH_SECRET|localStorage|sessionStorage|document\.cookie/,p);
@@ -29,8 +31,8 @@ test('candidate keeps narrow client ownership and only reviewed frontend mediati
  assert.match(read('apps/frontend/lib/auth/server.ts'),/import 'server-only'/);
  assert.doesNotMatch(read('apps/frontend/app/layout.tsx'),/src\/|providers|use client/);
 });
-test('production browser bundles contain no internal authority or legacy runtime', () => {
+test('production browser bundles contain no internal authority or landing-only runtime', () => {
  const files=walk('apps/frontend/.next/static').filter(p=>p.endsWith('.js'));
  assert.ok(files.length);
- for (const p of files) assert.doesNotMatch(read(p),/x-elceo-internal-token|ELCEO_INTERNAL_TOKEN|M1_SECRET_SENTINEL|lightweight-charts|ScrollTrigger/,p);
+ for (const p of files) assert.doesNotMatch(read(p),/x-elceo-internal-token|ELCEO_INTERNAL_TOKEN|M1_SECRET_SENTINEL|ScrollTrigger/,p);
 });

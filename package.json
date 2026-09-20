@@ -23,9 +23,10 @@
     "check:m2-contracts": "node scripts/generate-m2-contracts.mjs --check",
     "check:m2-client-boundaries": "node scripts/check-m2-client-boundaries.mjs",
     "check:m2-browser-bundles": "node scripts/check-m2-browser-bundles.mjs",
-    "test:m2": "node --test scripts/m2-contracts.test.mjs apps/frontend/tests/contracts/transport.runtime.test.ts && npm run check:m2-client-boundaries",
+    "test:m2": "node --test scripts/m2-contracts.test.mjs apps/frontend/tests/contracts/transport.runtime.test.ts apps/frontend/tests/contracts/idempotent-read.runtime.test.ts && npm run check:m2-client-boundaries",
     "test:m3": "node --test apps/frontend/tests/auth/topology.runtime.test.ts scripts/m3-auth-topology.test.mjs",
-    "check:m3-browser-bundles": "node scripts/check-m3-browser-bundles.mjs"
+    "check:m3-browser-bundles": "node scripts/check-m3-browser-bundles.mjs",
+    "test:m4": "node --test scripts/m4-dashboard-parity.test.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.0.0",
