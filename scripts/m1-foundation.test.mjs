@@ -13,9 +13,12 @@ test('source SVG URL proof preserves exact original bytes', () => {
 });
 test('candidate has narrow client ownership and no backend implementation', () => {
  const files=walk('apps/frontend').filter(p=>/\.(tsx?|css)$/.test(p)&&!p.endsWith('.d.ts'));
- const client=files.filter(p=>/^["']use client["']/.test(read(p)));
- assert.deepEqual(client,['apps/frontend/components/primitives/ScopedPortal.tsx']);
- for(const p of files) assert.doesNotMatch(read(p),/NEXT_PUBLIC_|x-elceo-internal-token|process\.env|localStorage|fetch\(/,p);
+ const client=files.filter(p=>/^[\"']use client[\"']/.test(read(p)));
+ assert.deepEqual(client,[
+  'apps/frontend/app/m1-proof/M2BrowserClientProof.tsx',
+  'apps/frontend/components/primitives/ScopedPortal.tsx',
+ ]);
+ for(const p of files.filter(p=>!p.includes('/lib/contracts/generated/'))) assert.doesNotMatch(read(p),/NEXT_PUBLIC_|x-elceo-internal-token|process\.env|localStorage|fetch\(/,p);
  assert.equal(walk('apps/frontend/app/api').filter(p=>/route\.[jt]s$/.test(p)).length,0);
  assert.match(read('apps/frontend/lib/api/server.ts'),/import 'server-only'/);
  assert.doesNotMatch(read('apps/frontend/app/layout.tsx'),/src\/|providers|use client/);

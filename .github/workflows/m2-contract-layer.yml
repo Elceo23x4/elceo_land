@@ -1,0 +1,34 @@
+name: M2 Frozen Contract Layer
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Verify deterministic generated contracts
+        run: npm run check:m2-contracts
+      - name: Typecheck candidate contract layer
+        run: npm run typecheck:next
+      - name: Build candidate Next application
+        run: npm run build:next
+      - name: Verify typed transport, policy partitions, mocks and client boundaries
+        run: npm run test:m2 && npm run check:m2-browser-bundles
+      - name: Verify frozen backend snapshot and UI authority
+        run: npm run verify:backend-handoff && npm run check:ui-foundation
