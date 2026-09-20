@@ -20,6 +20,7 @@ const requiredFiles = [
   'docs/design/references/approved-landing-reference.webp',
   'docs/backend-contract/README.md',
   'docs/backend-contract/SOURCE.json',
+  'docs/backend-contract/MIRROR_MANIFEST.json',
   'scripts/sync-backend-handoff.mjs',
   'scripts/verify-backend-handoff.mjs',
 ];
@@ -29,6 +30,7 @@ for (const file of requiredFiles) {
 }
 
 const source = JSON.parse(await readFile(path.join(root, 'docs/backend-contract/SOURCE.json'), 'utf8'));
+const manifest = JSON.parse(await readFile(path.join(root, 'docs/backend-contract/MIRROR_MANIFEST.json'), 'utf8'));
 if (source.sourceRepository !== 'Elceo23x4/Elceo-Mi') {
   throw new Error(`Unexpected backend contract repository: ${source.sourceRepository}`);
 }
@@ -37,6 +39,22 @@ if (source.authority !== 'read-only snapshot') {
 }
 if (!/^[0-9a-f]{40}$/.test(source.sourceCommit)) {
   throw new Error('Backend contract sourceCommit must be an exact 40-character Git SHA.');
+}
+if (
+  manifest.sourceRepository !== source.sourceRepository ||
+  manifest.sourceCommit !== source.sourceCommit ||
+  manifest.authority !== source.authority
+) {
+  throw new Error('MIRROR_MANIFEST.json is not aligned with SOURCE.json.');
+}
+const mirrorEntries = [...manifest.documents, ...manifest.artifacts, ...manifest.mocks];
+if (mirrorEntries.length !== 27) {
+  throw new Error(`Expected 27 canonical backend mirror files, found ${mirrorEntries.length}.`);
+}
+for (const entry of mirrorEntries) {
+  if (!entry.source || !entry.destination || !/^[0-9a-f]{40}$/.test(entry.gitBlobSha)) {
+    throw new Error(`Invalid mirror manifest entry: ${JSON.stringify(entry)}`);
+  }
 }
 
 const textualAuthorities = [
