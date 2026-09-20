@@ -1,0 +1,560 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "Elceo23x4/Elceo-Mi",
+  "sourceCommit": "771487b46874afc28a21f260a2c12f92bfe8f736",
+  "frozenFunctionalTree": "6f81f55269031e0ec6467cd60283593dd5b7c2d3",
+  "rule": "No frontend constraint may be created for these operations without new canonical evidence.",
+  "operationCount": 50,
+  "operations": [
+    {
+      "key": "GET /api/account/billing",
+      "routeFile": "apps/web/app/api/account/billing/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/account/billing/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/account/billing/events",
+      "routeFile": "apps/web/app/api/account/billing/events/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/account/billing/events/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/account/billing/policy",
+      "routeFile": "apps/web/app/api/account/billing/policy/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/account/billing/policy/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/account/billing/policy/transitions",
+      "routeFile": "apps/web/app/api/account/billing/policy/transitions/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/account/billing/policy/transitions/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/account/billing/reconciliation-runs",
+      "routeFile": "apps/web/app/api/account/billing/reconciliation-runs/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/account/billing/reconciliation-runs/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/account/entitlements",
+      "routeFile": "apps/web/app/api/account/entitlements/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/account/entitlements/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/account/state",
+      "routeFile": "apps/web/app/api/account/state/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/account/state/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/account/usage",
+      "routeFile": "apps/web/app/api/account/usage/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/account/usage/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/audit",
+      "routeFile": "apps/web/app/api/admin/audit/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/audit/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/billing/operations/summary",
+      "routeFile": "apps/web/app/api/admin/billing/operations/summary/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/billing/operations/summary/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/billing/provider-plan-mappings",
+      "routeFile": "apps/web/app/api/admin/billing/provider-plan-mappings/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/billing/provider-plan-mappings/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/commercial/users/{userId}/control-snapshot",
+      "routeFile": "apps/web/app/api/admin/commercial/users/[userId]/control-snapshot/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/commercial/users/[userId]/control-snapshot/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/freshness",
+      "routeFile": "apps/web/app/api/admin/freshness/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/freshness/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/market-evidence/inspection",
+      "routeFile": "apps/web/app/api/admin/market-evidence/inspection/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/market-evidence/inspection/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/market-evidence/payload-replay",
+      "routeFile": "apps/web/app/api/admin/market-evidence/payload-replay/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/market-evidence/payload-replay/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/market-evidence/scheduled-ingestion/inspection",
+      "routeFile": "apps/web/app/api/admin/market-evidence/scheduled-ingestion/inspection/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/market-evidence/scheduled-ingestion/inspection/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/ops",
+      "routeFile": "apps/web/app/api/admin/ops/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/ops/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/providers",
+      "routeFile": "apps/web/app/api/admin/providers/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/providers/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/security/step-up/readiness",
+      "routeFile": "apps/web/app/api/admin/security/step-up/readiness/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/security/step-up/readiness/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/seo/sitemap",
+      "routeFile": "apps/web/app/api/admin/seo/sitemap/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/seo/sitemap/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/admin/system-summary",
+      "routeFile": "apps/web/app/api/admin/system-summary/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/admin/system-summary/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/auth/{...nextauth}",
+      "routeFile": "apps/web/app/api/auth/[...nextauth]/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/auth/[...nextauth]/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/billing/intention",
+      "routeFile": "apps/web/app/api/billing/intention/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/billing/intention/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/billing/subscription",
+      "routeFile": "apps/web/app/api/billing/subscription/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/billing/subscription/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/dashboard/{asset}",
+      "routeFile": "apps/web/app/api/dashboard/[asset]/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/dashboard/[asset]/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/journal/analytics",
+      "routeFile": "apps/web/app/api/journal/analytics/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/journal/analytics/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/journal/cases/{caseId}",
+      "routeFile": "apps/web/app/api/journal/cases/[caseId]/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/journal/cases/[caseId]/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/journal/cases/{caseId}/replay",
+      "routeFile": "apps/web/app/api/journal/cases/[caseId]/replay/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/journal/cases/[caseId]/replay/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/notifications/health",
+      "routeFile": "apps/web/app/api/notifications/health/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/notifications/health/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/notifications/summary",
+      "routeFile": "apps/web/app/api/notifications/summary/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/notifications/summary/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/portfolio/attention",
+      "routeFile": "apps/web/app/api/portfolio/attention/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/portfolio/attention/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/portfolio/snapshot/current",
+      "routeFile": "apps/web/app/api/portfolio/snapshot/current/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/portfolio/snapshot/current/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/refresh/freshness",
+      "routeFile": "apps/web/app/api/refresh/freshness/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/refresh/freshness/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/refresh/latest",
+      "routeFile": "apps/web/app/api/refresh/latest/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/refresh/latest/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/workspace/agenda",
+      "routeFile": "apps/web/app/api/workspace/agenda/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/workspace/agenda/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/workspace/current",
+      "routeFile": "apps/web/app/api/workspace/current/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/workspace/current/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "GET /api/workspace/freshness",
+      "routeFile": "apps/web/app/api/workspace/freshness/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/workspace/freshness/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/auth/{...nextauth}",
+      "routeFile": "apps/web/app/api/auth/[...nextauth]/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/auth/[...nextauth]/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/auth/password-reset/request",
+      "routeFile": "apps/web/app/api/auth/password-reset/request/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/auth/password-reset/request/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/billing/portal",
+      "routeFile": "apps/web/app/api/billing/portal/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/billing/portal/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/notifications/delivery/dispatch",
+      "routeFile": "apps/web/app/api/notifications/delivery/dispatch/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/notifications/delivery/dispatch/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/notifications/providers/postmark/webhook",
+      "routeFile": "apps/web/app/api/notifications/providers/postmark/webhook/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/notifications/providers/postmark/webhook/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/notifications/providers/resend/webhook",
+      "routeFile": "apps/web/app/api/notifications/providers/resend/webhook/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/notifications/providers/resend/webhook/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/notifications/targets/{targetId}/disable",
+      "routeFile": "apps/web/app/api/notifications/targets/[targetId]/disable/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/notifications/targets/[targetId]/disable/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/notifications/targets/{targetId}/enable",
+      "routeFile": "apps/web/app/api/notifications/targets/[targetId]/enable/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/notifications/targets/[targetId]/enable/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/ops/notifications/expire-verifications",
+      "routeFile": "apps/web/app/api/ops/notifications/expire-verifications/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/ops/notifications/expire-verifications/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/portfolio/actions/{actionId}/complete",
+      "routeFile": "apps/web/app/api/portfolio/actions/[actionId]/complete/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/portfolio/actions/[actionId]/complete/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/portfolio/actions/{actionId}/dismiss",
+      "routeFile": "apps/web/app/api/portfolio/actions/[actionId]/dismiss/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/portfolio/actions/[actionId]/dismiss/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/portfolio/snapshot/generate",
+      "routeFile": "apps/web/app/api/portfolio/snapshot/generate/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/portfolio/snapshot/generate/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    },
+    {
+      "key": "POST /api/portfolio/watchlist/{entryId}/archive",
+      "routeFile": "apps/web/app/api/portfolio/watchlist/[entryId]/archive/route.ts",
+      "validators": [],
+      "sourceProvenance": {
+        "routeFile": "apps/web/app/api/portfolio/watchlist/[entryId]/archive/route.ts",
+        "policyInventory": "apps/web/lib/server/access/route-policy-inventory.ts",
+        "schemaAuthority": "handler/helper contract; field constraints unspecified where not statically provable"
+      },
+      "reason": "Unspecified beyond frozen handler/type contract."
+    }
+  ]
+}
