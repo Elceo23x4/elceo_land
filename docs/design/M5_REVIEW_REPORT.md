@@ -58,3 +58,7 @@ The public surface owns its font and CSS variables. The conditional body margin/
 Next production build, typecheck and inherited M1–M4 static/runtime gates pass locally with these first public surfaces. New browser/visual evidence is pending CI. The cloud browser reports `ERR_BLOCKED_BY_CLIENT` for the local preview; no visual parity or finished-design claim is made from source inspection. React best-practice review preserves server-rendered pages, static data hoisting, one narrow ref-based dialog client and no data waterfalls or unnecessary client providers.
 
 Remaining M5 scope includes landing, pricing/demo/legal content, auth/onboarding, app/settings/admin families, overlays, full coverage, visual polish and final cross-product acceptance. No completion or merge readiness is claimed by this checkpoint.
+
+### First presentation CI findings
+
+On `d43d3ab9ce11554261bcf92a0ab0890823949859`, all six inherited workflows passed, including unchanged M4 empirical parity. M5 run `35571280351` found native dialog Tab traversal could leave its controls at every width; an explicit bidirectional focus wrap was added and the original containment assertions retained/extended to Shift+Tab. The navigation test reached the dashboard but timed out waiting for network idleness; it now polls the exact geometry/font signature rather than unrelated network silence. The comparison itself remains unchanged. These M5 fixes require a fresh CI rerun before the checkpoint is accepted.

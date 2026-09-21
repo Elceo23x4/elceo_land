@@ -31,6 +31,10 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
       await page.keyboard.press('Tab');
       expect(await dialog.evaluate(el => el.contains(document.activeElement))).toBe(true);
     }
+    for (let i = 0; i < 5; i++) {
+      await page.keyboard.press('Shift+Tab');
+      expect(await dialog.evaluate(el => el.contains(document.activeElement))).toBe(true);
+    }
     await page.keyboard.press('Escape');
     await expect(dialog).not.toBeVisible();
     await expect(cookies).toBeFocused();
@@ -58,7 +62,6 @@ test('client navigation from public UI retains exact protected dashboard geometr
   await page.goto(`${origin}/about`);
   await page.getByRole('link', { name: 'Open workspace', exact: true }).click();
   await expect(page.locator('.dashboard-precision-viewport')).toBeVisible();
-  await page.waitForLoadState('networkidle');
-  expect(await signature()).toEqual(before);
+  await expect.poll(signature).toEqual(before);
   await expect(page.locator('[data-elceo-ui]')).toHaveCount(0);
 });
