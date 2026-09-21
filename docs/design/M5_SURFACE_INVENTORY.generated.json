@@ -1,0 +1,1096 @@
+{
+  "generated": "Run node scripts/check-m5-coverage.mjs --write. Never hand-edit.",
+  "authority": "docs/backend-contract/ui-page-inventory.md",
+  "limitation": "File presence is not proof of authored design, backend integration, state coverage or M5 acceptance. Overlay/system evidence remains separately required.",
+  "counts": {
+    "canonicalSurfaces": 91,
+    "durableRoutes": 61,
+    "adminRoutes": 23,
+    "routeFilesPresent": 11
+  },
+  "surfaces": [
+    {
+      "id": "PUB-01",
+      "inventoryCells": [
+        "`/`",
+        "Landing / Home",
+        "EXISTING",
+        "No authenticated API dependency",
+        "ELCEO proposition, product positioning, CTA, product preview and navigation."
+      ],
+      "route": "/",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "PUB-02",
+      "inventoryCells": [
+        "`/pricing`",
+        "Pricing",
+        "EXISTING",
+        "Public presentation; authenticated upgrade action later uses account/billing contracts",
+        "Kick Off / Focus Plan presentation, capability comparison, CTA to signup/login/upgrade."
+      ],
+      "route": "/pricing",
+      "routeFile": "apps/frontend/app/(public)/pricing/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "PUB-03",
+      "inventoryCells": [
+        "`/about`",
+        "About ELCEO",
+        "CREATE / STATIC",
+        "None",
+        "Mission, cognition philosophy, methodology framing, what ELCEO is/is not."
+      ],
+      "route": "/about",
+      "routeFile": "apps/frontend/app/(public)/about/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "PUB-04",
+      "inventoryCells": [
+        "`/faq`",
+        "FAQ",
+        "CREATE / STATIC",
+        "None",
+        "Product, plan, data, billing, intelligence, account and risk questions."
+      ],
+      "route": "/faq",
+      "routeFile": "apps/frontend/app/(public)/faq/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "PUB-05",
+      "inventoryCells": [
+        "`/demo`",
+        "Product Demo",
+        "EXISTING",
+        "Must not imply unavailable production capabilities",
+        "Product experience / controlled demo."
+      ],
+      "route": "/demo",
+      "routeFile": "apps/frontend/app/(public)/demo/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "PUB-06",
+      "inventoryCells": [
+        "`/help`",
+        "Help & Support",
+        "CREATE / STATIC",
+        "No support-ticket API currently frozen",
+        "Help articles, onboarding guidance, contact/support direction. No fake ticket submission."
+      ],
+      "route": "/help",
+      "routeFile": "apps/frontend/app/(public)/help/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "PUB-07",
+      "inventoryCells": [
+        "`/legal/terms`",
+        "Terms of Service",
+        "CREATE / STATIC",
+        "Referenced by onboarding acknowledgement",
+        "Full terms accessible before acceptance."
+      ],
+      "route": "/legal/terms",
+      "routeFile": "apps/frontend/app/(public)/legal/terms/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "PUB-08",
+      "inventoryCells": [
+        "`/legal/privacy`",
+        "Privacy Policy",
+        "CREATE / STATIC",
+        "None",
+        "Privacy/data-processing disclosure."
+      ],
+      "route": "/legal/privacy",
+      "routeFile": "apps/frontend/app/(public)/legal/privacy/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "PUB-09",
+      "inventoryCells": [
+        "`/legal/risk-disclosure`",
+        "Market Intelligence / Risk Disclosure",
+        "CREATE / STATIC",
+        "Referenced by onboarding disclaimer acknowledgement",
+        "Explain decision-support status, limitations and no-guarantee/no-advice framing."
+      ],
+      "route": "/legal/risk-disclosure",
+      "routeFile": "apps/frontend/app/(public)/legal/risk-disclosure/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "AUTH-01",
+      "inventoryCells": [
+        "`/login`",
+        "Login",
+        "EXISTING",
+        "Auth.js `/api/auth/{...nextauth}`",
+        "Google and/or credential login according to runtime availability; authenticating, failure and signed-in states."
+      ],
+      "route": "/login",
+      "routeFile": "apps/frontend/app/(auth)/login/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "AUTH-02",
+      "inventoryCells": [
+        "`/signup`",
+        "Create Account",
+        "CREATE / PARTIAL",
+        "Auth.js Google sign-in can establish application identity; no frozen public credential-registration endpoint",
+        "Dedicated acquisition/signup UX. Google signup supported when configured. Email/password self-registration must not be invented."
+      ],
+      "route": "/signup",
+      "routeFile": "apps/frontend/app/(auth)/signup/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "AUTH-03",
+      "inventoryCells": [
+        "`/forgot-password`",
+        "Forgot Password",
+        "EXISTING",
+        "`POST /api/auth/password-reset/request`",
+        "Email submission, neutral anti-enumeration success, unavailable state when credentials disabled."
+      ],
+      "route": "/forgot-password",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "AUTH-04",
+      "inventoryCells": [
+        "`/reset-password`",
+        "Reset Password",
+        "EXISTING",
+        "Frozen password-reset completion flow",
+        "Token validation, new password, expired/invalid token, completion and return-to-login states."
+      ],
+      "route": "/reset-password",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "AUTH-05",
+      "inventoryCells": [
+        "`/onboarding`",
+        "First-Time Onboarding",
+        "EXISTING",
+        "`POST /api/account/onboarding`",
+        "Five stages: Welcome → Compliance → Assets → Plan → Complete."
+      ],
+      "route": "/onboarding",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "AUTH-06",
+      "inventoryCells": [
+        "—",
+        "Authentication Error State",
+        "OVERLAY / INLINE",
+        "Auth.js",
+        "Provider failure, credentials failure, expired session; normally rendered through login rather than a new permanent route."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "AUTH-07",
+      "inventoryCells": [
+        "—",
+        "Sign Out Confirmation",
+        "OVERLAY",
+        "Auth.js sign-out",
+        "Optional confirmation and secure session termination."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "APP-01",
+      "inventoryCells": [
+        "`/dashboard`",
+        "Market Cognition Dashboard",
+        "EXISTING",
+        "`GET /api/dashboard/{asset}`",
+        "Chart, directional bias, confidence, evidence, annotations, zones, market context, cognition modules."
+      ],
+      "route": "/dashboard",
+      "routeFile": "apps/frontend/app/(app)/dashboard/page.tsx",
+      "evidence": "route-file-present; not acceptance"
+    },
+    {
+      "id": "WKS-01",
+      "inventoryCells": [
+        "`/workspace`",
+        "Workspace Overview",
+        "CREATE",
+        "`GET /api/workspace/current`, freshness projection"
+      ],
+      "route": "/workspace",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "WKS-02",
+      "inventoryCells": [
+        "`/workspace/agenda`",
+        "Market Agenda",
+        "CREATE",
+        "`GET /api/workspace/agenda`"
+      ],
+      "route": "/workspace/agenda",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "WKS-03",
+      "inventoryCells": [
+        "`/workspace/history`",
+        "Workspace History",
+        "CREATE",
+        "`GET /api/workspace/history`"
+      ],
+      "route": "/workspace/history",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "WKS-04",
+      "inventoryCells": [
+        "—",
+        "Workspace Freshness Detail",
+        "OVERLAY",
+        "`GET /api/workspace/freshness`"
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "WKS-05",
+      "inventoryCells": [
+        "—",
+        "Workspace Refresh Progress",
+        "OVERLAY",
+        "`POST /api/workspace/refresh`"
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "JRN-01",
+      "inventoryCells": [
+        "`/journal`",
+        "Journal Overview / Cases",
+        "EXISTING",
+        "`GET /api/journal/cases`"
+      ],
+      "route": "/journal",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "JRN-02",
+      "inventoryCells": [
+        "`/journal/new`",
+        "Create Journal Case",
+        "CREATE",
+        "`POST /api/journal/cases`"
+      ],
+      "route": "/journal/new",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "JRN-03",
+      "inventoryCells": [
+        "`/journal/[caseId]`",
+        "Journal Case Detail",
+        "CREATE",
+        "Case-scoped journal read contract"
+      ],
+      "route": "/journal/[caseId]",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "JRN-04",
+      "inventoryCells": [
+        "`/journal/analytics`",
+        "Journal Analytics",
+        "CREATE",
+        "`/api/journal/analytics/**`"
+      ],
+      "route": "/journal/analytics",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "JRN-05",
+      "inventoryCells": [
+        "`/journal/influence`",
+        "Journal Influence / Deep Analysis",
+        "CREATE",
+        "`GET /api/journal/influence/latest`, `POST /api/journal/influence/generate`"
+      ],
+      "route": "/journal/influence",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "PTF-01",
+      "inventoryCells": [
+        "`/portfolio`",
+        "Portfolio Overview",
+        "EXISTING",
+        "`/api/portfolio/snapshot`, `/api/portfolio/attention`"
+      ],
+      "route": "/portfolio",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "PTF-02",
+      "inventoryCells": [
+        "`/portfolio/watchlist`",
+        "Portfolio Watchlist",
+        "CREATE",
+        "`/api/portfolio/watchlist/**`"
+      ],
+      "route": "/portfolio/watchlist",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "PTF-03",
+      "inventoryCells": [
+        "`/portfolio/positions`",
+        "Positions",
+        "CREATE",
+        "`/api/portfolio/positions/**`"
+      ],
+      "route": "/portfolio/positions",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "PTF-04",
+      "inventoryCells": [
+        "`/portfolio/actions`",
+        "Action Queue",
+        "CREATE",
+        "`/api/portfolio/actions/**`"
+      ],
+      "route": "/portfolio/actions",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ANL-01",
+      "inventoryCells": [
+        "`/analytics`",
+        "Trading / Behaviour Analytics",
+        "EXISTING",
+        "`GET /api/analytics/latest`, `POST /api/analytics/generate`, `/top-behaviors`, `/top-setups`"
+      ],
+      "route": "/analytics",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "COA-01",
+      "inventoryCells": [
+        "`/coaching`",
+        "Coaching Workspace",
+        "CREATE",
+        "`/api/coaching/latest`, `/generate`, `/focus`, `/action-plan`"
+      ],
+      "route": "/coaching",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "NTF-01",
+      "inventoryCells": [
+        "`/notifications`",
+        "Notification Centre / Inbox",
+        "CREATE",
+        "`GET /api/notifications/summary`, `GET /api/notifications/inbox`"
+      ],
+      "route": "/notifications",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SET-01",
+      "inventoryCells": [
+        "`/settings`",
+        "Settings Hub",
+        "EXISTING / RESTRUCTURE",
+        "Aggregated navigation/status"
+      ],
+      "route": "/settings",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SET-02",
+      "inventoryCells": [
+        "`/settings/profile`",
+        "Profile & Identity",
+        "CREATE",
+        "Auth.js session + account state + `/api/account/profile/social-identifiers`"
+      ],
+      "route": "/settings/profile",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SET-03",
+      "inventoryCells": [
+        "`/settings/assets`",
+        "Tracked Markets / Asset Preferences",
+        "CREATE",
+        "`/api/account/watchlist`"
+      ],
+      "route": "/settings/assets",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SET-04",
+      "inventoryCells": [
+        "`/settings/preferences`",
+        "Appearance & Experience",
+        "CREATE",
+        "`/api/account/preferences`"
+      ],
+      "route": "/settings/preferences",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SET-05",
+      "inventoryCells": [
+        "`/settings/notifications`",
+        "Notification Preferences & Delivery",
+        "CREATE",
+        "notification targets, subscriptions, verification, health + account preferences where applicable"
+      ],
+      "route": "/settings/notifications",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SET-06",
+      "inventoryCells": [
+        "`/settings/billing`",
+        "Plan & Billing",
+        "CREATE",
+        "`/api/account/billing`, account billing events/policy state, `/api/billing/intention`, checkout, portal"
+      ],
+      "route": "/settings/billing",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SET-07",
+      "inventoryCells": [
+        "`/settings/access`",
+        "Plan Access, Entitlements & Usage",
+        "CREATE",
+        "`/api/account/entitlements`, `/usage`, `/access-decisions`, `/access-check`"
+      ],
+      "route": "/settings/access",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SET-08",
+      "inventoryCells": [
+        "`/settings/security`",
+        "Account Security",
+        "CREATE / PARTIAL",
+        "Auth.js session + password recovery entry points; see contract limitation below"
+      ],
+      "route": "/settings/security",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-01",
+      "inventoryCells": [
+        "Profile / Account Drawer",
+        "OVERLAY",
+        "Auth.js session + account entitlements/billing/state"
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-02",
+      "inventoryCells": [
+        "Notification Popover",
+        "`/api/notifications/summary`, inbox preview",
+        "Header bell/unread indicator."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-03",
+      "inventoryCells": [
+        "Asset Selector",
+        "`/api/account/watchlist` + dashboard asset GET",
+        "Change dashboard market context."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-04",
+      "inventoryCells": [
+        "Evidence Detail Drawer",
+        "Dashboard-projected evidence",
+        "Inspect evidence without recalculating it."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-05",
+      "inventoryCells": [
+        "Confidence Detail Drawer",
+        "Dashboard cognition projection",
+        "Confidence anatomy/cautions."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-06",
+      "inventoryCells": [
+        "Freshness / Refresh Drawer",
+        "`/api/refresh/latest`, `/freshness`, `/history`, `/run`",
+        "Global data freshness and explicit refresh lifecycle."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-07",
+      "inventoryCells": [
+        "Paywall / Entitlement Drawer",
+        "Account entitlements/access decisions",
+        "Explain blocked premium capability and route to pricing/billing."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-08",
+      "inventoryCells": [
+        "Journal Lifecycle Dialog",
+        "Journal case mutation routes",
+        "Plan/execute/adjust/close/etc."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-09",
+      "inventoryCells": [
+        "Portfolio Entity Replay Drawer",
+        "`/api/portfolio/replay`",
+        "Entity event/history replay."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-10",
+      "inventoryCells": [
+        "Notification Target Dialog",
+        "targets/subscriptions",
+        "Add/edit delivery destination."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-11",
+      "inventoryCells": [
+        "Notification Verification Dialog",
+        "verification issue/consume",
+        "Challenge/verification lifecycle."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-12",
+      "inventoryCells": [
+        "Checkout / Payment Processing State",
+        "billing APIs",
+        "Processing/unknown/reconciling/failed states."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-13",
+      "inventoryCells": [
+        "Admin Step-Up Challenge",
+        "admin security step-up family",
+        "High-risk super-admin mutations."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-14",
+      "inventoryCells": [
+        "Session Expired",
+        "Auth.js / 401",
+        "Explain expiry and redirect to login."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-15",
+      "inventoryCells": [
+        "Conflict / Safe-Retry Dialog",
+        "mutation/security/idempotency contract",
+        "Prevent duplicate writes on ambiguous network result."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "OVL-16",
+      "inventoryCells": [
+        "Degraded-Service Banner",
+        "server-provided readiness/503 states",
+        "Preserve honest degraded-state UX."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ADM-01",
+      "inventoryCells": [
+        "`/admin`",
+        "Admin Overview",
+        "EXISTING / REBUILD",
+        "`/api/admin/system-summary`"
+      ],
+      "route": "/admin",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ADM-02",
+      "inventoryCells": [
+        "`/admin/freshness`",
+        "Data Freshness",
+        "CREATE",
+        "`/api/admin/freshness`"
+      ],
+      "route": "/admin/freshness",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ADM-03",
+      "inventoryCells": [
+        "`/admin/operations`",
+        "Runtime / Operations",
+        "CREATE",
+        "`/api/admin/ops`"
+      ],
+      "route": "/admin/operations",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ADM-04",
+      "inventoryCells": [
+        "`/admin/providers`",
+        "Provider Capability / Health",
+        "CREATE",
+        "`/api/admin/providers`"
+      ],
+      "route": "/admin/providers",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ADM-05",
+      "inventoryCells": [
+        "`/admin/audit`",
+        "Audit Timeline",
+        "CREATE",
+        "`/api/admin/audit`"
+      ],
+      "route": "/admin/audit",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ABL-01",
+      "inventoryCells": [
+        "`/admin/billing`",
+        "Billing Control Overview",
+        "CREATE",
+        "Aggregated admin billing surfaces"
+      ],
+      "route": "/admin/billing",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ABL-02",
+      "inventoryCells": [
+        "`/admin/billing/operations`",
+        "Payment Operations",
+        "CREATE",
+        "summary, failures, retry candidates, subject snapshots"
+      ],
+      "route": "/admin/billing/operations",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ABL-03",
+      "inventoryCells": [
+        "`/admin/billing/orchestration`",
+        "Billing Orchestration",
+        "CREATE",
+        "latest/runs/subject orchestration"
+      ],
+      "route": "/admin/billing/orchestration",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ABL-04",
+      "inventoryCells": [
+        "`/admin/billing/policy`",
+        "Billing Policy / Transition History",
+        "CREATE",
+        "admin policy read surfaces"
+      ],
+      "route": "/admin/billing/policy",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ABL-05",
+      "inventoryCells": [
+        "`/admin/billing/provider-events`",
+        "Provider Event Inspection",
+        "CREATE",
+        "provider-event admin routes"
+      ],
+      "route": "/admin/billing/provider-events",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ABL-06",
+      "inventoryCells": [
+        "`/admin/billing/provider-mappings`",
+        "Provider Plan Mapping",
+        "CREATE",
+        "provider plan mappings"
+      ],
+      "route": "/admin/billing/provider-mappings",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ACM-01",
+      "inventoryCells": [
+        "`/admin/entitlements`",
+        "Entitlement Operations",
+        "CREATE",
+        "`/api/admin/entitlements/**`"
+      ],
+      "route": "/admin/entitlements",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ACM-02",
+      "inventoryCells": [
+        "`/admin/commercial`",
+        "Commercial Overview / Metrics",
+        "CREATE",
+        "`/api/admin/commercial/metrics`"
+      ],
+      "route": "/admin/commercial",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ACM-03",
+      "inventoryCells": [
+        "`/admin/commercial/prices`",
+        "Commercial Prices",
+        "CREATE",
+        "`/api/admin/commercial/prices`"
+      ],
+      "route": "/admin/commercial/prices",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ACM-04",
+      "inventoryCells": [
+        "`/admin/commercial/users`",
+        "Commercial User Search/List",
+        "CREATE",
+        "`/api/admin/commercial/users/**`"
+      ],
+      "route": "/admin/commercial/users",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "ACM-05",
+      "inventoryCells": [
+        "`/admin/commercial/users/[userId]`",
+        "User Commercial Control",
+        "CREATE",
+        "user commercial read/mutations + super-admin step-up"
+      ],
+      "route": "/admin/commercial/users/[userId]",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "AME-01",
+      "inventoryCells": [
+        "`/admin/market-evidence`",
+        "Evidence Operations Overview",
+        "CREATE",
+        "Aggregate market-evidence admin reads"
+      ],
+      "route": "/admin/market-evidence",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "AME-02",
+      "inventoryCells": [
+        "`/admin/market-evidence/payloads`",
+        "Evidence Payload Explorer",
+        "CREATE",
+        "payloads + provider request/response"
+      ],
+      "route": "/admin/market-evidence/payloads",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "AME-03",
+      "inventoryCells": [
+        "`/admin/market-evidence/quality`",
+        "Evidence Quality",
+        "CREATE",
+        "quality + weighted evidence"
+      ],
+      "route": "/admin/market-evidence/quality",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "AME-04",
+      "inventoryCells": [
+        "`/admin/market-evidence/cognition`",
+        "Cognition Inspection",
+        "CREATE",
+        "cognition + reasoning-input"
+      ],
+      "route": "/admin/market-evidence/cognition",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "AME-05",
+      "inventoryCells": [
+        "`/admin/market-evidence/inspection`",
+        "Operator Inspection",
+        "CREATE",
+        "inspection route"
+      ],
+      "route": "/admin/market-evidence/inspection",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "AME-06",
+      "inventoryCells": [
+        "`/admin/market-evidence/scheduled-ingestion`",
+        "Scheduled Ingestion",
+        "CREATE",
+        "policies, runs, dry-run/replay where authorized"
+      ],
+      "route": "/admin/market-evidence/scheduled-ingestion",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SEO-01",
+      "inventoryCells": [
+        "`/admin/seo`",
+        "SEO Feed / Sitemap Administration",
+        "CREATE",
+        "`/api/admin/seo/**`"
+      ],
+      "route": "/admin/seo",
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SYS-01",
+      "inventoryCells": [
+        "`not-found` / 404",
+        "EXISTING",
+        "Unknown URL/resource experience."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SYS-02",
+      "inventoryCells": [
+        "Global error boundary",
+        "EXISTING",
+        "Unexpected application failure boundary."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SYS-03",
+      "inventoryCells": [
+        "Route/page loading states",
+        "CREATE/POLISH",
+        "Skeleton states appropriate to each surface."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SYS-04",
+      "inventoryCells": [
+        "Unauthorized state",
+        "GLOBAL",
+        "401 → authentication flow."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SYS-05",
+      "inventoryCells": [
+        "Forbidden/entitlement-denied state",
+        "GLOBAL",
+        "Distinguish authentication from authorization/plan denial."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SYS-06",
+      "inventoryCells": [
+        "429 rate-limit state",
+        "GLOBAL",
+        "Backoff/retry guidance."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SYS-07",
+      "inventoryCells": [
+        "503/dependency-unavailable state",
+        "GLOBAL",
+        "Honest degraded/unavailable presentation."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SYS-08",
+      "inventoryCells": [
+        "Offline/network-loss state",
+        "GLOBAL",
+        "Preserve ambiguous-write safety."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SYS-09",
+      "inventoryCells": [
+        "Empty-state framework",
+        "GLOBAL",
+        "First-use/no-data handling per domain."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    },
+    {
+      "id": "SYS-10",
+      "inventoryCells": [
+        "Stale/degraded-data state",
+        "GLOBAL",
+        "Do not present stale intelligence as current."
+      ],
+      "route": null,
+      "routeFile": null,
+      "evidence": "implementation evidence pending"
+    }
+  ]
+}

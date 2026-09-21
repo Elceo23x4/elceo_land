@@ -52,8 +52,9 @@ test('missing provider and invalid CSRF fail safely without submitting', async (
 test('callback injection is rejected and provider errors are not reflected verbatim', async ({ page }) => {
   await page.goto(`${origin}/login?callbackUrl=https://external.invalid/&error=UNTRUSTED_ERROR_TEXT`);
   await expect(page.locator('input[name=callbackUrl]')).toHaveValue('/dashboard');
-  await expect(page.getByRole('alert')).toContainText('Sign-in could not be completed');
-  await expect(page.getByRole('alert')).not.toContainText('UNTRUSTED_ERROR_TEXT');
+  const entryError = page.getByRole('region', { name: 'Sign in to ELCEO' }).getByRole('alert');
+  await expect(entryError).toContainText('Sign-in could not be completed');
+  await expect(entryError).not.toContainText('UNTRUSTED_ERROR_TEXT');
 });
 
 test('signed-in presentation comes from canonical session resolution', async ({ page, context }) => {

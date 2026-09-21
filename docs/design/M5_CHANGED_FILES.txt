@@ -35,6 +35,8 @@ docs/design/M5_CHANGED_FILES.txt
 docs/design/M5_CONTRACT_GAPS.md
 docs/design/M5_REVIEW_REPORT.md
 docs/design/M5_ROUTE_COVERAGE.md
+docs/design/M5_SURFACE_INVENTORY.generated.json
+scripts/check-m5-coverage.mjs
 scripts/m1-foundation.test.mjs
 scripts/m5-boundaries.test.mjs
 scripts/m5-boundary-lib.mjs

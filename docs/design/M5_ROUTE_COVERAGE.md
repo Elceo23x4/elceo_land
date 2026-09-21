@@ -2,6 +2,8 @@
 
 Source: frozen `docs/backend-contract/ui-page-inventory.md`. A route listed below is not final acceptance until its visual, responsive, accessibility and integration evidence is complete.
 
+`M5_SURFACE_INVENTORY.generated.json` mechanically enumerates every canonical ID and durable route, retains each source row, and maps actual Next route files. Regenerate with `node scripts/check-m5-coverage.mjs --write`; CI checks drift with `node scripts/check-m5-coverage.mjs`. This proves inventory/file coverage only, not complete UI or behavioral acceptance. Missing overlays and system states stay explicitly pending.
+
 | Inventory surface | Current implementation | State / backend owner | Authority and rendering |
 |---|---|---|---|
 | PUB-02 `/pricing` | Two authored plan perspectives; price publication explicitly unavailable | Static supported capabilities only; no checkout or entitlement inference | Frozen integration map dashboard projections; server-rendered |
