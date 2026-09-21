@@ -139,9 +139,11 @@ async function exerciseDashboard(page: Page) {
   await biasPanel.getByRole('tab', { name: 'Scenario', exact: true }).click();
   await expect(biasPanel.getByRole('tab', { name: 'Scenario', exact: true })).toHaveAttribute('aria-selected', 'true');
 
-  const alertButton = biasPanel.getByRole('button', { name: /^Arm panel alert:/u });
+  const alertButton = biasPanel.locator('.dashboard-panel-alert-button');
+  await expect(alertButton).toHaveAccessibleName(/^Arm panel alert:/u);
   await alertButton.click();
   await expect(alertButton).toHaveAttribute('aria-pressed', 'true');
+  await expect(alertButton).toHaveAccessibleName(/^Turn off panel alert:/u);
 
   await biasPanel.getByRole('button', { name: 'Enlarge panel' }).click();
   await expect(biasPanel).toHaveClass(/\bis-expanded\b/u);
