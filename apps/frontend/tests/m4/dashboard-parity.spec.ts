@@ -53,8 +53,8 @@ async function compareViewport(
     expect(vite.browserErrors, `${label} Vite browser errors`).toEqual([]);
     expect(next.browserErrors, `${label} Next browser errors`).toEqual([]);
 
-    const vitePanels = await vite.page.locator('.dashboard-precision-panel-frame').count();
-    const nextPanels = await next.page.locator('.dashboard-precision-panel-frame').count();
+    const vitePanels = await vite.page.locator('.dashboard-panel-group').count();
+    const nextPanels = await next.page.locator('.dashboard-panel-group').count();
     expect(nextPanels).toBe(vitePanels);
     expect(nextPanels).toBeGreaterThan(0);
 

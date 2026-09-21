@@ -1,6 +1,7 @@
 import { defineConfig } from '@playwright/test';
 export default defineConfig({
  testDir: './tests',
+ testMatch: 'shell.spec.ts',
  use: { baseURL: 'http://127.0.0.1:3101' },
  webServer: {
   command: 'npm run start -- --hostname 127.0.0.1 --port 3101',
