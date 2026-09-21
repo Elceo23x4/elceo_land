@@ -257,7 +257,7 @@ test('Next preserves accepted dashboard interaction and keyboard state transitio
       alertPressed: 'true',
       expanded: false,
       dialogCount: 0,
-      activeAssetVisible: true,
+      activeAssetVisible: false,
     });
   } finally {
     await vite.context.close();
