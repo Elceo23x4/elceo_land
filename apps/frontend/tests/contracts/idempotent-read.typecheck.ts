@@ -14,11 +14,11 @@ browser.read('GET /api/journal/cases', {
   idempotency: { key: 'journal-list-read' },
 });
 
-// @ts-expect-error The frozen route policy requires idempotency for this GET operation.
+// @ts-expect-error The frozen route projection requires idempotency for this mixed-route GET operation.
 browser.read('GET /api/journal/cases', {});
 
 // @ts-expect-error Idempotency-Key is controlled by idempotency context, not caller headers.
-browser.read('GET /api/journal/cases', {
-  headers: { 'Idempotency-Key': 'bypass' },
-  idempotency: { key: 'journal-list-read' },
-});
+browser.read('GET /api/journal/cases', { headers: { 'Idempotency-Key': 'bypass' }, idempotency: { key: 'journal-list-read' } });
+
+// @ts-expect-error HTTP GET operations remain read() calls even when route-file policy carries mutation risk.
+browser.mutate('GET /api/journal/cases', { idempotency: { key: 'journal-list-read' } });
