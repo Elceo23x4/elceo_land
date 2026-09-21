@@ -1,0 +1,30 @@
+{
+  "clients": [
+    {
+      "path": "apps/frontend/app/(app)/dashboard/error.tsx",
+      "purpose": "Next error boundary retry interaction inherited from M4.",
+      "authority": "Renders error recovery only; canonical session and access remain server-owned."
+    },
+    {
+      "path": "apps/frontend/app/m1-proof/M2BrowserClientProof.tsx",
+      "purpose": "Inherited noindex engineering proof of the same-origin typed browser client.",
+      "authority": "Only the generated browser operation partition is callable."
+    },
+    {
+      "path": "apps/frontend/components/primitives/ScopedPortal.tsx",
+      "purpose": "Browser portal mounting with protected dashboard typography inheritance.",
+      "authority": "Presentation only; no session or backend authority."
+    },
+    {
+      "path": "apps/frontend/features/dashboard/DashboardParityClient.tsx",
+      "purpose": "Narrow M4 browser-only dashboard parity bridge.",
+      "authority": "Preserves accepted fixture presentation; never derives production cognition or access."
+    },
+    {
+      "path": "apps/frontend/lib/api/authenticated-browser.ts",
+      "purpose": "Inherited typed same-origin browser transport binding.",
+      "authority": "Opaque cookies and upstream credentials remain exclusively in the canonical server relay."
+    }
+  ],
+  "landingMotionOwners": []
+}
