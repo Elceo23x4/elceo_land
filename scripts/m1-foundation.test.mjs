@@ -35,8 +35,14 @@ test('candidate keeps reviewed client ownership and only reviewed frontend media
  assert.match(read('apps/frontend/lib/auth/server.ts'),/import 'server-only'/);
  assert.doesNotMatch(read('apps/frontend/app/layout.tsx'),/src\/|providers|use client/);
 });
-test('production browser bundles contain no internal authority or landing-only runtime', () => {
+test('production browser bundles contain no internal authority', () => {
  const files=walk('apps/frontend/.next/static').filter(p=>p.endsWith('.js'));
  assert.ok(files.length);
- for (const p of files) assert.doesNotMatch(read(p),/x-elceo-internal-token|ELCEO_INTERNAL_TOKEN|M1_SECRET_SENTINEL|ScrollTrigger/,p);
+ for (const p of files) assert.doesNotMatch(read(p),/x-elceo-internal-token|ELCEO_INTERNAL_TOKEN|M1_SECRET_SENTINEL/,p);
+});
+test('dashboard migration sources contain no landing-only ScrollTrigger plugin import', () => {
+ const files=[...walk('apps/frontend'),...walk('src/dashboard')]
+  .filter(p=>/\.[cm]?[jt]sx?$/.test(p)&&!p.includes('/.next/')&&!p.includes('/node_modules/'));
+ const pluginImport=/\bfrom\s*["']gsap\/(?:dist\/)?ScrollTrigger(?:\.js)?["']|\bimport\s*["']gsap\/(?:dist\/)?ScrollTrigger(?:\.js)?["']|\bScrollTrigger\b[\s\S]{0,120}\bfrom\s*["']gsap(?:\/all)?["']/u;
+ for (const p of files) assert.doesNotMatch(read(p),pluginImport,p);
 });
