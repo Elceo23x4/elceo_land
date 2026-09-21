@@ -1,4 +1,7 @@
 .github/workflows/m5-production-ui.yml
+apps/frontend/app/(auth)/layout.tsx
+apps/frontend/app/(auth)/login/page.tsx
+apps/frontend/app/(auth)/signup/page.tsx
 apps/frontend/app/(public)/about/page.tsx
 apps/frontend/app/(public)/demo/page.tsx
 apps/frontend/app/(public)/faq/page.tsx
@@ -19,8 +22,13 @@ apps/frontend/components/public/LegalDocument.tsx
 apps/frontend/components/public/Plans.module.css
 apps/frontend/components/public/PublicChrome.module.css
 apps/frontend/components/public/PublicChrome.tsx
+apps/frontend/features/account-entry/AccountEntry.module.css
+apps/frontend/features/account-entry/AccountEntry.tsx
+apps/frontend/features/account-entry/GoogleEntry.tsx
 apps/frontend/playwright.m5.config.ts
+apps/frontend/tests/m5/account-entry.spec.ts
 apps/frontend/tests/m5/public-foundation.spec.ts
+apps/frontend/tests/shell.spec.ts
 docs/design/M5_ASSET_PROVENANCE.md
 docs/design/M5_BOUNDARIES.json
 docs/design/M5_CHANGED_FILES.txt
@@ -30,3 +38,4 @@ docs/design/M5_ROUTE_COVERAGE.md
 scripts/m1-foundation.test.mjs
 scripts/m5-boundaries.test.mjs
 scripts/m5-boundary-lib.mjs
+scripts/m5-mock-auth-server.mjs

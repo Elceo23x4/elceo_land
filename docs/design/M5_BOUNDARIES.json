@@ -1,6 +1,11 @@
 {
   "clients": [
     {
+      "path": "apps/frontend/features/account-entry/GoogleEntry.tsx",
+      "purpose": "Google entry interaction: verify public provider availability, obtain canonical CSRF challenge and submit the existing same-origin sign-in form.",
+      "authority": "No session minting, identity decisions, credential storage, cookie inspection or backend origin. Canonical M3 relay owns provider redirects and opaque cookies. Callback path is sanitized by the server parent."
+    },
+    {
       "path": "apps/frontend/components/primitives/Modal.tsx",
       "purpose": "Native top-layer dialog opening, dismissal and focus restoration for public cookie information and later reviewed dialogs.",
       "authority": "Presentation only; no cookies, storage, sessions, credentials or backend decisions are read or written."
