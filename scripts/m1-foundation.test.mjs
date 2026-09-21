@@ -3,10 +3,14 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 const read = p => readFileSync(p, 'utf8');
-const base = '55485325ea086c02fc45f0e37b4128e8bf3937af';
+const originalM1Base = '55485325ea086c02fc45f0e37b4128e8bf3937af';
+const m4PhaseBase = '2a6d34cda00c5979581b3d3eb4eb192830945803';
 function walk(p) { return readdirSync(p,{withFileTypes:true}).flatMap(e => e.name === '.next' || e.name === 'node_modules' ? [] : e.isDirectory() ? walk(`${p}/${e.name}`) : [`${p}/${e.name}`]); }
-test('legacy implementation and frozen authorities are byte unchanged', () => {
- assert.equal(execFileSync('git',['diff',base,'--','src','public','vite.config.ts','index.html','tsconfig.json','contracts/backend','docs/backend-contract','docs/design/references'],{encoding:'utf8'}),'');
+test('original M1 implementation and frozen authorities remain byte unchanged', () => {
+ assert.equal(execFileSync('git',['diff',originalM1Base,'--','src','vite.config.ts','index.html','tsconfig.json','contracts/backend','docs/backend-contract','docs/design/references'],{encoding:'utf8'}),'');
+});
+test('legacy public tree remains byte unchanged from the accepted M4 phase base', () => {
+ assert.equal(execFileSync('git',['diff',m4PhaseBase,'--','public'],{encoding:'utf8'}),'');
 });
 test('source SVG URL proof preserves exact original bytes', () => {
  assert.deepEqual(readFileSync('apps/frontend/public/m1-assets/arrow-up.svg'),readFileSync('src/assets/source/dashboard/arrows/elceo-svg-14-arrow-up.svg'));

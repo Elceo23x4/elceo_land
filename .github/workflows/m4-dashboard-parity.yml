@@ -1,0 +1,54 @@
+name: M4 Dashboard Parity
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Verify frozen generated contracts
+        run: npm run check:m2-contracts
+      - name: Typecheck Next candidate
+        run: npm run typecheck:next
+      - name: Build legacy Vite parity oracle
+        run: npm run build:vite
+      - name: Build Next candidate
+        run: npm run build:next
+      - name: Verify M4 static migration boundaries
+        run: npm run test:m4
+      - name: Re-run accepted M2 boundaries
+        run: npm run test:m2 && npm run check:m2-browser-bundles
+      - name: Re-run accepted M3 boundaries
+        run: npm run test:m3 && npm run check:m3-browser-bundles
+      - name: Re-run accepted M1 boundaries
+        run: npm run test:m1
+      - name: Install Chromium
+        working-directory: apps/frontend
+        run: npx playwright install --with-deps chromium
+      - name: Compare Vite and Next dashboard parity
+        working-directory: apps/frontend
+        run: npx playwright test --config=playwright.m4.config.ts
+      - name: Verify frozen backend snapshot and UI authority
+        run: npm run verify:backend-handoff && npm run check:ui-foundation
+      - name: Upload M4 parity evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m4-dashboard-parity-${{ github.run_id }}
+          path: apps/frontend/test-results
+          if-no-files-found: ignore
+          retention-days: 14
