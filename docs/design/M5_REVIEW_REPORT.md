@@ -1,6 +1,6 @@
 # M5 Production UI — Review report
 
-Status: in progress; not accepted. This initial checkpoint changes gates only. No production UI, auth topology, API mediation, dashboard source/assets, backend snapshot or deployment configuration changed.
+Status: in progress; not accepted. The gate-only repair is complete and its inherited baseline is green. M5 public presentation implementation is underway. Auth topology, API mediation, dashboard source/assets, backend snapshot and deployment configuration remain unchanged.
 
 ## Authorized evolution of inherited phase assumptions
 
@@ -62,3 +62,21 @@ Remaining M5 scope includes landing, pricing/demo/legal content, auth/onboarding
 ### First presentation CI findings
 
 On `d43d3ab9ce11554261bcf92a0ab0890823949859`, all six inherited workflows passed, including unchanged M4 empirical parity. M5 run `35571280351` found native dialog Tab traversal could leave its controls at every width; an explicit bidirectional focus wrap was added and the original containment assertions retained/extended to Shift+Tab. The navigation test reached the dashboard but timed out waiting for network idleness; it now polls the exact geometry/font signature rather than unrelated network silence. The comparison itself remains unchanged. These M5 fixes require a fresh CI rerun before the checkpoint is accepted.
+
+### Corrected first-presentation head — green
+
+Head `3edbd450663ca8c8462edfc148ad9d0b77466584` passed all seven workflows:
+
+- [M5 Production UI](https://github.com/Elceo23x4/elceo_land/actions/runs/35571701436): all ten presentation tests passed, including keyboard focus containment/restoration at nine widths and exact dashboard geometry/font signature after public-to-dashboard navigation.
+- [M4 Dashboard Parity](https://github.com/Elceo23x4/elceo_land/actions/runs/35571701487): unchanged inherited parity harness passed.
+- [M1 Next Candidate](https://github.com/Elceo23x4/elceo_land/actions/runs/35571701521), [M2 Frozen Contract Layer](https://github.com/Elceo23x4/elceo_land/actions/runs/35571701459), [M3 Canonical Session Topology](https://github.com/Elceo23x4/elceo_land/actions/runs/35571701376), [UI Foundation Integrity](https://github.com/Elceo23x4/elceo_land/actions/runs/35571701405), and [Frontend Production Build](https://github.com/Elceo23x4/elceo_land/actions/runs/35571701453): passed.
+
+The [M5 presentation artifact](https://github.com/Elceo23x4/elceo_land/actions/runs/35571701436/artifacts/10625993346) contains browser evidence. Downloading its temporary file reference locally returns HTTP 403; the screenshots have not yet been visually inspected. Automated success does not establish visual acceptance.
+
+### Public reading expansion — pending verification
+
+PUB-02 pricing now presents only the separate Kick Off / Focus Plan dashboard capabilities documented in the frozen `frontend-integration-map.md`, “Dashboard DTO expectations.” No amount, discount, asset quota, checkout action or entitlement inference is added. Current pricing is explicitly unpublished here. PUB-05 demo is an explicitly illustrative, non-numeric market-review exercise with keyboard-native questions; it is not a fabricated live dashboard or generated intelligence.
+
+PUB-07–09 legal routes use a shared accessible document structure, anchor navigation and related-document links. Product/risk statements are limited to the constitution, editorial standard, legal UX matrix, frozen auth and state-ownership evidence. Complete approved Terms/Privacy copy was not found in the frontend or pinned handoff/source search. Publication status is visible; no effective date, legal entity, jurisdiction, retention promise, rights promise, contractual obligation or policy-version identifier is invented. Full legal publication remains a production acceptance dependency. Reading a document records no acknowledgement.
+
+All five new pages are server components with code-native typography/rules and native disclosures. No new client module, global style, request, persistence or provider is introduced. Their essential reading/navigation survives every width; typographic proportions adapt without motion. React best-practice review confirms direct imports, no client data waterfall, no effect/state overhead and no new browser dependency. M5 browser coverage now exercises all eight implemented public routes at nine widths, plus anchor targets, explicit publication/price limitations and demonstration disclosure. Landing and the other M5 families remain outstanding.
