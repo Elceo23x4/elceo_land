@@ -30,10 +30,31 @@ Local gate-only checkpoint, Node 22.23.2:
 | `check:ui-foundation`, `check:reference`, `test:foundation` | Pass; original PNG fully decoded and all three integrity rejection tests pass |
 | `verify:backend-handoff` | Pass; all 28 pinned source paths/blob identities/byte counts/local hashes verified |
 | M2/M3 production browser scans | Pass |
-| M1 browser and full M4 visual/interaction/responsive/reduced-motion/memory harness | Pending; local Playwright browser download timed out. Existing unchanged CI harness is required before substantial M5 implementation. |
+| M1 browser and full M4 visual/interaction/responsive/reduced-motion/memory harness | Pass in unchanged CI harness: both M1 projects and 5/5 M4 tests. Local Chromium download timed out; CI installed the exact locked browser successfully. |
 
-No baseline pass is claimed until the browser gates complete. Current application sources and accepted authorities are byte unchanged. Production builds and static checks are not substitutes for M4 empirical browser parity.
+### Exact gate-only head: inherited baseline green
+
+PR #62 head `f5281906e20aff6cf1086c6376fe11dd3801f01e` / tree `b75234c742212447f6fe2ca4a2036189bc2ef435`:
+
+- [M1 Next Candidate 35570154454](https://github.com/Elceo23x4/elceo_land/actions/runs/35570154454): build/typecheck, 16 static/boundary tests and both browser projects passed.
+- [M2 Frozen Contract Layer 35570154496](https://github.com/Elceo23x4/elceo_land/actions/runs/35570154496): passed.
+- [M3 Canonical Session Topology 35570154417](https://github.com/Elceo23x4/elceo_land/actions/runs/35570154417): passed.
+- [M4 Dashboard Parity 35570154421](https://github.com/Elceo23x4/elceo_land/actions/runs/35570154421): all inherited gates and 5/5 empirical tests passed in 53.7 seconds; frozen snapshot and PNG verified afterward. Desktop changed-pixel ratio 0.00435494; mobile/reduced-motion 0.00848220, within unchanged accepted thresholds. [Seven evidence files](https://github.com/Elceo23x4/elceo_land/actions/runs/35570154421/artifacts/10625552825) include the original harness captures/resource evidence.
+- [UI Foundation Integrity 35570154410](https://github.com/Elceo23x4/elceo_land/actions/runs/35570154410): passed.
+- [Frontend Production Build 35570154409](https://github.com/Elceo23x4/elceo_land/actions/runs/35570154409): passed.
+
+At this checkpoint application sources and accepted authorities remain byte unchanged. The narrow gate task is complete; subsequent M5 implementation must continue to satisfy these protections. This is not final M5 acceptance.
 
 ## Further phase-topology observation
 
 The inherited M1 `shell.spec.ts` currently expects `/` and `/login` to return 404 because those pages did not exist in M1–M4. It remains unchanged for this gate-only checkpoint. When those authorized M5 pages are actually implemented, that expectation must become explicit successful-public-route assertions while retaining `/api/session` as absent, protected unconfigured routes as 503, the noindex engineering fixture, source-SVG proof and portal typography isolation. This is a phase-topology change, not authorization to alter auth/session semantics.
+
+## First M5 presentation checkpoint — in progress
+
+After the inherited baseline passed, implementation began with scoped public navigation/footer, self-hosted licensed typography, a registered native modal boundary and authored About, FAQ and Help pages. They consume no backend data and perform no mutations. FAQ/mobile navigation use native disclosures. Cookie information reflects necessary-only operation and fabricates no optional category or saved choice.
+
+The public surface owns its font and CSS variables. The conditional body margin/background rule applies only while that surface exists. Root layout, application layouts, dashboard source/assets and APIs remain unchanged. New M5 browser tests cover nine widths, native disclosure, keyboard dialog focus containment/restoration, mobile targets, screenshots and client-navigation isolation of dashboard geometry/typography.
+
+Next production build, typecheck and inherited M1–M4 static/runtime gates pass locally with these first public surfaces. New browser/visual evidence is pending CI. The cloud browser reports `ERR_BLOCKED_BY_CLIENT` for the local preview; no visual parity or finished-design claim is made from source inspection. React best-practice review preserves server-rendered pages, static data hoisting, one narrow ref-based dialog client and no data waterfalls or unnecessary client providers.
+
+Remaining M5 scope includes landing, pricing/demo/legal content, auth/onboarding, app/settings/admin families, overlays, full coverage, visual polish and final cross-product acceptance. No completion or merge readiness is claimed by this checkpoint.

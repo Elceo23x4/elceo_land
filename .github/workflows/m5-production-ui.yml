@@ -1,0 +1,35 @@
+name: M5 Production UI
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  presentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build:vite
+      - run: npm run build:next
+      - run: npm run typecheck:next
+      - run: npm run test:m1
+      - run: npx playwright install --with-deps chromium
+        working-directory: apps/frontend
+      - run: npx playwright test --config=playwright.m5.config.ts
+        working-directory: apps/frontend
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m5-presentation-${{ github.run_id }}
+          path: apps/frontend/test-results
+          retention-days: 14

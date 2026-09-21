@@ -1,6 +1,11 @@
 {
   "clients": [
     {
+      "path": "apps/frontend/components/primitives/Modal.tsx",
+      "purpose": "Native top-layer dialog opening, dismissal and focus restoration for public cookie information and later reviewed dialogs.",
+      "authority": "Presentation only; no cookies, storage, sessions, credentials or backend decisions are read or written."
+    },
+    {
       "path": "apps/frontend/app/(app)/dashboard/error.tsx",
       "purpose": "Next error boundary retry interaction inherited from M4.",
       "authority": "Renders error recovery only; canonical session and access remain server-owned."

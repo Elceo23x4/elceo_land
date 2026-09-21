@@ -1,3 +1,8 @@
 import type { ReactNode } from 'react';
-// Structural boundary only; no session or authorization claim.
-export default function Layout({ children }: { children: ReactNode }) { return children; }
+import { editorialFont } from '../../components/brand/type';
+import { PublicHeader, PublicFooter } from '../../components/public/PublicChrome';
+import styles from '../../components/primitives/Editorial.module.css';
+
+export default function Layout({ children }: { children: ReactNode }) {
+  return <div className={`${styles.surface} ${editorialFont.className}`} data-elceo-ui="public"><PublicHeader />{children}<PublicFooter /></div>;
+}
