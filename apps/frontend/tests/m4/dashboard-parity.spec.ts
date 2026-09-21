@@ -321,12 +321,20 @@ test('repeated dashboard interaction cycles settle without migration-specific re
         listeners: growth(nextSamples, 'jsEventListeners'),
       },
     };
+    const baselineOverhead = {
+      heap: (nextSamples[0].jsHeapUsedBytes ?? 0) - (viteSamples[0].jsHeapUsedBytes ?? 0),
+      nodes: nextSamples[0].nodes - viteSamples[0].nodes,
+      listeners: nextSamples[0].jsEventListeners - viteSamples[0].jsEventListeners,
+    };
+    expect(baselineOverhead.heap).toBeLessThanOrEqual(3_000_000);
+    expect(baselineOverhead.nodes).toBeLessThanOrEqual(100);
+    expect(baselineOverhead.listeners).toBeLessThanOrEqual(200);
     expect(retained.next.heap).toBeLessThanOrEqual(retained.vite.heap + 2_000_000);
     expect(retained.next.nodes).toBeLessThanOrEqual(retained.vite.nodes + 100);
     expect(retained.next.listeners).toBeLessThanOrEqual(retained.vite.listeners + 30);
     writeFileSync(
       testInfo.outputPath('interaction-cycle-memory.json'),
-      `${JSON.stringify({ viewport, retained, viteSamples, nextSamples }, null, 2)}\n`,
+      `${JSON.stringify({ viewport, baselineOverhead, retained, viteSamples, nextSamples }, null, 2)}\n`,
     );
   } finally {
     await vite.context.close();
