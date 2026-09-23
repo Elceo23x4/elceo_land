@@ -34,6 +34,8 @@ Origin must also be recorded as `custom-generated`, `procedural`, `licensed-sour
 
 ## Asset production rules
 
+M5 production derivatives and their exact origin, size, fallback and implementation status are tracked in `M5_ASSET_PROVENANCE.md`. The nine current stills are hash-pinned and fully decoded by `scripts/check-m5-assets.mjs` against `M5_ASSET_INTEGRITY.json`. This includes the actual controlled dashboard preview, not regenerated dashboard artwork. The approved authority PNG and original dashboard source remain unchanged. The globe still is an adaptive fallback, not the outstanding independent-continent 3D asset; the hero film remains unavailable.
+
 - Do not flatten independently animated/parallax layers into one image.
 - Do not use video for effects CSS/SVG can reproduce with materially lower cost.
 - Do not use WebGL merely to make an element feel premium.

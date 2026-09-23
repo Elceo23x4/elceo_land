@@ -1,0 +1,93 @@
+.landing { background: #020303; overflow: clip; }
+.landing h2, .landing h3 { font-weight: 500; letter-spacing: -.045em; line-height: 1.05; margin: 0; text-wrap: balance; }
+.landing h2 { font-size: clamp(2rem, 3.5vw, 4.2rem); }
+.label { font-size: .75rem; letter-spacing: .16em; line-height: 1.65; text-transform: uppercase; color: #d0c3b3; margin: 0 0 1.3rem; max-width: 28ch; }
+.hero { position: relative; height: clamp(390px, 37vw, 690px); max-width: 1920px; margin: auto; }
+.world { position: absolute; width: 64%; top: -26%; right: 8%; pointer-events: none; }
+.world img { width: 100%; height: auto; display: block; }
+.identity { position: absolute; z-index: 1; top: 24%; left: 6%; }
+.wordmark { display: flex; align-items: center; gap: 1rem; }
+.wordmark h1 { margin: 0; font-size: clamp(100px, 13.5vw, 250px); line-height: .85; letter-spacing: -.085em; font-weight: 700; color: #efcab0; background: url('/m5-assets/market-depth-desktop.webp') center 65% / 140% auto, #efcab0; background-blend-mode: screen; background-clip: text; -webkit-text-fill-color: transparent; }
+.identity > p { font-size: clamp(.7rem, 1vw, 1.15rem); text-transform: uppercase; letter-spacing: .32em; line-height: 1.7; margin: 1.5rem 0 0 15%; }
+.candles { width: 80px; height: 160px; display: flex; align-items: center; gap: 6px; }
+.candles i { width: 10px; height: 25%; background: linear-gradient(#ff8736, #d74703); position: relative; }
+.candles i::after { content: ''; position: absolute; left: 45%; width: 1px; top: -10px; bottom: -10px; background: #e26f25; }
+.candles i:nth-child(2) { height: 53%; }.candles i:nth-child(3) { height: 90%; }.candles i:nth-child(4) { height: 56%; }.candles i:nth-child(5) { height: 32%; }
+.heroNote { position: absolute; right: 5%; top: 18%; width: 15ch; font-size: .75rem; line-height: 1.8; letter-spacing: .1em; text-transform: uppercase; }
+.scroll { position: absolute; left: 6%; bottom: 2rem; font-size: .8rem; text-decoration: none; display: flex; gap: 2rem; align-items: center; min-height: 44px; border-left: 1px solid #e7dacb; padding-left: 1rem; }
+.depth { min-height: clamp(330px, 28vw, 500px); position: relative; padding: 4% 6% 7%; display: flex; align-items: center; justify-content: space-between; gap: 15%; }
+.landscape { object-fit: cover; pointer-events: none; }
+.depthTitle, .depthCopy { position: relative; z-index: 1; }
+.depthTitle h2 { font-size: clamp(2.3rem, 4vw, 4.8rem); }
+.depthTitle em { color: #ff6329; font-style: normal; }
+.depthCopy { max-width: 26ch; border-left: 1px solid #a19a90; padding-left: 1.5rem; font-size: clamp(1rem, 1.2vw, 1.3rem); line-height: 1.45; }
+.aperture { position: relative; isolation: isolate; display: flex; align-items: center; gap: 3%; min-height: 320px; margin-top: -3rem; padding: 6rem 6%; background: url('/m5-assets/deckled-claret-desktop.webp') center / 100% 100% no-repeat; }
+.problemHeading { flex: 0 0 21%; position: relative; z-index: 1; }
+.problemHeading h2 { font-size: clamp(1.5rem, 2.2vw, 2.6rem); }
+.problems { display: flex; flex: 1; list-style: none; margin: 0; padding: 0; position: relative; z-index: 1; }
+.problems li { flex: 1; padding: 0 1.1%; border-left: 1px solid #bd7d8555; min-width: 0; text-align: center; font-size: clamp(.75rem, .85vw, 1rem); line-height: 1.35; }
+.problems span { display: block; margin-top: 1rem; }
+.problems svg { width: 32px; height: 32px; fill: none; stroke: #f8ddd4; stroke-width: 1.2; }
+.lens { position: absolute; width: 360px; height: 360px; left: -180px; top: -180px; border-radius: 50%; background: radial-gradient(circle, #f5b4b02a, transparent 66%); opacity: 0; pointer-events: none; z-index: 0; }
+.constellation { position: relative; max-width: 1800px; margin: auto; min-height: clamp(530px, 43vw, 740px); padding: 2rem 6% 0; }
+.approachLabel { position: absolute; left: 6%; top: 2.5rem; }
+.constellation > h2 { position: absolute; left: 45%; top: 1.75rem; font-size: clamp(1.6rem, 2.5vw, 3rem); max-width: 20ch; }
+.principlesCopy { position: absolute; right: 6%; top: 1.5rem; width: 17%; font-size: .85rem; color: #c5c0b8; line-height: 1.45; }
+.placards { position: relative; height: 100%; min-height: inherit; }
+.placard { position: absolute; width: 18.5%; min-height: 330px; padding: 1.5rem 1.3rem 6rem; border: 1px solid color-mix(in srgb, var(--tone), #111 25%); border-radius: 7px 7px 0 0; background: radial-gradient(ellipse at 80% 0, color-mix(in srgb, var(--tone), transparent 76%), transparent 65%), linear-gradient(#090909, #020303); mask-image: linear-gradient(#000 78%, transparent); }
+.placard:nth-child(1) { left: 0; top: 75px; }.placard:nth-child(2) { left: 20%; top: 175px; }.placard:nth-child(3) { left: 40%; top: 115px; }.placard:nth-child(4) { left: 60%; top: 190px; }.placard:nth-child(5) { left: 80%; top: 110px; }
+.placard h3 { font-size: clamp(1.2rem, 1.8vw, 2rem); margin-top: 1.1rem; letter-spacing: -.035em; }
+.placard > p { font-size: .68rem; line-height: 1.6; letter-spacing: .15em; text-transform: uppercase; max-width: 21ch; color: color-mix(in srgb, var(--tone), #fff 50%); }
+.icon { display: block; height: 64px; width: 76px; position: relative; margin-inline: auto; color: var(--tone); }
+.orb { width: 66px; height: 66px; border: 1px solid currentColor; border-radius: 50%; background: radial-gradient(circle at 70% 22%, color-mix(in srgb, var(--tone), transparent 45%), #070707 65%); box-shadow: inset 0 0 15px color-mix(in srgb, var(--tone), transparent 60%); }
+.layers i { position: absolute; left: 16px; top: 6px; width: 43px; height: 30px; border: 1px solid currentColor; transform: rotateX(50deg) rotateZ(45deg); }.layers i:nth-child(2) { top: 18px; }.layers i:nth-child(3) { top: 30px; }.layers i:nth-child(n+4) { display: none; }
+.bars { display: flex; align-items: center; justify-content: center; gap: 5px; transform: skewY(-24deg); }.bars i { background: currentColor; width: 7px; height: 35px; }.bars i:nth-child(2), .bars i:nth-child(4) { height: 48px; }.bars i:nth-child(3) { height: 64px; }
+.prism { clip-path: polygon(50% 0, 100% 80%, 50% 100%, 0 75%); background: conic-gradient(from 20deg at 50% 90%, #062845, var(--tone), #03111e, var(--tone), #062845); }
+.rings i { position: absolute; border: 1px solid currentColor; border-radius: 50%; width: 48px; height: 48px; top: 8px; left: 0; }.rings i:nth-child(2) { left: 26px; background: color-mix(in srgb, var(--tone), transparent 88%); }.rings i:nth-child(n+3) { display: none; }
+.information { min-height: clamp(530px, 39vw, 750px); position: relative; max-width: 1920px; margin: -3rem auto 0; }
+.horizon { object-fit: cover; object-position: center bottom; }
+.informationCopy { position: relative; z-index: 2; padding: 8% 0 0 6%; width: 36%; }
+.informationCopy > p:last-child { font-size: 1rem; line-height: 1.5; color: #d2cec7; max-width: 36ch; }
+.planes { position: absolute; display: flex; gap: 1.25%; align-items: center; width: 66%; right: 3%; top: 6%; height: 48%; perspective: 900px; transform-style: preserve-3d; }
+.plane { flex: 1; min-width: 0; height: 85%; padding: 1rem; background: linear-gradient(155deg, #9aadb1aa, #0b1113e8 65%); border: 1px solid #8c735a; box-shadow: 0 22px 40px #0009; transform: rotateY(calc((var(--plane) - 2) * -9deg)) translateY(calc((var(--plane) - 2) * 5px)); }
+.plane:nth-child(2n) { height: 72%; background: linear-gradient(150deg, #273137d9, #5c666bb8 50%, #090c10ed); }
+.plane > span { color: #eeeeeb; font-size: .6rem; letter-spacing: .08em; text-transform: uppercase; }.plane > p { font-size: clamp(.8rem, 1.25vw, 1.4rem); line-height: 1.15; margin-top: .75rem; }
+.fragmentLines { display: flex; gap: 5px; margin-top: 30%; align-items: end; height: 60px; opacity: .4; }.fragmentLines i { width: 25%; height: 35%; border-top: 1px solid #e08b54; border-inline: 1px solid #d4d8d8; }.fragmentLines i:nth-child(2) { height: 85%; }.fragmentLines i:nth-child(3) { height: 65%; }
+.fragmentCaption { position: absolute; right: 6%; bottom: 1rem; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; max-width: 28ch; text-align: right; }
+.product { padding: 7rem 6% 9rem; max-width: 1500px; margin: auto; }
+.product > header { margin: 0 auto 4rem; max-width: 800px; }.product > header > p:last-child { max-width: 44ch; color: #c0c1ba; }
+.mosaic { max-width: 800px; margin: auto; display: grid; grid-template-columns: 1.15fr 1fr; gap: 1rem; }
+.mosaic h3 { font-size: clamp(1.4rem, 2vw, 2rem); }.mosaic p { color: #bdc1bb; font-size: 1rem; line-height: 1.5; max-width: 34ch; }
+.wideCard, .tallCard, .shortCard { background: linear-gradient(135deg, #151819, #0b0d0e); border: 1px solid #2c3031; border-radius: 7px; overflow: hidden; }
+.wideCard { grid-column: 1 / -1; margin: 0; }.wideCard > div { padding: 2rem 2rem 0; }.wideCard img { width: 100%; height: auto; display: block; }.wideCard figcaption { padding: 1rem 2rem; color: #9fa49f; font-size: .7rem; }
+.tallCard { grid-row: span 2; padding: 2rem; display: flex; flex-direction: column; align-items: start; justify-content: end; }.shortCard { padding: 2rem; }
+.mosaicGlyph { font-size: 8rem; color: #ad9978; align-self: center; line-height: 1.3; font-weight: 200; margin-bottom: 2rem; }.mosaic a { font-size: .85rem; min-height: 44px; display: inline-flex; gap: 1rem; align-items: center; }
+.conversion { position: relative; isolation: isolate; padding: 7rem 8% 6rem; min-height: 680px; background: #05090e; }
+.blueField { position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 72% 30%, #153963 0, #071320 44%, #020303 77%); }
+.conversion > .label { margin-bottom: 3rem; }.conversion h2 { font-size: clamp(3.5rem, 7.8vw, 9rem); line-height: .98; letter-spacing: -.065em; max-width: 16ch; }
+.conversion h2 a { text-decoration: none; }.conversion h2 span { display: inline-block; color: #a9cbee; transition: transform .25s; }.conversion h2 a:hover span, .conversion h2 a:focus-visible span { transform: translate(8px, -8px); }
+.trust { margin-top: 5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8%; max-width: 1100px; }.trust h3 { font-size: 1rem; letter-spacing: -.01em; }.trust p { font-size: .875rem; line-height: 1.5; color: #aebac8; max-width: 29ch; }
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .trust p { opacity: .85; transform: translateY(6px); transition: opacity .25s, transform .25s; }
+  .conversion:hover .trust p, .conversion:focus-within .trust p { opacity: 1; transform: none; }
+}
+@media (max-width: 1100px) {
+  .principlesCopy { display: none; }.constellation > h2 { left: 43%; }
+  .placard { padding-inline: 1rem; }.candles { width: 55px; height: 120px; gap: 4px; }.heroNote { right: 3%; }
+  .aperture { padding-inline: 4%; }.problemHeading { flex-basis: 24%; }.problems li { font-size: .75rem; }
+}
+@media (max-width: 760px) {
+  .hero { height: 660px; }.world { width: 115%; right: -18%; top: 3%; opacity: .9; }
+  .identity { left: 5%; top: 17%; }.wordmark h1 { font-size: clamp(88px, 21vw, 155px); }.candles { width: 36px; height: 80px; gap: 3px; }.candles i { width: 5px; }
+  .identity > p { margin-top: 1rem; font-size: .62rem; letter-spacing: .2em; }.heroNote { top: auto; bottom: 15%; left: 6%; width: 27ch; font-size: .68rem; }.scroll { bottom: 1.5rem; }
+  .depth { min-height: 520px; display: block; padding: 4rem 6% 5rem; }.depthTitle h2 { font-size: clamp(2.3rem, 8.5vw, 3.7rem); }.landscape { object-position: 45% center; }.depthCopy { font-size: 1rem; max-width: 27ch; margin: 3rem 0 0 auto; }
+  .aperture { display: block; padding: 6rem 6%; background-image: url('/m5-assets/deckled-claret-mobile.webp'); background-size: auto 100%; margin-top: -3rem; }
+  .problemHeading { max-width: 25ch; }.problemHeading h2 { font-size: 1.8rem; }.problems { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 1rem; margin-top: 2.5rem; }.problems li { border: 0; padding: 0; text-align: left; display: flex; align-items: center; gap: .6rem; font-size: .85rem; }.problems svg { flex-shrink: 0; width: 27px; }.problems span { margin: 0; max-width: 14ch; }.lens { display: none; }
+  .constellation { padding: 3rem 6% 0; min-height: 0; }.approachLabel, .constellation > h2 { position: static; }.constellation > h2 { font-size: 2rem; margin-bottom: 3rem; }.placards { min-height: 0; display: flex; flex-direction: column; gap: 0; }
+  .placard { position: relative; left: auto !important; top: auto !important; width: 72%; min-height: 270px; padding: 1.5rem 1.5rem 5rem; margin-top: -1rem; }.placard:nth-child(2n) { align-self: flex-end; margin-top: -3rem; }.placard:nth-child(2n+3) { margin-top: -3rem; }.placard h3 { font-size: 1.65rem; }.icon { margin-inline: 0; }.placard > p { max-width: 25ch; }
+  .information { min-height: 770px; margin: 0; padding-top: 1rem; }.horizon { object-fit: contain; object-position: center bottom; }.informationCopy { width: auto; padding: 2rem 6%; }.informationCopy h2 { font-size: 2.4rem; }.informationCopy > p:last-child { max-width: 31ch; }
+  .planes { position: relative; top: auto; right: auto; width: 100%; height: 250px; perspective: none; transform-style: flat; overflow-x: auto; padding: 1rem 6% 2rem; gap: 1rem; scroll-snap-type: x mandatory; scrollbar-width: thin; }.plane, .plane:nth-child(2n) { flex: 0 0 69%; height: 100%; transform: none; padding: 1.25rem; scroll-snap-align: center; }.plane > p { font-size: 1.35rem; max-width: 15ch; }.plane > span { font-size: .7rem; }.fragmentLines { margin-top: 1.5rem; }.fragmentCaption { bottom: .25rem; font-size: .6rem; }
+  .product { padding: 5rem 6%; }.product h2 { font-size: 2.25rem; }.product > header { margin-bottom: 2rem; }.mosaic { grid-template-columns: 1fr 1fr; gap: .65rem; }.wideCard > div, .wideCard figcaption { padding: 1.25rem; }.mosaic h3 { font-size: 1.15rem; }.mosaic p { font-size: .875rem; }.tallCard, .shortCard { padding: 1.25rem; }.mosaicGlyph { font-size: 5rem; margin-bottom: 2rem; }.mosaic a { font-size: .8rem; }
+  .conversion { padding: 5rem 6%; min-height: 720px; }.conversion h2 { font-size: clamp(3.3rem, 13vw, 5.5rem); }.trust { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 3.5rem; }.trust p { max-width: 33ch; margin-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .conversion h2 span { transition: none; }.conversion h2 a:hover span { transform: none; } }

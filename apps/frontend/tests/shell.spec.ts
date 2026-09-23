@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test';
 test('server routing, source SVGs and scoped portal inheritance', async ({ page, request }) => {
- for (const path of ['/', '/api/session']) expect((await request.get(path)).status()).toBe(404);
+ expect((await request.get('/api/session')).status()).toBe(404);
+ const landing = await request.get('/');
+ expect(landing.status()).toBe(200);
+ expect(await landing.text()).toContain('Market intelligence');
  // M5 now authors public account entry. The absent alternative session endpoint
  // and fail-closed protected navigation below remain unchanged.
  for (const path of ['/login', '/signup']) {

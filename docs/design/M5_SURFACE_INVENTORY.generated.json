@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 11
+    "routeFilesPresent": 12
   },
   "surfaces": [
     {
@@ -19,8 +19,8 @@
         "ELCEO proposition, product positioning, CTA, product preview and navigation."
       ],
       "route": "/",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(public)/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "PUB-02",

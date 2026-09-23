@@ -6,6 +6,7 @@ Source: frozen `docs/backend-contract/ui-page-inventory.md`. A route listed belo
 
 | Inventory surface | Current implementation | State / backend owner | Authority and rendering |
 |---|---|---|---|
+| PUB-01 `/` | First seven-scene narrative implemented; fidelity/film/continent closure pending | Static public copy and clearly labelled controlled dashboard preview; no API or business authority | Approved PNG + written seven-scene contract; one registered, capability-gated landing motion owner |
 | PUB-02 `/pricing` | Two authored plan perspectives; price publication explicitly unavailable | Static supported capabilities only; no checkout or entitlement inference | Frozen integration map dashboard projections; server-rendered |
 | PUB-03 `/about` | Authored editorial page; verification in progress | Static content; no API or mutation | Constitution/editorial standard; server-rendered type and code-native rules |
 | PUB-04 `/faq` | Grouped accessible disclosures; verification in progress | Native disclosure state only; no business authority | Frozen product/auth/payment limits; server-rendered native details |

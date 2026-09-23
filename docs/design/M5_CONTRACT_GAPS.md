@@ -13,3 +13,10 @@ No entry authorizes a frontend substitute for missing backend truth.
 - OpenAPI field schemas: M2 deliberately preserves unknown fields. Read the exact pinned runtime DTOs/validators for each new UI mutation and document refinements separately rather than infer fields from fixture examples.
 
 This is an incomplete working register, not final M5 acceptance.
+
+## Landing media / fidelity dependencies
+
+- Hero film: no approved source video is present. The available video generator returned `REQUIRES_PREMIUM` (no video model available on the connected plan). No purchase was made. No fake play control or substituted generic player is shipped. The compact origin-preserving film aperture remains outstanding until a suitable film can be produced/supplied.
+- Geographic 3D: the generated still is a recognizable Earth and a valid adaptive fallback, but it is not independently transformable continent geometry. Desktop continent separation/reassembly remains an explicit asset/implementation gap. Current scroll recession does not claim to satisfy that choreography.
+- Scene 5 uses independently transformed editorial information planes, with illustrative headings and code-native linework. Final media richness still needs visual review against the approved cinematic reference.
+- Scene 6 now uses an actual candidate-dashboard capture from the unchanged controlled M4 fixtures, explicitly labelled demonstration data. It is not live cognition or a fabricated product screenshot.

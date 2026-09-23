@@ -1,6 +1,11 @@
 {
   "clients": [
     {
+      "path": "apps/frontend/features/landing/LandingMotion.tsx",
+      "purpose": "Lazy, capability-gated cinematic scene setup and disposal; no route tree is made client-owned.",
+      "authority": "Presentation only. No account, storage, cookie, business data or backend decisions. Static server content remains readable without motion."
+    },
+    {
       "path": "apps/frontend/features/account-entry/GoogleEntry.tsx",
       "purpose": "Google entry interaction: verify public provider availability, obtain canonical CSRF challenge and submit the existing same-origin sign-in form.",
       "authority": "No session minting, identity decisions, credential storage, cookie inspection or backend origin. Canonical M3 relay owns provider redirects and opaque cookies. Callback path is sanitized by the server parent."
@@ -36,5 +41,10 @@
       "authority": "Opaque cookies and upstream credentials remain exclusively in the canonical server relay."
     }
   ],
-  "landingMotionOwners": []
+  "landingMotionOwners": [
+    {
+      "path": "apps/frontend/features/landing/motion/scene-choreography.ts",
+      "purpose": "Sole public landing owner of scrubbed world recession, staggered placards and local pointer depth/lens; all tweens/listeners are disposed on exit or reduced-motion change."
+    }
+  ]
 }
