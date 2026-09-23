@@ -28,6 +28,9 @@ jobs:
         working-directory: apps/frontend
       - run: npx playwright test --config=playwright.m5.config.ts
         working-directory: apps/frontend
+      - name: Export controlled visual-review copies
+        if: always()
+        run: node scripts/m5-visual-evidence.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

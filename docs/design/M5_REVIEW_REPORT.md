@@ -95,4 +95,8 @@ On account-entry head `2e3f97934f1513f13d704bbe43fff9183e59cae5`, all six inheri
 
 ### Mechanical coverage baseline
 
+Head `998c79c9cdf12de0fbd9ed7f0d997bb48332d2aa` completed all seven workflows successfully, including [M5 run 35607095110](https://github.com/Elceo23x4/elceo_land/actions/runs/35607095110) and [M4 parity run 35607095043](https://github.com/Elceo23x4/elceo_land/actions/runs/35607095043). The scoped error selector repaired the test without changing product behavior. Full M5 acceptance is still outstanding.
+
+For visual review where artifact file downloads are unavailable, the M5 workflow now emits compressed copies of an explicit allowlist of controlled public/signed-out screenshots into its authorized job logs. This does not capture live users, credentials, protected dashboard data or arbitrary files. Original PNGs remain in the normal artifact. These copies enable direct visual inspection; their existence alone is not visual approval.
+
 The generated surface inventory derives 91 canonical surface IDs, 61 durable routes and 23 explicitly enumerated admin routes from the unchanged frozen inventory. Eleven durable route files currently exist (including the preserved dashboard); this is file evidence, not an acceptance percentage. CI rejects drift, duplicate IDs/routes and product routes outside the canonical inventory. Overlay/system implementation and behavioral/visual evidence remain separate, outstanding obligations. The summary's “24 admin pages” disagrees with its 23 enumerated routes; no extra route has been invented.

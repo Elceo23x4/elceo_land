@@ -41,3 +41,4 @@ scripts/m1-foundation.test.mjs
 scripts/m5-boundaries.test.mjs
 scripts/m5-boundary-lib.mjs
 scripts/m5-mock-auth-server.mjs
+scripts/m5-visual-evidence.mjs
