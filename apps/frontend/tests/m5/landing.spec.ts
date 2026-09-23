@@ -26,6 +26,18 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
       await page.screenshot({ path: file, fullPage: true });
       await testInfo.attach(`landing-${width}`, { path: file, contentType: 'image/png' });
     }
+    if (width <= 430) {
+      const aperture = page.locator('[data-landing-lens-scope]');
+      const bottomLabel = aperture.getByText('Unreviewed pattern repetition');
+      const apertureBox = await aperture.boundingBox();
+      const labelBox = await bottomLabel.boundingBox();
+      expect(apertureBox!.y + apertureBox!.height - labelBox!.y - labelBox!.height).toBeGreaterThanOrEqual(150);
+      for (const card of await page.locator('main article').filter({ has: page.locator('h3') }).all()) {
+        // The principle constellation intentionally remains staggered; product
+        // cards instead preserve a full reading measure on narrow phones.
+        if (await card.locator('a').count()) expect((await card.boundingBox())!.width).toBeGreaterThan(width * .8);
+      }
+    }
     if (width < 768) {
       const field = page.locator('[data-landing-planes]');
       await field.focus(); await page.keyboard.press('ArrowRight');

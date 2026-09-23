@@ -81,8 +81,8 @@
   .identity { left: 5%; top: 17%; }.wordmark h1 { font-size: clamp(88px, 21vw, 155px); }.candles { width: 36px; height: 80px; gap: 3px; }.candles i { width: 5px; }
   .identity > p { margin-top: 1rem; font-size: .62rem; letter-spacing: .2em; }.heroNote { top: auto; bottom: 15%; left: 6%; width: 27ch; font-size: .68rem; }.scroll { bottom: 1.5rem; }
   .depth { min-height: 520px; display: block; padding: 4rem 6% 5rem; }.depthTitle h2 { font-size: clamp(2.3rem, 8.5vw, 3.7rem); }.landscape { object-position: 45% center; }.depthCopy { font-size: 1rem; max-width: 27ch; margin: 3rem 0 0 auto; }
-  .aperture { display: block; padding: 6rem 6%; background-image: url('/m5-assets/deckled-claret-mobile.webp'); background-size: auto 100%; margin-top: -3rem; }
-  .problemHeading { max-width: 25ch; }.problemHeading h2 { font-size: 1.8rem; }.problems { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 1rem; margin-top: 2.5rem; }.problems li { border: 0; padding: 0; text-align: left; display: flex; align-items: center; gap: .6rem; font-size: .85rem; }.problems svg { flex-shrink: 0; width: 27px; }.problems span { margin: 0; max-width: 14ch; }.lens { display: none; }
+  .aperture { display: block; padding: 8rem 6% 10rem; background-image: url('/m5-assets/deckled-claret-mobile.webp'); background-size: auto 100%; margin-top: -3rem; }
+  .problemHeading { max-width: 25ch; }.problemHeading h2 { font-size: 1.8rem; }.problems { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 1rem; margin-top: 2.5rem; }.problems li { border: 0; padding: 0; text-align: left; display: flex; align-items: center; gap: .6rem; font-size: 1rem; }.problems svg { flex-shrink: 0; width: 27px; }.problems span { margin: 0; max-width: 14ch; }.lens { display: none; }
   .constellation { padding: 3rem 6% 0; min-height: 0; }.approachLabel, .constellation > h2 { position: static; }.constellation > h2 { font-size: 2rem; margin-bottom: 3rem; }.placards { min-height: 0; display: flex; flex-direction: column; gap: 0; }
   .placard { position: relative; left: auto !important; top: auto !important; width: 72%; min-height: 270px; padding: 1.5rem 1.5rem 5rem; margin-top: -1rem; }.placard:nth-child(2n) { align-self: flex-end; margin-top: -3rem; }.placard:nth-child(2n+3) { margin-top: -3rem; }.placard h3 { font-size: 1.65rem; }.icon { margin-inline: 0; }.placard > p { max-width: 25ch; }
   .information { min-height: 770px; margin: 0; padding-top: 1rem; }.horizon { object-fit: contain; object-position: center bottom; }.informationCopy { width: auto; padding: 2rem 6%; }.informationCopy h2 { font-size: 2.4rem; }.informationCopy > p:last-child { max-width: 31ch; }
@@ -91,3 +91,13 @@
   .conversion { padding: 5rem 6%; min-height: 720px; }.conversion h2 { font-size: clamp(3.3rem, 13vw, 5.5rem); }.trust { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 3.5rem; }.trust p { max-width: 33ch; margin-bottom: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .conversion h2 span { transition: none; }.conversion h2 a:hover span { transform: none; } }
+
+@media (max-width: 480px) {
+  .mosaic { grid-template-columns: 1fr; gap: 1rem; }
+  .tallCard { grid-row: auto; min-height: 310px; }
+  .mosaicGlyph { align-self: flex-end; margin-bottom: 1rem; font-size: 5rem; }
+  .mosaic h3 { font-size: 1.6rem; }
+  .mosaic p { font-size: 1rem; max-width: 29ch; }
+  .mosaic a { font-size: .9rem; }
+  .shortCard { min-height: 210px; }
+}
