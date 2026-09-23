@@ -66,6 +66,15 @@ test('client navigation from public UI retains exact protected dashboard geometr
   await expect(page.locator('[data-elceo-ui]')).toHaveCount(0);
 });
 
+test('capture actual preserved dashboard for clearly labelled landing preview', async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(`${origin}/dashboard`, { waitUntil: 'networkidle' });
+  await expect(page.locator('.dashboard-precision-viewport')).toBeVisible();
+  const screenshot = testInfo.outputPath('dashboard-preview-1440.png');
+  await page.screenshot({ path: screenshot });
+  await testInfo.attach('dashboard-preview-controlled-fixture', { path: screenshot, contentType: 'image/png' });
+});
+
 test('legal reading, plan limits and controlled demonstration remain explicit', async ({ page }) => {
   for (const route of ['/legal/terms', '/legal/privacy', '/legal/risk-disclosure']) {
     await page.goto(`${origin}${route}`);

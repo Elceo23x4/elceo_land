@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: 'About ELCEO — Context before react
 export default function AboutPage() {
   return <main id="main-content" className={styles.container}>
     <section className={`${styles.hero} ${styles.split}`}>
-      <div><p className={styles.kicker}>The thinking behind ELCEO</p><h1 className={styles.display}>More context.<br />Better questions.</h1></div>
+      <div><p className={styles.kicker}>The thinking behind ELCEO</p><h1 className={`${styles.display} ${styles.aboutDisplay}`}>More context.<br />Better questions.</h1></div>
       <p className={styles.lead}>Markets move quickly. Understanding what is moving them takes a different kind of attention.</p>
     </section>
     <hr className={styles.rule} />

@@ -21,6 +21,7 @@
 .reading { max-width: 68ch; }
 .kicker { font-size: .875rem; color: var(--muted); margin: 0 0 1.5rem; }
 .display { font-size: clamp(3rem, 7.8vw, 8rem); line-height: .98; letter-spacing: -.065em; font-weight: 500; max-width: 14ch; text-wrap: balance; margin: 0; }
+.aboutDisplay { font-size: clamp(3rem, 6vw, 6.5rem); max-width: none; }
 .lead { font-size: clamp(1.125rem, 1.8vw, 1.5rem); line-height: 1.55; color: #d0ccc5; max-width: 40ch; }
 .sectionTitle { font-size: clamp(2rem, 4vw, 4rem); line-height: 1.1; letter-spacing: -.05em; font-weight: 500; text-wrap: balance; margin: 0; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 1.5rem; min-height: 48px; padding: .65rem 1.5rem; border: 1px solid #71685c; border-radius: 100px; color: var(--paper); background: transparent; text-decoration: none; cursor: pointer; transition: background-color 180ms, border-color 180ms; }
