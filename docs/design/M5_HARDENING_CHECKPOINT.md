@@ -1,6 +1,6 @@
 # M5 repair checkpoint — implementation and evidence contract
 
-Status: implementation under verification. PR #62, `m5/production-ui-design-implementation`. This checkpoint does not authorize M5 completion, page-family expansion before empirical success, merging, or production cutover.
+Status: BLOCKED on retained-heap trend; no product-family expansion is authorized by this checkpoint. PR #62, `m5/production-ui-design-implementation`. This checkpoint does not authorize M5 completion, page-family expansion before empirical success, merging, or production cutover.
 
 ## Auth state correctness
 
@@ -84,3 +84,75 @@ The original baseline preceded the first client-side return to landing and did n
 The corrected warm-up still failed at `2d06e86511b9fbd2df219616f54b5f63fcab16c2`: warm 5,960,920, final 6,357,208, delta 396,288 bytes; late growth 175,228 and slope 41,153.6. No warm-up count or tolerance was increased in response. Owner census at `f5cc68eac9adead6def90f69620da3d6fbc4b053` then identified test-runner compiler allocations including `innerSerialize`, `generateAriaTree`, `renderAriaSnapshotAsYaml`, `expectSingleElement`, `parseAttributeSelector`, `previewNode`, `renderAriaTreeAsJSON` and `queryRole`, alongside minified application functions. The trace does not attribute all allocation to tooling.
 
 The resource journey now uses a small test-only main-world/CDP driver, avoiding repeated compilation of the test runner's large ARIA/selector/snapshot machinery during the measured loop. CDP still delivers real mouse movement and clicks; native browser scrolling traverses all scenes forward and backward. Required scene/target/heading checks fail on missing routes or elements. The driver is never imported by application code. Its stable allocation is included in every sample and disposed afterward. Unchanged `performance.timeOrigin` and continued driver identity prove client navigation has not performed a full-document reload to clear the heap. Semantic, accessibility, source-selection, width and auth assertions remain in the separate browser tests. All original growth/trend limits and the nine-journey lifecycle remain unchanged. Final acceptance must run without optional heap snapshots.
+
+## Checkpoint report A–J — blocked, not M5 acceptance
+
+### A. Identity and evidence discipline
+
+Continue only PR #62 on `m5/production-ui-design-implementation`. The quantitative run below is explicitly head `d6045e57c5dc6dd14305d6e725bf62af4dd12ebe`, M5 run [35969294133](https://github.com/Elceo23x4/elceo_land/actions/runs/35969294133). The report follow-up adds a negative driver test and restores five intermediate native pointer moves; its own results must be read from its exact-head artifacts/PR status, never inferred from this earlier run. Every resource/width attachment and the artifact hash manifest records the checkout head. No report can embed its own future Git commit hash; the draft PR description records the final verified head and links its runs.
+
+### B. Mandatory repair ledger
+
+| Repair | Root cause | Implementation and principal files | Behavioral proof / permanent invariant |
+|---|---|---|---|
+| Auth-state semantics | Resolver failure/discriminant collapsed to null, causing ordinary acquisition | `lib/auth/server.ts`, `lib/auth/core.ts`, `features/account-entry/AccountEntry.tsx` | `tests/m5/account-entry.spec.ts`, `tests/shell.spec.ts`, auth runtime tests: acquisition requires explicit signed_out; infrastructure/malformed failures never imply anonymity |
+| Responsive assets / provenance | Desktop-only source selection while mobile files were described as consumed | `features/landing/SceneMedia.tsx`, `scene-media.json`, narrative TSX/CSS, asset manifests, `scripts/m5-asset-reachability.mjs`, `check-m5-assets.mjs` | Parsed runtime graph + hash/decode/dimension checks and nine-width currentSrc/network observations; inactive/orphan/unregistered/mismatched sources fail |
+| Resource settling | Spread-only test could accept persistent retained growth; incomplete initial warm-up and test-engine compiler allocation also contaminated measurement | `tests/m5/landing.spec.ts`, `resource-driver.ts`, optional `resource-snapshot.ts`, `scripts/m5-resource-policy.mjs` and rejection tests | First/peak, warm/final and late-trend guards now fail independently. The real measured heap still fails. This repair is not empirically closed |
+| Exact-head aggregate | Separate workflow successes did not constitute one current-head proof | `.github/workflows/m5-exact-head.yml`, `scripts/m5-aggregate-policy.mjs`, `m5-aggregate-status.mjs`, seven existing workflows' early invalidation steps | Same SHA/run/attempt/job/step evidence required; stale/superseded/skipped/incomplete cases reject; actual M5 failures keep aggregate red |
+
+All file paths in the first three rows are relative to `apps/frontend/` unless prefixed `scripts/`. The exact complete PR inventory is `M5_CHANGED_FILES.txt`; it includes historical M5 implementation as well as this checkpoint. No product-page family was added during hardening.
+
+### C. Auth-state proof
+
+Rendered login and signup distinguish canonical authenticated and explicit signed_out from 503, malformed DTO, empty body, dropped connection and interrupted-body failures. Every failure has unavailable presentation and no Google form. Recovery is exercised by a new server navigation, then genuine signed_out acquisition and a confirmed authenticated response. Provider and CSRF failures prevent submission and recover through the unchanged canonical relay. The unconfigured M1 server independently renders unavailable. These are controlled contract fixtures, not live authentication readiness.
+
+### D. Asset proof
+
+| Pair | <=760px source | >760px source | Classification |
+|---|---|---|---|
+| World | world-context-mobile.webp | world-context-desktop.webp | production-consumed |
+| Depth | market-depth-mobile.webp | market-depth-desktop.webp | production-consumed |
+| Horizon | information-horizon-mobile.webp | information-horizon-desktop.webp | production-consumed |
+
+All nine declared still assets are reachable, hash/byte/dimension checked and fully decoded. Browser checks reject any download of the opposite derivative. Depth additionally supplies the wordmark texture; that intentional CSS use is distinct from its optimized scene-image request. Existing mobile derivatives are resized same-composition sources with responsive CSS framing, not newly created independent crops. Provenance makes no new art-direction claim.
+
+### E. Resource evidence — FAIL
+
+Measured without heap snapshots on `d6045e57c5dc6dd14305d6e725bf62af4dd12ebe`:
+
+| Counter | Warm | Final | Delta | Late delta | Late OLS slope | Result |
+|---|---:|---:|---:|---:|---:|---|
+| JS heap bytes | 5,664,588 | 6,004,016 | +339,428 | +157,956 | +37,746 bytes/journey | FAIL |
+| DOM nodes | 205 | 205 | 0 | 0 | 0 | PASS |
+| Event listeners | 369 | 369 | 0 | 0 | 0 | PASS |
+
+First journey heap was 5,249,668; final/peak growth +754,348 passes the 2 MiB total ceiling. Three fixed warm-up journeys and six measured repeats were recorded. All four late heap increments were positive. The 128 KiB late-growth budget and 32 KiB/journey slope bound reject the result. Node ceilings remain total +32, late +8, slope +2; listener ceilings remain total +4, late +2, slope +0.5. Idle remains 1500ms with GC, two frames and GC. None of these tolerances was raised. The strengthened guard has exposed an unresolved retained-heap trend; flat DOM/listeners and compiler census do not establish full memory acceptance.
+
+The ownership trace and lower-overhead driver are diagnostic progress, not a claim that all growth was instrumentation. Further attribution of remaining application/framework code and retained allocations is required. No application rewrite, framework tuning, cache reset, full navigation or benchmark-threshold bypass is justified by current evidence. Warm-up is not extended again to obtain green.
+
+### F. Aggregate proof
+
+Policy tests reject older-head successes, moved heads, wrong workflow/event identities, newer queued/failing attempts, missing/wrong-head jobs and skipped verification steps. The actual aggregate failed on the observed M5 failures while all inherited workflow results remained green. A prior successful M5 head did not satisfy the current head. An aggregate success is deliberately absent. Required native checks must remain required alongside this status; see the documented GitHub transaction/rerun limitation above.
+
+### G. Width and direct visual review
+
+Browser assertions at 390, 1440 and 1920 (and six other widths) require all seven scene rectangles at x=0 with width exactly the viewport, full-width footer, no document horizontal overflow, in-bounds headings, loaded images and no positive gaps between scene rectangles. At wide widths the inner mosaic must remain narrower than 65% of the viewport. The 390/1440/1920 captures from the first hardening head were directly inspected: scene fields span the page, the aperture remains a band, and mosaic margins belong to its inner composition. No new global boxing or scene-gap defect was identified. This is width-checkpoint evidence, not acceptance of unfinished film, continents or scene-5 fidelity. Follow-up heads change only diagnostics/tests/docs; exact-head screenshots are still regenerated in CI.
+
+### H. Regression protection
+
+M1–M4, foundation and Vite remain green on the measured implementation head. Clean Node 22 npm ci, Vite build, Next build/typecheck, deterministic contracts, client/server and auth/BFF boundaries, original PNG and all 28 frozen handoff files pass. Protected-path diff against merged M4 is empty for `src/**`, legacy `public/**`, `contracts/backend/**`, `docs/backend-contract/**`, approved references, package-lock, Vite and Vercel configuration. M4's visual/interaction/responsive/reduced-motion/memory harness and dashboard bridge are unchanged. The existing Vercel deployment is still the Vite path, not Next production cutover proof.
+
+### I. Remaining blockers
+
+- Immediate checkpoint: retained-heap trend and therefore M5/aggregate acceptance remain red.
+- Forgot/reset/onboarding; unresolved frozen recovery policy/handler evidence and pending durable age-attestation contract.
+- Workspace/application, journal, portfolio, analytics/coaching/notifications, settings and admin families.
+- Remaining overlays, dialogs/drawers, media expansion and product system-state behavior.
+- Approved production hero film (generation unavailable on connected plan), independent continent/world geometry and final scene-5 fidelity.
+- Approved legal publication copy and associated external publication details.
+- Full cross-product responsive/accessibility/browser acceptance, resource/performance closure and field performance evidence.
+- Candidate deployment/production preview proof and separately authorized cutover; final phase-wide exact-head acceptance.
+
+### J. Recommendation
+
+**Do not advance to forgot-password → reset-password → onboarding yet.** Auth, asset and aggregate mechanisms are repaired, but resource settling is not proven. Keep PR #62 draft, preserve the failing gate, and finish retained-resource attribution before family expansion. Nothing in this report marks M5 complete or authorizes merging.

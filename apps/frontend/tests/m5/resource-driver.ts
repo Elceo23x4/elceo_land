@@ -50,8 +50,10 @@ export async function createResourceDriver(session: CDPSession) {
   return {
     scroll: (reverse=false) => call('scroll', reverse),
     async pointer(selector:string) {
-      await move(await call('point',selector,.25));
-      await move(await call('point',selector,.75));
+      const from = await call<{x:number;y:number}>('point',selector,.25);
+      const to = await call<{x:number;y:number}>('point',selector,.75);
+      await move(from);
+      for (let step=1;step<=5;step++) await move({x:from.x+(to.x-from.x)*step/5,y:from.y+(to.y-from.y)*step/5});
       await move({x:0,y:0});
     },
     async navigate(path:string, heading:string) {

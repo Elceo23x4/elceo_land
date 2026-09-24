@@ -117,10 +117,24 @@ test('desktop motion cleans up on reduced-motion changes and repeated route jour
   await testInfo.attach('landing-heap-census', {body:JSON.stringify(census),contentType:'application/json'});
   }
   const result = evaluateResourceJourney(samples);
-  const evidence = { head: execFileSync('git', ['rev-parse','HEAD'], { encoding: 'utf8' }).trim(), samples, ...result };
+  const evidence = { head: execFileSync('git', ['rev-parse','HEAD'], { encoding: 'utf8' }).trim(), diagnostics, documentContinuityVerified: true, samples, ...result };
   console.log(`M5_RESOURCE:${JSON.stringify(evidence)}`);
   await testInfo.attach('landing-journey-resources', { body: JSON.stringify(evidence, null, 2), contentType: 'application/json' });
   await driver.dispose();
   await session.detach();
   expect(result.pass, JSON.stringify(result.counters)).toBe(true);
+});
+
+
+test('resource driver rejects absent scenes and full document reloads', async ({ page }) => {
+  await page.goto(origin + '/about');
+  const session = await page.context().newCDPSession(page);
+  try {
+    const driver = await createResourceDriver(session);
+    await expect(driver.scroll()).rejects.toThrow('Resource journey failed');
+    await page.goto(origin);
+    await expect(driver.frames()).rejects.toThrow('Resource journey failed');
+  } finally {
+    await session.detach();
+  }
 });
