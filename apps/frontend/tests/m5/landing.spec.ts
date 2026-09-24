@@ -1,3 +1,4 @@
+import { heapCensus } from './resource-snapshot';
 import { execFileSync } from 'node:child_process';
 import { evaluateResources, resourcePolicy } from '../../../../scripts/m5-resource-policy.mjs';
 import { test, expect } from '@playwright/test';
@@ -87,6 +88,7 @@ test('desktop motion cleans up on reduced-motion changes and repeated route jour
   const session = await page.context().newCDPSession(page);
   await session.send('Performance.enable');
   await session.send('HeapProfiler.enable');
+  const census: Awaited<ReturnType<typeof heapCensus>>[] = [];
   const samples: Array<{ heap: number; nodes: number; listeners: number }> = [];
   // First journey establishes the post-warmup baseline; six repeats follow.
   for (let journey = 0; journey <= resourcePolicy.repeats; journey++) {
@@ -98,12 +100,16 @@ test('desktop motion cleans up on reduced-motion changes and repeated route jour
     await session.send('HeapProfiler.collectGarbage');
     await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
     await session.send('HeapProfiler.collectGarbage');
+    if (journey === 0 || journey === resourcePolicy.repeats) census.push(await heapCensus(session));
     const metrics = await session.send('Performance.getMetrics');
     const dom = await session.send('Memory.getDOMCounters');
     samples.push({ heap: metrics.metrics.find(metric => metric.name === 'JSHeapUsedSize')?.value ?? 0, nodes: dom.nodes, listeners: dom.jsEventListeners });
     await page.getByRole('navigation', { name: 'Main', exact: true }).getByRole('link', { name: 'Home', exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('ELCEO');
   }
+  const changes = (key: 'byType' | 'byClass') => Object.entries(census[1][key]).map(([name, value])=>({name,bytes:value.bytes-(census[0][key][name]?.bytes??0),count:value.count-(census[0][key][name]?.count??0)})).sort((a,b)=>b.bytes-a.bytes).slice(0,25);
+  console.log(`M5_HEAP_CENSUS:${JSON.stringify({types:changes('byType'),classes:changes('byClass')})}`);
+  await testInfo.attach('landing-heap-census', {body:JSON.stringify(census),contentType:'application/json'});
   const result = evaluateResources(samples);
   const evidence = { head: execFileSync('git', ['rev-parse','HEAD'], { encoding: 'utf8' }).trim(), samples, ...result };
   console.log(`M5_RESOURCE:${JSON.stringify(evidence)}`);

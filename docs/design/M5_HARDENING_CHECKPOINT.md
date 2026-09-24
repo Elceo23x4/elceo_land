@@ -68,3 +68,7 @@ Route identity tests cover canonical `/journal/[caseId]` and `/admin/commercial/
 ## Open blockers
 
 Full recovery/onboarding, application/workspace, journal, portfolio, analytics/coaching/notifications, settings, admin, most overlays/system states, cross-product accessibility/performance closure, hero film/expansion, independent continent geometry, final scene-5 richness, approved legal publication copy, and candidate production deployment/cutover acceptance remain open. Password-reset policy/handler evidence gaps remain documented in M5_CONTRACT_GAPS.md. No new product routes or API mediation are part of this checkpoint.
+
+## First empirical run — rejected, diagnosis in progress
+
+Head `2f2f55c2a20847f90b2ccc3491635607f31da836` passed M1–M4, foundation and Vite. M5 passed 41/42 browser tests. All auth failure/recovery cases, source selection, width and navigation checks passed. The resource gate correctly rejected warm heap 5,360,144 → final 6,175,692 bytes (+815,548); late growth 282,748, slope 71,284.4 bytes/journey, all four late increments positive. Nodes remained 206 → 206 and listeners 369 → 369. The aggregate failed closed on this M5 failure (run 35945926986). No tolerance is changed. Controlled heap-type/class census instrumentation is added to distinguish retained product objects from framework/compiler allocation before selecting a correction. Acquisition markup is additionally made an explicit `signed_out` branch rather than the residual arm of a ternary.

@@ -24,10 +24,12 @@ export async function AccountEntry({ mode, searchParams }: { mode: 'login' | 'si
     </section>
     <section className={styles.access} data-auth-state={session.kind} aria-label={signup ? 'Create your account' : 'Sign in to ELCEO'}>
       <h2>{session.kind === 'unavailable' ? 'Sign-in service unavailable.' : authenticated ? 'You’re signed in.' : signup ? 'Make room for context.' : 'Welcome back.'}</h2>
-      {session.kind === 'unavailable' ? <>
+      {session.kind === 'unavailable' && <>
         <p role="alert">We can’t establish your sign-in status right now. Please try again when the sign-in service is available.</p>
         <a className={editorial.button} href={`${signup ? '/signup' : '/login'}?callbackUrl=${encodeURIComponent(callbackPath)}`}>Check sign-in again <span aria-hidden="true">↻</span></a>
-      </> : authenticated ? <><p>Your sign-in service has confirmed this session. Continue to your workspace or onboarding.</p><Link className={`${editorial.button} ${editorial.primary}`} href={callbackPath}>Continue <span aria-hidden="true">↗</span></Link></> : <>
+      </>}
+      {authenticated && <><p>Your sign-in service has confirmed this session. Continue to your workspace or onboarding.</p><Link className={`${editorial.button} ${editorial.primary}`} href={callbackPath}>Continue <span aria-hidden="true">↗</span></Link></>}
+      {session.kind === 'signed_out' && <>
         <p>{signup ? 'Use your Google account to enter ELCEO. You’ll then review the disclosures, choose your markets and review your plan.' : 'Use Google to securely return to your ELCEO account.'}</p>
         {typeof params.error === 'string' && <p className={styles.error} role="alert">Sign-in could not be completed. Please try again with the Google account you use for ELCEO.</p>}
         <GoogleEntry callbackPath={callbackPath} />

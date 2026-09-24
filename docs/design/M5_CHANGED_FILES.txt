@@ -56,6 +56,7 @@ apps/frontend/tests/auth/topology.runtime.test.ts
 apps/frontend/tests/m5/account-entry.spec.ts
 apps/frontend/tests/m5/landing.spec.ts
 apps/frontend/tests/m5/public-foundation.spec.ts
+apps/frontend/tests/m5/resource-snapshot.ts
 apps/frontend/tests/shell.spec.ts
 docs/design/ELCEO_ASSET_REGISTER.md
 docs/design/M5_ASSET_INTEGRITY.json
