@@ -1,5 +1,5 @@
 // Post-GC retained-resource constitution. Tolerances are noise budgets, not spread tests.
-export const resourcePolicy = Object.freeze({ repeats: 6, idleMs: 1500,
+export const resourcePolicy = Object.freeze({ warmupJourneys: 3, repeats: 6, idleMs: 1500,
   heap: { growth: 2 * 1024 * 1024, lateGrowth: 128 * 1024, slope: 32 * 1024 },
   nodes: { growth: 32, lateGrowth: 8, slope: 2 },
   listeners: { growth: 4, lateGrowth: 2, slope: .5 },
@@ -22,4 +22,18 @@ export function evaluateResources(samples) {
       pass: delta <= limit.growth && !sustained };
   }
   return { policy: resourcePolicy, counters: results, pass: Object.values(results).every(r => r.pass) };
+}
+
+// Fixed warm-up, never an adaptive loop that runs until a leak looks settled.
+// Initial allocations remain bounded across the complete measured lifecycle.
+export function evaluateResourceJourney(samples) {
+  if (samples.length !== resourcePolicy.warmupJourneys + resourcePolicy.repeats) throw new Error('Require three warm-up journeys and six measured repeats');
+  const retained = evaluateResources(samples.slice(resourcePolicy.warmupJourneys - 1));
+  const initial = Object.fromEntries(['heap','nodes','listeners'].map(key => {
+    if (samples.some(s => !Number.isFinite(s[key]) || s[key] <= 0)) throw new Error(`Missing counter: ${key}`);
+    const first = samples[0][key], final = samples.at(-1)[key];
+    const peakGrowth = Math.max(...samples.map(s => s[key])) - first;
+    return [key, { first, final, delta: final - first, peakGrowth, pass: peakGrowth <= resourcePolicy[key].growth }];
+  }));
+  return { ...retained, initial, pass: retained.pass && Object.values(initial).every(counter => counter.pass) };
 }
