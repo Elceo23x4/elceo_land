@@ -9,7 +9,18 @@ const server = createServer(async (request, response) => {
   const json = (status, value, headers = {}) => { response.writeHead(status, { 'content-type': 'application/json', 'cache-control': 'no-store', ...headers }); response.end(JSON.stringify(value)); };
   if (request.url === '/health') return json(200, { ok: true });
   if (request.url === '/__m5/last-signin') return json(200, lastSignIn);
-  if (request.url?.startsWith('/api/auth/session')) return json(200, request.headers.cookie?.includes('m5-test-state=signed-out') ? null : session);
+  if (request.url?.startsWith('/api/auth/session')) {
+    const state = /(?:^|; )m5-test-state=([^;]+)/.exec(request.headers.cookie ?? '')?.[1];
+    if (state === 'unavailable') return json(503, { error: 'controlled_dependency_failure' });
+    if (state === 'empty-body') { response.writeHead(200, { 'content-type': 'application/json' }); response.end(); return; }
+    if (state === 'malformed') return json(200, { user: { id: 'incomplete' } });
+    if (state === 'network') { request.socket.destroy(); return; }
+    if (state === 'body-failure') {
+      response.writeHead(200, { 'content-type': 'application/json', 'content-length': 1024 });
+      response.write('{'); setTimeout(() => response.destroy(), 20); return;
+    }
+    return json(200, state === 'signed-out' ? null : session);
+  }
   if (request.url === '/api/auth/providers') return json(200, { google: { id: 'google', name: 'Google', type: 'oidc' } });
   if (request.url === '/api/auth/csrf') return json(200, { csrfToken: 'm5-controlled-csrf' }, { 'set-cookie': 'm5-controlled-challenge=present; HttpOnly; Path=/; SameSite=Lax' });
   if (request.url === '/api/auth/signin/google' && request.method === 'POST') {

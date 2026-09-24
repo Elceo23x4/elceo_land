@@ -4,62 +4,71 @@
     "width": 960,
     "height": 600,
     "bytes": 81482,
-    "sha256": "19679bfaff26aaaf82c44ab2cadab745404406bb9807754edcf5295abc3cb950"
+    "sha256": "19679bfaff26aaaf82c44ab2cadab745404406bb9807754edcf5295abc3cb950",
+    "classification": "production-consumed"
   },
   {
     "file": "deckled-claret-desktop.webp",
     "width": 1920,
     "height": 640,
     "bytes": 122468,
-    "sha256": "0e97e0e19856ffb627ac876a47fdb0a83bd8dafb9a6d7e9496c3ecf983262bdd"
+    "sha256": "0e97e0e19856ffb627ac876a47fdb0a83bd8dafb9a6d7e9496c3ecf983262bdd",
+    "classification": "production-consumed"
   },
   {
     "file": "deckled-claret-mobile.webp",
     "width": 960,
     "height": 320,
     "bytes": 27646,
-    "sha256": "29320661c46bc1ac981efca045d79cdbe293eeeb6abe7beeb98549100e316fb7"
+    "sha256": "29320661c46bc1ac981efca045d79cdbe293eeeb6abe7beeb98549100e316fb7",
+    "classification": "production-consumed"
   },
   {
     "file": "information-horizon-desktop.webp",
     "width": 1774,
     "height": 887,
     "bytes": 75390,
-    "sha256": "6d3d60a650a797fe796ad555aa8e80fbc79345826c57895cde9008cf15b11461"
+    "sha256": "6d3d60a650a797fe796ad555aa8e80fbc79345826c57895cde9008cf15b11461",
+    "classification": "production-consumed"
   },
   {
     "file": "information-horizon-mobile.webp",
     "width": 768,
     "height": 384,
     "bytes": 17606,
-    "sha256": "5ce2ed6527fbf1f39c83d388d494231580ed158d8c9ed9ad225a9265c4f20cab"
+    "sha256": "5ce2ed6527fbf1f39c83d388d494231580ed158d8c9ed9ad225a9265c4f20cab",
+    "classification": "production-consumed"
   },
   {
     "file": "market-depth-desktop.webp",
     "width": 1920,
     "height": 640,
     "bytes": 34536,
-    "sha256": "0b1e4a5ce09db14994a6cb7f3ef928cd8264449d16052adecd41ed979bc96304"
+    "sha256": "0b1e4a5ce09db14994a6cb7f3ef928cd8264449d16052adecd41ed979bc96304",
+    "classification": "production-consumed"
   },
   {
     "file": "market-depth-mobile.webp",
     "width": 768,
     "height": 256,
     "bytes": 7586,
-    "sha256": "85d0f389e055fa9983a9dee7ee0c8029999fb582d6f1bdb6197c264539df6c77"
+    "sha256": "85d0f389e055fa9983a9dee7ee0c8029999fb582d6f1bdb6197c264539df6c77",
+    "classification": "production-consumed"
   },
   {
     "file": "world-context-desktop.webp",
     "width": 1254,
     "height": 1254,
     "bytes": 180920,
-    "sha256": "7e050acb7babbec57ca6dfae9effdd6f43c2d468396e1621d1dec3dcae59a689"
+    "sha256": "7e050acb7babbec57ca6dfae9effdd6f43c2d468396e1621d1dec3dcae59a689",
+    "classification": "production-consumed"
   },
   {
     "file": "world-context-mobile.webp",
     "width": 768,
     "height": 768,
     "bytes": 80504,
-    "sha256": "aa290c46b5496598e25d6d2e3243fccdc343387a40504c0786eda828584273a6"
+    "sha256": "aa290c46b5496598e25d6d2e3243fccdc343387a40504c0786eda828584273a6",
+    "classification": "production-consumed"
   }
 ]

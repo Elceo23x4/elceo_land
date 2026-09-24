@@ -39,6 +39,11 @@
       "path": "apps/frontend/lib/api/authenticated-browser.ts",
       "purpose": "Inherited typed same-origin browser transport binding.",
       "authority": "Opaque cookies and upstream credentials remain exclusively in the canonical server relay."
+    },
+    {
+      "path": "apps/frontend/components/public/RouteLink.tsx",
+      "purpose": "Central active-destination navigation semantics; renders current destinations as non-action text.",
+      "authority": "Presentation pathname only. No session, cookies, permissions or backend access decisions."
     }
   ],
   "landingMotionOwners": [

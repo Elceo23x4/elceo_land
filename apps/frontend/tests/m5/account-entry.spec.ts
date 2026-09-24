@@ -64,3 +64,38 @@ test('signed-in presentation comes from canonical session resolution', async ({ 
   await expect(page.getByRole('button', { name: 'Continue with Google' })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Continue', exact: false }).filter({ hasText: /^Continue/ })).toHaveAttribute('href', '/dashboard');
 });
+
+for (const failure of ['unavailable', 'malformed', 'empty-body', 'network', 'body-failure']) {
+  test(`canonical ${failure} renders dependency failure, never acquisition; retry recovers`, async ({ page, context }) => {
+    await context.addCookies([{ name: 'm5-test-state', value: failure, url: origin, httpOnly: true }]);
+    for (const path of ['/login', '/signup']) {
+      await page.goto(origin + path);
+      await expect(page.locator('[data-auth-state="unavailable"]')).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Sign-in service unavailable.' })).toBeVisible();
+      await expect(page.getByRole('button', { name: 'Continue with Google' })).toHaveCount(0);
+      await expect(page.locator('form[action="/api/auth/signin/google"]')).toHaveCount(0);
+    }
+    await context.addCookies([{ name: 'm5-test-state', value: 'signed-out', url: origin, httpOnly: true }]);
+    await page.getByRole('link', { name: 'Check sign-in again' }).click();
+    await expect(page.locator('[data-auth-state="signed_out"]')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible();
+    await context.clearCookies();
+    await page.reload();
+    await expect(page.locator('[data-auth-state="authenticated"]')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Continue with Google' })).toHaveCount(0);
+  });
+}
+
+test('provider and CSRF availability can recover without alternate session authority', async ({ page }) => {
+  await page.route('**/api/auth/providers', route => route.fulfill({ status:503,json:{error:'unavailable'} }));
+  await page.goto(origin+'/login');
+  await page.getByRole('button',{name:'Continue with Google'}).click();
+  await expect(page.getByRole('status')).toContainText('unavailable');
+  await page.unroute('**/api/auth/providers');
+  await page.route('**/api/auth/csrf', route => route.fulfill({ status:503,json:{error:'unavailable'} }));
+  await page.getByRole('button',{name:'Continue with Google'}).click();
+  await expect(page.getByRole('status')).toContainText('unavailable');
+  await page.unroute('**/api/auth/csrf');
+  await page.getByRole('button',{name:'Continue with Google'}).click();
+  await expect(page).toHaveURL(origin+'/m1-proof?m5=controlled-signin');
+});

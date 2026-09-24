@@ -1,3 +1,5 @@
+import { execFileSync } from 'node:child_process';
+import { evaluateResources, resourcePolicy } from '../../../../scripts/m5-resource-policy.mjs';
 import { test, expect } from '@playwright/test';
 const origin = 'http://127.0.0.1:3102';
 
@@ -5,6 +7,12 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
   test(`seven-scene readable landing at ${width}px with reduced motion`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width, height: 900 });
     const errors: string[] = [];
+    const downloaded: string[] = [];
+    page.on('request', request => {
+      const url = new URL(request.url());
+      const source = url.searchParams.get('url') ?? url.pathname;
+      if (source.startsWith('/m5-assets/')) downloaded.push(source);
+    });
     page.on('pageerror', error => errors.push(error.message));
     expect((await page.goto(origin))?.status()).toBe(200);
     await expect(page.locator('main > section')).toHaveCount(7);
@@ -18,10 +26,29 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
       expect(box!.x).toBeGreaterThanOrEqual(-1);
       expect(box!.x + box!.width).toBeLessThanOrEqual(width + 1);
     }
+    for (const section of await page.locator('main > section').all()) {
+      const box = await section.boundingBox();
+      expect(box!.x).toBeCloseTo(0, 0);
+      expect(box!.width).toBeCloseTo(width, 0);
+    }
+    for (const key of ['world','depth','horizon']) {
+      const selected = await page.locator(`[data-scene-media="${key}"] img`).evaluate((el: HTMLImageElement) => el.currentSrc);
+      const source = new URL(selected).searchParams.get('url');
+      expect(source).toContain(width <= 760 ? '-mobile.webp' : '-desktop.webp');
+      const stem = key === 'world' ? 'world-context' : key === 'depth' ? 'market-depth' : 'information-horizon';
+      expect(downloaded.filter(url => url.includes(stem) && url.includes(width <= 760 ? '-desktop.webp' : '-mobile.webp'))).toEqual([]);
+    }
+    const stages = await page.locator('main > section').evaluateAll(nodes => nodes.map(node => { const r=node.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height}; }));
+    for (let i=1;i<stages.length;i++) expect(stages[i].y-(stages[i-1].y+stages[i-1].height)).toBeLessThanOrEqual(1);
+    const footer = await page.locator('footer').boundingBox();
+    expect(footer!.width).toBeCloseTo(width,0);
+    if (width >=1440) expect((await page.locator('main figure').boundingBox())!.width).toBeLessThan(width*.65);
+    if ([390,1440,1920].includes(width)) console.log(`M5_WIDTH:${JSON.stringify({width,stages,downloaded})}`);
+    await testInfo.attach(`landing-width-${width}`, {body:JSON.stringify({head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),width,stages,downloaded}),contentType:'application/json'});
     await expect(page.locator('[data-landing-world]')).not.toHaveAttribute('style', /transform/);
     await expect(page.getByText('Actual interface preview · demonstration data, not live intelligence.')).toBeVisible();
     await expect(page.getByRole('link', { name: /Start exploring ELCEO/ })).toHaveAttribute('href', '/signup');
-    if (width === 390 || width === 1440) {
+    if (width === 390 || width === 1440 || width === 1920) {
       const file = testInfo.outputPath(`landing-${width}.png`);
       await page.screenshot({ path: file, fullPage: true });
       await testInfo.attach(`landing-${width}`, { path: file, contentType: 'image/png' });
@@ -61,11 +88,15 @@ test('desktop motion cleans up on reduced-motion changes and repeated route jour
   await session.send('Performance.enable');
   await session.send('HeapProfiler.enable');
   const samples: Array<{ heap: number; nodes: number; listeners: number }> = [];
-  for (let journey = 0; journey < 5; journey++) {
+  // First journey establishes the post-warmup baseline; six repeats follow.
+  for (let journey = 0; journey <= resourcePolicy.repeats; journey++) {
     for (const section of await page.locator('main > section').all()) await section.scrollIntoViewIfNeeded();
     await page.getByRole('heading', { level: 1 }).scrollIntoViewIfNeeded();
     await page.getByRole('navigation', { name: 'Main', exact: true }).getByRole('link', { name: 'About', exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toContainText('More context');
+    await page.waitForTimeout(resourcePolicy.idleMs);
+    await session.send('HeapProfiler.collectGarbage');
+    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
     await session.send('HeapProfiler.collectGarbage');
     const metrics = await session.send('Performance.getMetrics');
     const dom = await session.send('Memory.getDOMCounters');
@@ -73,10 +104,10 @@ test('desktop motion cleans up on reduced-motion changes and repeated route jour
     await page.getByRole('navigation', { name: 'Main', exact: true }).getByRole('link', { name: 'Home', exact: true }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('ELCEO');
   }
-  const settled = samples.slice(2);
-  // Warmed route-cache retention is allowed; repeated journeys must settle.
-  expect(Math.max(...settled.map(sample => sample.heap)) - Math.min(...settled.map(sample => sample.heap))).toBeLessThan(5 * 1024 * 1024);
-  expect(Math.max(...settled.map(sample => sample.listeners)) - Math.min(...settled.map(sample => sample.listeners))).toBeLessThanOrEqual(30);
-  await testInfo.attach('landing-journey-resources', { body: JSON.stringify(samples, null, 2), contentType: 'application/json' });
+  const result = evaluateResources(samples);
+  const evidence = { head: execFileSync('git', ['rev-parse','HEAD'], { encoding: 'utf8' }).trim(), samples, ...result };
+  console.log(`M5_RESOURCE:${JSON.stringify(evidence)}`);
+  await testInfo.attach('landing-journey-resources', { body: JSON.stringify(evidence, null, 2), contentType: 'application/json' });
+  expect(result.pass, JSON.stringify(result.counters)).toBe(true);
   await session.detach();
 });

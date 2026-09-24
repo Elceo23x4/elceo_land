@@ -47,3 +47,5 @@ M5 production derivatives and their exact origin, size, fallback and implementat
 ## Status workflow
 
 For each produced asset record: owner/source, dimensions, format, compressed size, visual scene, responsive variants, reduced-motion fallback, license/provenance, and implementation status.
+
+M5 repair checkpoint: the nine registered stills are production-consumed and mechanically reachable. World, market-depth and information-horizon pairs now select the dedicated mobile source at <=760px via server-rendered picture/GetImageProps source sets. Desktop fidelity, source hashes and the approved reference remain unchanged. See `M5_ASSET_INTEGRITY.json` and `M5_HARDENING_CHECKPOINT.md` for reachability and empirical-selection evidence requirements.

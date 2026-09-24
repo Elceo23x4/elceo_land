@@ -99,3 +99,14 @@ test('legal reading, plan limits and controlled demonstration remain explicit', 
   await question.press('Enter');
   await expect(page.getByText('What was the market already expecting?', { exact: true })).toBeVisible();
 });
+
+test('central public navigation exposes current destinations without self-links', async ({page}) => {
+  for (const route of ['/','/login','/signup','/pricing','/about','/faq','/demo','/legal/terms','/legal/privacy','/legal/risk-disclosure']) {
+    await page.goto(origin+route);
+    for (const chrome of [page.locator('header').first(),page.locator('footer')]) {
+      await expect(chrome.locator(`a[href="${route}"]`)).toHaveCount(0);
+    }
+    if(route !== '/signup') await expect(page.locator('header [aria-current="page"], footer [aria-current="page"]').first()).toBeVisible();
+    if(route==='/login') await expect(page.locator('header').getByRole('link',{name:'Sign in'})).toHaveCount(0);
+  }
+});

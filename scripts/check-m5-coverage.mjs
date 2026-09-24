@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import path from 'node:path';
+import { collectRouteFiles } from './m5-route-identity.mjs';
 
 const inventoryPath = 'docs/backend-contract/ui-page-inventory.md';
 const outputPath = 'docs/design/M5_SURFACE_INVENTORY.generated.json';
@@ -9,13 +9,8 @@ const walk = directory => readdirSync(directory, { withFileTypes: true }).flatMa
   const file = `${directory}/${entry.name}`;
   return entry.isDirectory() ? walk(file) : [file];
 });
-const routeFiles = new Map();
-for (const file of walk(root).filter(file => /\/page\.[jt]sx?$/u.test(file))) {
-  const segments = path.posix.relative(root, path.posix.dirname(file)).split('/').filter(segment => segment && !/^\(.+\)$/u.test(segment));
-  const route = `/${segments.join('/')}`;
-  assert(!routeFiles.has(route), `Duplicate route files: ${route}`);
-  routeFiles.set(route, file);
-}
+const canonicalRoutes = new Set([...readFileSync(inventoryPath,'utf8').matchAll(/^\| [A-Z]+-\d+ \| `(\/[^`]+|\/)` \|/gm)].map(match=>match[1]));
+const routeFiles = collectRouteFiles(walk(root).filter(file => /\/page\.[jt]sx?$/u.test(file)), canonicalRoutes, root);
 const ids = new Set();
 const routes = new Set();
 const surfaces = [];

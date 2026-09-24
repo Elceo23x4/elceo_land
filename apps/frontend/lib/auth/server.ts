@@ -72,3 +72,11 @@ export async function requireAdminPresentationSession(callbackPath = '/admin'): 
   if (!isCanonicalAdminRole(session.user.role)) redirect('/dashboard');
   return session;
 }
+
+/** Presentation preserves canonical absence versus dependency failure. No fallback identity. */
+export async function getCanonicalEntryResolution(): Promise<SessionResolution | Readonly<{
+  kind: 'unavailable'; reason: 'resolution_failure'; status: null; setCookies: readonly string[];
+}>> {
+  try { return await getCanonicalSessionResolution(); }
+  catch { return { kind: 'unavailable', reason: 'resolution_failure', status: null, setCookies: [] }; }
+}

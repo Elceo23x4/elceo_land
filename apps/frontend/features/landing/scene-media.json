@@ -1,0 +1,38 @@
+{
+  "world": {
+    "desktop": {
+      "src": "/m5-assets/world-context-desktop.webp",
+      "width": 1254,
+      "height": 1254
+    },
+    "mobile": {
+      "src": "/m5-assets/world-context-mobile.webp",
+      "width": 768,
+      "height": 768
+    }
+  },
+  "depth": {
+    "desktop": {
+      "src": "/m5-assets/market-depth-desktop.webp",
+      "width": 1920,
+      "height": 640
+    },
+    "mobile": {
+      "src": "/m5-assets/market-depth-mobile.webp",
+      "width": 768,
+      "height": 256
+    }
+  },
+  "horizon": {
+    "desktop": {
+      "src": "/m5-assets/information-horizon-desktop.webp",
+      "width": 1774,
+      "height": 887
+    },
+    "mobile": {
+      "src": "/m5-assets/information-horizon-mobile.webp",
+      "width": 768,
+      "height": 384
+    }
+  }
+}

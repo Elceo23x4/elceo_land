@@ -2,7 +2,7 @@
 .landing h2, .landing h3 { font-weight: 500; letter-spacing: -.045em; line-height: 1.05; margin: 0; text-wrap: balance; }
 .landing h2 { font-size: clamp(2rem, 3.5vw, 4.2rem); }
 .label { font-size: .75rem; letter-spacing: .16em; line-height: 1.65; text-transform: uppercase; color: #d0c3b3; margin: 0 0 1.3rem; max-width: 28ch; }
-.hero { position: relative; height: clamp(390px, 37vw, 690px); max-width: 1920px; margin: auto; }
+.hero { position: relative; height: clamp(390px, 37vw, 690px); width: 100%; margin: 0; }
 .world { position: absolute; width: 64%; top: -26%; right: 8%; pointer-events: none; }
 .world img { width: 100%; height: auto; display: block; }
 .identity { position: absolute; z-index: 1; top: 24%; left: 6%; }
@@ -29,7 +29,7 @@
 .problems span { display: block; margin-top: 1rem; }
 .problems svg { width: 32px; height: 32px; fill: none; stroke: #f8ddd4; stroke-width: 1.2; }
 .lens { position: absolute; width: 360px; height: 360px; left: -180px; top: -180px; border-radius: 50%; background: radial-gradient(circle, #f5b4b02a, transparent 66%); opacity: 0; pointer-events: none; z-index: 0; }
-.constellation { position: relative; max-width: 1800px; margin: auto; min-height: clamp(530px, 43vw, 740px); padding: 2rem 6% 0; }
+.constellation { position: relative; width: 100%; margin: 0; min-height: clamp(530px, 43vw, 740px); padding: 2rem 6% 0; }
 .approachLabel { position: absolute; left: 6%; top: 2.5rem; }
 .constellation > h2 { position: absolute; left: 45%; top: 1.75rem; font-size: clamp(1.6rem, 2.5vw, 3rem); max-width: 20ch; }
 .principlesCopy { position: absolute; right: 6%; top: 1.5rem; width: 17%; font-size: .85rem; color: #c5c0b8; line-height: 1.45; }
@@ -44,7 +44,7 @@
 .bars { display: flex; align-items: center; justify-content: center; gap: 5px; transform: skewY(-24deg); }.bars i { background: currentColor; width: 7px; height: 35px; }.bars i:nth-child(2), .bars i:nth-child(4) { height: 48px; }.bars i:nth-child(3) { height: 64px; }
 .prism { clip-path: polygon(50% 0, 100% 80%, 50% 100%, 0 75%); background: conic-gradient(from 20deg at 50% 90%, #062845, var(--tone), #03111e, var(--tone), #062845); }
 .rings i { position: absolute; border: 1px solid currentColor; border-radius: 50%; width: 48px; height: 48px; top: 8px; left: 0; }.rings i:nth-child(2) { left: 26px; background: color-mix(in srgb, var(--tone), transparent 88%); }.rings i:nth-child(n+3) { display: none; }
-.information { min-height: clamp(530px, 39vw, 750px); position: relative; max-width: 1920px; margin: -3rem auto 0; }
+.information { min-height: clamp(530px, 39vw, 750px); position: relative; width: 100%; margin: -3rem 0 0; }
 .horizon { object-fit: cover; object-position: center bottom; }
 .informationCopy { position: relative; z-index: 2; padding: 8% 0 0 6%; width: 36%; }
 .informationCopy > p:last-child { font-size: 1rem; line-height: 1.5; color: #d2cec7; max-width: 36ch; }
@@ -54,7 +54,7 @@
 .plane > span { color: #eeeeeb; font-size: .6rem; letter-spacing: .08em; text-transform: uppercase; }.plane > p { font-size: clamp(.8rem, 1.25vw, 1.4rem); line-height: 1.15; margin-top: .75rem; }
 .fragmentLines { display: flex; gap: 5px; margin-top: 30%; align-items: end; height: 60px; opacity: .4; }.fragmentLines i { width: 25%; height: 35%; border-top: 1px solid #e08b54; border-inline: 1px solid #d4d8d8; }.fragmentLines i:nth-child(2) { height: 85%; }.fragmentLines i:nth-child(3) { height: 65%; }
 .fragmentCaption { position: absolute; right: 6%; bottom: 1rem; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; max-width: 28ch; text-align: right; }
-.product { padding: 7rem 6% 9rem; max-width: 1500px; margin: auto; }
+.product { padding: 7rem 6% 9rem; width: 100%; margin: 0; }
 .product > header { margin: 0 auto 4rem; max-width: 800px; }.product > header > p:last-child { max-width: 44ch; color: #c0c1ba; }
 .mosaic { max-width: 800px; margin: auto; display: grid; grid-template-columns: 1.15fr 1fr; gap: 1rem; }
 .mosaic h3 { font-size: clamp(1.4rem, 2vw, 2rem); }.mosaic p { color: #bdc1bb; font-size: 1rem; line-height: 1.5; max-width: 34ch; }
@@ -101,3 +101,6 @@
   .mosaic a { font-size: .9rem; }
   .shortCard { min-height: 210px; }
 }
+
+.landing > section { box-sizing: border-box; width: 100%; }
+@media (max-width: 760px) { .wordmark h1 { background-image: url('/m5-assets/market-depth-mobile.webp'); } }

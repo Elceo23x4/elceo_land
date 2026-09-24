@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
+import { SceneMedia } from './SceneMedia';
 import { LandingMotion } from './LandingMotion';
 import styles from './LandingNarrative.module.css';
 
@@ -25,7 +26,7 @@ export function LandingNarrative() {
   return <main id="main-content" className={styles.landing} data-landing-root>
     <LandingMotion />
     <section className={styles.hero} aria-label="ELCEO market intelligence">
-      <div className={styles.world} data-landing-world aria-hidden="true"><Image src="/m5-assets/world-context-desktop.webp" alt="" width={1254} height={1254} sizes="(max-width: 760px) 95vw, 64vw" priority /></div>
+      <div className={styles.world} data-landing-world aria-hidden="true"><SceneMedia asset="world" /></div>
       <div className={styles.identity}>
         <div className={styles.wordmark}><span className={styles.candles} aria-hidden="true"><i /><i /><i /><i /><i /></span><h1>ELCEO</h1></div>
         <p>Market intelligence<br />for a clearer tomorrow</p>
@@ -35,7 +36,7 @@ export function LandingNarrative() {
     </section>
 
     <section id="market-depth" className={styles.depth} aria-labelledby="depth-title">
-      <Image src="/m5-assets/market-depth-desktop.webp" alt="" fill sizes="100vw" className={styles.landscape} />
+      <SceneMedia asset="depth" fill className={styles.landscape} />
       <div className={styles.depthTitle}><p className={styles.label}>Same market. A deeper story.</p><h2 id="depth-title">Price is visible.<br />The real story<br /><em>runs deeper.</em></h2></div>
       <p className={styles.depthCopy}>Beneath every move is a web of narratives, pressures and shifting context. Most traders see the move. Fewer see what’s moving it.</p>
     </section>
@@ -64,7 +65,7 @@ export function LandingNarrative() {
     </section>
 
     <section className={styles.information} aria-labelledby="information-title">
-      <Image src="/m5-assets/information-horizon-desktop.webp" alt="" fill sizes="100vw" className={styles.horizon} />
+      <SceneMedia asset="horizon" fill className={styles.horizon} />
       <div className={styles.informationCopy}><p className={styles.label}>From fragments to a clearer view</p><h2 id="information-title">Turn information<br />into insight.</h2><p>News, data, sentiment, structure—connect the context around a move, and examine what the fragments alone cannot explain.</p></div>
       <div className={styles.planes} data-landing-planes role="region" aria-label="Illustrative information fragments; scroll horizontally on smaller screens" tabIndex={0}>
         {fragments.map(([label, title], i) => <div className={styles.plane} data-landing-plane data-depth={i === 2 ? 80 : i % 2 ? -35 : 10} key={label} style={{ '--plane': i } as CSSProperties}><span>{label}</span><p>{title}</p><div className={styles.fragmentLines} aria-hidden="true"><i /><i /><i /></div></div>)}

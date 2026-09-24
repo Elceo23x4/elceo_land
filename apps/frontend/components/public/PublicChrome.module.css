@@ -8,14 +8,15 @@
 .mobile { display: none; }
 .skip { position: absolute; transform: translateY(-180%); top: 1rem; background: #fff; color: #000 !important; padding: .75rem 1rem; }
 .skip:focus { transform: none; }
-.footer { width: min(100% - 8vw, 1440px); margin-inline: auto; padding-block: 4rem 2rem; border-top: 1px solid #343530; }
+.footer { box-sizing: border-box; width: 100%; padding-inline: 4vw; padding-block: 4rem 2rem; border-top: 1px solid #343530; }
 .footerTop { display: flex; justify-content: space-between; gap: 2rem; margin-bottom: 3rem; }
 .footerTop p { color: #b4b0a8; margin: 0; }
 .footerLinks { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; font-size: .875rem; }
 .footerBottom { display: flex; justify-content: space-between; gap: 2rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #343530; color: #a7a8a0; font-size: .75rem; }
 @media (max-width: 1024px) { .brand span { display: none; } .header { gap: 1.25rem; } }
 @media (max-width: 760px) {
-  .header, .footer { width: calc(100% - 40px); }
+  .header { width: calc(100% - 40px); }
+  .footer { width: 100%; padding-inline: 20px; }
   .header { min-height: 84px; gap: 1rem; flex-wrap: wrap; }
   .brand { font-size: 1.5rem; }
   .desktop { display: none; }
@@ -26,3 +27,5 @@
   .mobile nav a { min-height: 48px; display: flex; align-items: center; }
   .footerTop, .footerBottom { flex-direction: column; }
 }
+
+.desktop [aria-current], .footerLinks [aria-current], .mobile nav [aria-current] { display: inline-flex; align-items: center; min-height: 44px; color: #e4ba94; }

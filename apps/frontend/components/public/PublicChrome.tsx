@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { RouteLink as Link } from './RouteLink';
 import { Modal } from '../primitives/Modal';
 import styles from './PublicChrome.module.css';
 
@@ -19,7 +19,7 @@ export function PublicFooter() {
     <div className={styles.footerTop}><Link href="/" className={styles.brand}>ELCEO</Link><p>A clearer way to think.<br />A more intentional way to trade.</p></div>
     <nav aria-label="Footer" className={styles.footerLinks}>
       {navigation.slice(1).map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
-      <Link href="/dashboard">Open workspace</Link>
+      <Link href="/demo">Demo</Link><Link href="/dashboard">Open workspace</Link>
       <Link href="/legal/terms">Terms</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/risk-disclosure">Risk disclosure</Link>
       <Modal label="Cookies" title="Your cookie choices">
         <p>This experience uses necessary session and security cookies when you sign in. They support authentication and protect requests.</p>

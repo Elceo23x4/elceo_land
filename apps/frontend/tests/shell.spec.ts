@@ -9,7 +9,11 @@ test('server routing, source SVGs and scoped portal inheritance', async ({ page,
  for (const path of ['/login', '/signup']) {
    const entry = await request.get(path);
    expect(entry.status()).toBe(200);
-   expect(await entry.text()).toContain('Continue with Google');
+   // Deliberately absent topology is unavailable, never signed-out acquisition.
+   await page.goto(path);
+   await expect(page.locator('[data-auth-state="unavailable"]')).toBeVisible();
+   await expect(page.getByRole('heading', { name: 'Sign-in service unavailable.' })).toBeVisible();
+   await expect(page.getByRole('button', { name: 'Continue with Google' })).toHaveCount(0);
  }
  // M3 adds a fail-closed document guard before protected pages exist. With the
  // engineering server's deliberately absent auth topology, protected paths must
