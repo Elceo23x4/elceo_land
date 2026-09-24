@@ -89,7 +89,7 @@ test('desktop motion cleans up on reduced-motion changes and repeated route jour
   await session.send('Performance.enable');
   await session.send('HeapProfiler.enable');
   const census: Awaited<ReturnType<typeof heapCensus>>[] = [];
-  const diagnostics = process.env.M5_HEAP_DIAGNOSTICS === '1';
+  const diagnostics = true; // Temporary owner census; remove before final acceptance.
   const samples: Array<{ heap: number; nodes: number; listeners: number }> = [];
   // Fixed lifecycle warm-up: document mount, client remount, cached remount.
   // Every early sample remains subject to the first-to-final growth ceiling.
@@ -121,8 +121,8 @@ test('desktop motion cleans up on reduced-motion changes and repeated route jour
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('ELCEO');
   }
   if (diagnostics) {
-  const changes = (key: 'byType' | 'byClass') => Object.entries(census[1][key]).map(([name, value])=>({name,bytes:value.bytes-(census[0][key][name]?.bytes??0),count:value.count-(census[0][key][name]?.count??0)})).sort((a,b)=>b.bytes-a.bytes).slice(0,25);
-  console.log(`M5_HEAP_CENSUS:${JSON.stringify({types:changes('byType'),classes:changes('byClass')})}`);
+  const changes = (key: 'byType' | 'byClass' | 'byOwner') => Object.entries(census[1][key]).map(([name, value])=>({name,bytes:value.bytes-(census[0][key][name]?.bytes??0),count:value.count-(census[0][key][name]?.count??0)})).sort((a,b)=>b.bytes-a.bytes).slice(0,25);
+  console.log(`M5_HEAP_CENSUS:${JSON.stringify({types:changes('byType'),classes:changes('byClass'),owners:changes('byOwner')})}`);
   await testInfo.attach('landing-heap-census', {body:JSON.stringify(census),contentType:'application/json'});
   }
   const result = evaluateResourceJourney(samples);
