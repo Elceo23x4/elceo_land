@@ -16,7 +16,7 @@ export async function heapCensus(session: CDPSession) {
     const type=types[n[i+fields.indexOf('type')]];
     const size=n[i+fields.indexOf('self_size')];
     const bucket=byType[type] ??= {count:0,bytes:0};bucket.count++;bucket.bytes+=size;
-    if(type==='object'||type==='closure') {
+    if(type==='object'||type==='closure'||type==='code') {
       const name=String(snapshot.strings[n[i+fields.indexOf('name')]]).slice(0,80);
       const item=byClass[`${type}:${name}`] ??= {count:0,bytes:0};item.count++;item.bytes+=size;
     }
