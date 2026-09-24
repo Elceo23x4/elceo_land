@@ -1,3 +1,4 @@
+import { createResourceDriver } from './resource-driver';
 import { heapCensus } from './resource-snapshot';
 import { execFileSync } from 'node:child_process';
 import { evaluateResourceJourney, resourcePolicy } from '../../../../scripts/m5-resource-policy.mjs';
@@ -88,37 +89,27 @@ test('desktop motion cleans up on reduced-motion changes and repeated route jour
   const session = await page.context().newCDPSession(page);
   await session.send('Performance.enable');
   await session.send('HeapProfiler.enable');
+  const driver = await createResourceDriver(session);
   const census: Awaited<ReturnType<typeof heapCensus>>[] = [];
-  const diagnostics = true; // Temporary owner census; remove before final acceptance.
+  const diagnostics = process.env.M5_HEAP_DIAGNOSTICS === '1';
   const samples: Array<{ heap: number; nodes: number; listeners: number }> = [];
   // Fixed lifecycle warm-up: document mount, client remount, cached remount.
   // Every early sample remains subject to the first-to-final growth ceiling.
   for (let journey = 0; journey < resourcePolicy.warmupJourneys + resourcePolicy.repeats; journey++) {
-    const sections = await page.locator('main > section').all();
-    for (const section of sections) await section.scrollIntoViewIfNeeded();
-    for (const selector of ['[data-landing-lens-scope]', '[data-landing-planes]']) {
-      const target = page.locator(selector);
-      await target.scrollIntoViewIfNeeded();
-      const box = await target.boundingBox();
-      expect(box).not.toBeNull();
-      await page.mouse.move(box!.x + box!.width * .25, box!.y + box!.height * .5);
-      await page.mouse.move(box!.x + box!.width * .75, box!.y + box!.height * .5, { steps: 5 });
-      await page.mouse.move(0, 0);
-    }
-    for (const section of [...sections].reverse()) await section.scrollIntoViewIfNeeded();
-    await page.getByRole('heading', { level: 1 }).scrollIntoViewIfNeeded();
-    await page.getByRole('navigation', { name: 'Main', exact: true }).getByRole('link', { name: 'About', exact: true }).click();
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('More context');
+    await driver.scroll();
+    await driver.pointer('[data-landing-lens-scope]');
+    await driver.pointer('[data-landing-planes]');
+    await driver.scroll(true);
+    await driver.navigate('/about', 'More context');
     await page.waitForTimeout(resourcePolicy.idleMs);
     await session.send('HeapProfiler.collectGarbage');
-    await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+    await driver.frames();
     await session.send('HeapProfiler.collectGarbage');
     if (diagnostics && (journey === 0 || journey === resourcePolicy.warmupJourneys + resourcePolicy.repeats - 1)) census.push(await heapCensus(session));
     const metrics = await session.send('Performance.getMetrics');
     const dom = await session.send('Memory.getDOMCounters');
     samples.push({ heap: metrics.metrics.find(metric => metric.name === 'JSHeapUsedSize')?.value ?? 0, nodes: dom.nodes, listeners: dom.jsEventListeners });
-    await page.getByRole('navigation', { name: 'Main', exact: true }).getByRole('link', { name: 'Home', exact: true }).click();
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('ELCEO');
+    await driver.navigate('/', 'ELCEO');
   }
   if (diagnostics) {
   const changes = (key: 'byType' | 'byClass' | 'byOwner') => Object.entries(census[1][key]).map(([name, value])=>({name,bytes:value.bytes-(census[0][key][name]?.bytes??0),count:value.count-(census[0][key][name]?.count??0)})).sort((a,b)=>b.bytes-a.bytes).slice(0,25);
@@ -129,6 +120,7 @@ test('desktop motion cleans up on reduced-motion changes and repeated route jour
   const evidence = { head: execFileSync('git', ['rev-parse','HEAD'], { encoding: 'utf8' }).trim(), samples, ...result };
   console.log(`M5_RESOURCE:${JSON.stringify(evidence)}`);
   await testInfo.attach('landing-journey-resources', { body: JSON.stringify(evidence, null, 2), contentType: 'application/json' });
-  expect(result.pass, JSON.stringify(result.counters)).toBe(true);
+  await driver.dispose();
   await session.detach();
+  expect(result.pass, JSON.stringify(result.counters)).toBe(true);
 });
