@@ -28,16 +28,16 @@ export function mountLandingMotion(root: HTMLElement) {
     if (field) {
       let bounds = field.getBoundingClientRect();
       const planes = [...field.querySelectorAll<HTMLElement>('[data-landing-plane]')].map((plane, i) => ({
-        base: Number(plane.dataset.depth), direction: i - 2,
+        base: Number(plane.dataset.depth), direction: i - 2, rotationBase: (2 - i) * 8,
         z: gsap.quickTo(plane, 'z', { duration: 1.1, ease: 'power2.out' }),
         rotation: gsap.quickTo(plane, 'rotationY', { duration: 1.1, ease: 'power2.out' }),
       }));
       const enter = () => { bounds = field.getBoundingClientRect(); };
       const move = (event: PointerEvent) => {
         const progress = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / bounds.width * 2 - 1));
-        planes.forEach(plane => { plane.z(plane.base + progress * plane.direction * 32); plane.rotation(progress * -7); });
+        planes.forEach(plane => { plane.z(plane.base + progress * plane.direction * 32); plane.rotation(plane.rotationBase + progress * -7); });
       };
-      const leave = () => planes.forEach(plane => { plane.z(plane.base); plane.rotation(0); });
+      const leave = () => planes.forEach(plane => { plane.z(plane.base); plane.rotation(plane.rotationBase); });
       field.addEventListener('pointerenter', enter); field.addEventListener('pointermove', move); field.addEventListener('pointerleave', leave);
       cleanup.push(() => { field.removeEventListener('pointerenter', enter); field.removeEventListener('pointermove', move); field.removeEventListener('pointerleave', leave); });
     }

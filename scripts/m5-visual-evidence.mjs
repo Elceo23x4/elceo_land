@@ -13,10 +13,10 @@ async function walk(directory) {
     ? walk(path.join(directory, entry.name)) : [path.join(directory, entry.name)]));
   return nested.flat();
 }
-const allowed = /^(landing|about|faq|help|pricing|demo|legal-(terms|privacy|risk-disclosure)|login|signup|dashboard-preview)-(390|1440|1920)\.png$/u;
+const allowed = /^(section-0[1-8]-(hero|depth|blind-spots|principles|perspective|workspace|entry|footer)|landing|about|faq|help|pricing|demo|legal-(terms|privacy|risk-disclosure)|login|signup|dashboard-preview)-(390|1440|1920)\.png$/u;
 for (const file of (await walk('apps/frontend/test-results')).sort()) {
   if (!allowed.test(path.basename(file))) continue;
-  const output = await sharp(file).resize({ width: 960, withoutEnlargement: true }).jpeg({ quality: 72 }).toBuffer();
+  const output = await sharp(file).resize({ width: path.basename(file).startsWith('section-') ? 1920 : 960, withoutEnlargement: true }).jpeg({ quality: 72 }).toBuffer();
   console.log(`M5_VISUAL:${path.basename(file, '.png')}:${output.toString('base64')}`);
 }
 

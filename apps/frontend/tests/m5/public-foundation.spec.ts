@@ -66,7 +66,7 @@ test('client navigation from public UI retains exact protected dashboard geometr
   await expect(page.locator('[data-elceo-ui]')).toHaveCount(0);
 });
 
-test('capture actual preserved dashboard for clearly labelled landing preview', async ({ page }, testInfo) => {
+test('capture preserved dashboard independently of landing artwork', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(`${origin}/dashboard`, { waitUntil: 'networkidle' });
   await expect(page.locator('.dashboard-precision-viewport')).toBeVisible();
@@ -103,10 +103,10 @@ test('legal reading, plan limits and controlled demonstration remain explicit', 
 test('central public navigation exposes current destinations without self-links', async ({page}) => {
   for (const route of ['/','/login','/signup','/pricing','/about','/faq','/demo','/legal/terms','/legal/privacy','/legal/risk-disclosure']) {
     await page.goto(origin+route);
-    for (const chrome of [page.locator('header').first(),page.locator('footer')]) {
+    for (const chrome of [page.locator('header:visible').first(),page.locator('footer:visible')]) {
       await expect(chrome.locator(`a[href="${route}"]`)).toHaveCount(0);
     }
-    if(route !== '/signup') await expect(page.locator('header [aria-current="page"], footer [aria-current="page"]').first()).toBeVisible();
+    if(route !== '/signup') await expect(page.locator('header:visible [aria-current="page"], footer:visible [aria-current="page"]').first()).toBeVisible();
     if(route==='/login') await expect(page.locator('header').getByRole('link',{name:'Sign in'})).toHaveCount(0);
   }
 });

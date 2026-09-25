@@ -15,8 +15,8 @@ export async function createResourceDriver(session: CDPSession) {
     const find = selector => { const element = document.querySelector(selector); if (!element) throw Error('Missing journey target: '+selector); return element; };
     return {
       async scroll(reverse) {
-        const sections = [...document.querySelectorAll('main > section')];
-        if (sections.length !== 7) throw Error('Landing scene count changed');
+        const sections = [...document.querySelectorAll('[data-landing-scene]')];
+        if (sections.length !== 8) throw Error('Landing scene count changed');
         for (const section of reverse ? sections.reverse() : sections) {
           section.scrollIntoView({block:'center',behavior:'instant'}); await frames();
         }
@@ -29,7 +29,8 @@ export async function createResourceDriver(session: CDPSession) {
       },
       async link(path) {
         window.scrollTo({top:0,behavior:'instant'}); await frames();
-        const element=find('nav[aria-label="Main"] a[href="'+path+'"]');
+        const element=[...document.querySelectorAll('nav[aria-label="Main"] a[href="'+path+'"]')].find(el=>el.getClientRects().length);
+        if(!element) throw Error('Visible navigation target missing');
         const box=element.getBoundingClientRect();
         if (!box.width || !box.height) throw Error('Navigation is not visible');
         return {x:box.x+box.width/2,y:box.y+box.height/2};

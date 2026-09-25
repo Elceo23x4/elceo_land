@@ -59,3 +59,7 @@ The hero film generator returned `REQUIRES_PREMIUM`; no video was created, paid 
 ## Repair checkpoint: truthful runtime consumption
 
 All nine unchanged still files now have explicit `production-consumed` classification in `M5_ASSET_INTEGRITY.json`. `features/landing/scene-media.json` declares world/depth/horizon source pairs and exact dimensions; the server-rendered `SceneMedia` picture adapter selects mobile at <=760px and desktop above. Next's image optimizer remains in both source sets. These are the existing derivatives, not newly generated or differently cropped artwork. CSS re-composition supplies the mobile framing. Browser currentSrc/request tests and an AST/CSS/import-graph reachability gate verify consumption independently of byte integrity. The desktop/mobile deckle and wordmark texture use media-query CSS; the actual dashboard capture remains a dimensioned Next image.
+
+## 2026-09-25 landing replacement
+
+The nine previous stills are now reference-only, not production-consumed. Current originals and semantic paths are in `M5_LANDING_ASSET_PREFLIGHT.json`; all optimized runtime derivatives, hashes, alpha ranges and dimensions are in `M5_ASSET_INTEGRITY.json`. See `M5_LANDING_REVIEW_REPORT.md` for supplied-vs-generated provenance, sprite extraction and visual limitations.

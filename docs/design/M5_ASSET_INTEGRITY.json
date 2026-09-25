@@ -5,7 +5,9 @@
     "height": 600,
     "bytes": 81482,
     "sha256": "19679bfaff26aaaf82c44ab2cadab745404406bb9807754edcf5295abc3cb950",
-    "classification": "production-consumed"
+    "classification": "reference-only",
+    "hasAlpha": false,
+    "alphaRange": null
   },
   {
     "file": "deckled-claret-desktop.webp",
@@ -13,7 +15,9 @@
     "height": 640,
     "bytes": 122468,
     "sha256": "0e97e0e19856ffb627ac876a47fdb0a83bd8dafb9a6d7e9496c3ecf983262bdd",
-    "classification": "production-consumed"
+    "classification": "reference-only",
+    "hasAlpha": false,
+    "alphaRange": null
   },
   {
     "file": "deckled-claret-mobile.webp",
@@ -21,7 +25,9 @@
     "height": 320,
     "bytes": 27646,
     "sha256": "29320661c46bc1ac981efca045d79cdbe293eeeb6abe7beeb98549100e316fb7",
-    "classification": "production-consumed"
+    "classification": "reference-only",
+    "hasAlpha": false,
+    "alphaRange": null
   },
   {
     "file": "information-horizon-desktop.webp",
@@ -29,7 +35,9 @@
     "height": 887,
     "bytes": 75390,
     "sha256": "6d3d60a650a797fe796ad555aa8e80fbc79345826c57895cde9008cf15b11461",
-    "classification": "production-consumed"
+    "classification": "reference-only",
+    "hasAlpha": false,
+    "alphaRange": null
   },
   {
     "file": "information-horizon-mobile.webp",
@@ -37,7 +45,362 @@
     "height": 384,
     "bytes": 17606,
     "sha256": "5ce2ed6527fbf1f39c83d388d494231580ed158d8c9ed9ad225a9265c4f20cab",
-    "classification": "production-consumed"
+    "classification": "reference-only",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/blind-spots/torn-paper-strip-desktop.webp",
+    "width": 2048,
+    "height": 682,
+    "bytes": 194484,
+    "sha256": "53712067c762b6aed1c5293bcbfc80cba5b72629b7ed3f1e2196ee82f280c648",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "landing/blind-spots/torn-paper-strip-mobile.webp",
+    "width": 960,
+    "height": 320,
+    "bytes": 58642,
+    "sha256": "d3288878a9de8f76d30489d831bc159467a74800bd4ffbe35c4cb49b57eef755",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "landing/cta/planetary-field-desktop.webp",
+    "width": 2048,
+    "height": 683,
+    "bytes": 78480,
+    "sha256": "aa06842c23b6af585ae9680227bb83f09434d17749ae5bf09133eec43d1947cd",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/cta/planetary-field-mobile.webp",
+    "width": 960,
+    "height": 320,
+    "bytes": 23936,
+    "sha256": "2ed8cfdc417227a04ed2deb0da9aef09ed7c555e9fc0aea030b8c7af3f41bc9b",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/hero/intro-poster.webp",
+    "width": 700,
+    "height": 334,
+    "bytes": 36978,
+    "sha256": "2586affdab404ec04074ebea489d1e7516d04cb75cf627ebc2f2a7f74e0a554b",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/hero/network-globe-desktop.webp",
+    "width": 950,
+    "height": 950,
+    "bytes": 271192,
+    "sha256": "e3e11fccad9b5b1b595ac6d685a29a41db0547390dfae2054734b6ca7b989df4",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "landing/hero/network-globe-mobile.webp",
+    "width": 600,
+    "height": 600,
+    "bytes": 128330,
+    "sha256": "d149142110b7ef377c65a03d3320a85ebdb771bff7424f3aab91ae998e3f6e41",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "landing/hero/wordmark-texture-desktop.webp",
+    "width": 1400,
+    "height": 467,
+    "bytes": 129950,
+    "sha256": "dc1aaa19d4f4ec17544dddba72a89ce053c6cd6a04317ae01324822f42c89781",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/hero/wordmark-texture-mobile.webp",
+    "width": 700,
+    "height": 233,
+    "bytes": 42430,
+    "sha256": "91670d9d0e81f3f7c9ae37f8ab4b4eafadd0b7b488732be7c21f86f3705a8415",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/perspective/central-bank.webp",
+    "width": 434,
+    "height": 725,
+    "bytes": 37060,
+    "sha256": "7e21da7a455701e5306d58061df3f6b6fbd4be14632763a24d84724b20524589",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/perspective/earnings.webp",
+    "width": 434,
+    "height": 725,
+    "bytes": 34228,
+    "sha256": "0c2dac6e7b2bc9fcc0659b1e24a5e2920676e94bece90ac6e5a126ddb06c6f97",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/perspective/inflation.webp",
+    "width": 434,
+    "height": 725,
+    "bytes": 26676,
+    "sha256": "99cb0dcfd388188f906ab7abd0e8e4b7d2b042d3f282510cea30ea730eb455e8",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/perspective/market-structure.webp",
+    "width": 434,
+    "height": 725,
+    "bytes": 23274,
+    "sha256": "afb31d1d1c0b8ef81fac9b690eadb844264e5baa2cd93f36469e07a7862131e0",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/perspective/observer-foreground-desktop.webp",
+    "width": 650,
+    "height": 975,
+    "bytes": 52086,
+    "sha256": "0fb51abc0ae299e50d3613fc082d01707ab9056fda012cd17f180ab8a3ce6b9a",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "landing/perspective/observer-foreground-mobile.webp",
+    "width": 390,
+    "height": 585,
+    "bytes": 26278,
+    "sha256": "8ce499eb29b58b73cd87453bfb5492491947e7c9cc0608b326cbe4284a2511b9",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "landing/perspective/world-environment-desktop.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 110382,
+    "sha256": "d68ed09a7c779e5e5259e861d7bedfbfb0368086fba942b691a2d3eac89fdca3",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/perspective/world-environment-mobile.webp",
+    "width": 960,
+    "height": 540,
+    "bytes": 48216,
+    "sha256": "78de300c4e0b955b9193796bb8d57bd3a92631840567309f32e858009d16ca57",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/perspective/world-events.webp",
+    "width": 434,
+    "height": 725,
+    "bytes": 55722,
+    "sha256": "762ac0f7c3533fd94609556d82109f6a50e2459b7f7f3a5a7e99cdc9e812a05c",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/principles/amber-material.webp",
+    "width": 397,
+    "height": 793,
+    "bytes": 74762,
+    "sha256": "b55b5f88b43183037b0edc26137f510bb2ee1de35cdbb5a2248e4aab070feb04",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      1,
+      253
+    ]
+  },
+  {
+    "file": "landing/principles/amber-orb.webp",
+    "width": 320,
+    "height": 269,
+    "bytes": 5658,
+    "sha256": "c4e156a970af26a2ce70ec679867ebced7303eebd156c5c8e294d3b626f31864",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/principles/blue-material.webp",
+    "width": 396,
+    "height": 793,
+    "bytes": 85096,
+    "sha256": "d803c0e7f6e43cd4905be13100cbd0738d16ea5106205c6c3ba94d26401c6e01",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      2,
+      252
+    ]
+  },
+  {
+    "file": "landing/principles/blue-perspectives.webp",
+    "width": 320,
+    "height": 269,
+    "bytes": 4652,
+    "sha256": "d8de8102a1e95468ffcea8dee0d53b5ae52597de509a394da013d78bae7b12eb",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/principles/magenta-material.webp",
+    "width": 397,
+    "height": 793,
+    "bytes": 74140,
+    "sha256": "6aaa60aaf9b352e19f30a335a35c3d86cafe98fb5807d61627ce638d9ee6a687",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      1,
+      252
+    ]
+  },
+  {
+    "file": "landing/principles/magenta-review.webp",
+    "width": 320,
+    "height": 269,
+    "bytes": 6204,
+    "sha256": "d233d8da563e1e561cf84a9054727b352f6e4861500787adc8dee19848581f71",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/principles/red-material.webp",
+    "width": 397,
+    "height": 793,
+    "bytes": 72802,
+    "sha256": "ce868ef4edbd8535e73693df2d35cd692f3b295058db8acf66ea7e58b3fdca3a",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      2,
+      253
+    ]
+  },
+  {
+    "file": "landing/principles/red-selectivity.webp",
+    "width": 320,
+    "height": 270,
+    "bytes": 3630,
+    "sha256": "a66ecaf1143d24e9292154c25c64b6cad7c4317e54ac556ac2836f102e5d9eaa",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/principles/teal-evidence.webp",
+    "width": 320,
+    "height": 269,
+    "bytes": 7566,
+    "sha256": "7d08567abc1206d18f2867f9b303fea001af005b1f5acb6531753e0d95eea479",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/principles/teal-material.webp",
+    "width": 396,
+    "height": 793,
+    "bytes": 81786,
+    "sha256": "1419ce1f469f4636576c8a8b9dfe01f0f1bb86b0d1f35d352675961377265c7d",
+    "classification": "production-consumed",
+    "hasAlpha": true,
+    "alphaRange": [
+      2,
+      253
+    ]
+  },
+  {
+    "file": "landing/workspace/review-wheel.webp",
+    "width": 627,
+    "height": 627,
+    "bytes": 36118,
+    "sha256": "f22cbe5f2d17dc167e2dbfd05921b6200374ef4b5e630b1eac97ddd6c315736b",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/workspace/structured-insights.webp",
+    "width": 627,
+    "height": 627,
+    "bytes": 20914,
+    "sha256": "6acc12098ab69accb27d01a3275625b785306b79bd3b80549095e7537842e6a9",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/workspace/tablet.webp",
+    "width": 627,
+    "height": 627,
+    "bytes": 31512,
+    "sha256": "36efbaa0adad281db930d656913c5ef8d04dfb365bb25e442a97b618ad8b7804",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
+  },
+  {
+    "file": "landing/workspace/tracked-world.webp",
+    "width": 627,
+    "height": 627,
+    "bytes": 35718,
+    "sha256": "59981df78b26a8a25592cbbe49802c322c974c9e4667add5f04dd11501386ad3",
+    "classification": "production-consumed",
+    "hasAlpha": false,
+    "alphaRange": null
   },
   {
     "file": "market-depth-desktop.webp",
@@ -45,7 +408,9 @@
     "height": 640,
     "bytes": 34536,
     "sha256": "0b1e4a5ce09db14994a6cb7f3ef928cd8264449d16052adecd41ed979bc96304",
-    "classification": "production-consumed"
+    "classification": "reference-only",
+    "hasAlpha": false,
+    "alphaRange": null
   },
   {
     "file": "market-depth-mobile.webp",
@@ -53,7 +418,9 @@
     "height": 256,
     "bytes": 7586,
     "sha256": "85d0f389e055fa9983a9dee7ee0c8029999fb582d6f1bdb6197c264539df6c77",
-    "classification": "production-consumed"
+    "classification": "reference-only",
+    "hasAlpha": false,
+    "alphaRange": null
   },
   {
     "file": "world-context-desktop.webp",
@@ -61,7 +428,9 @@
     "height": 1254,
     "bytes": 180920,
     "sha256": "7e050acb7babbec57ca6dfae9effdd6f43c2d468396e1621d1dec3dcae59a689",
-    "classification": "production-consumed"
+    "classification": "reference-only",
+    "hasAlpha": false,
+    "alphaRange": null
   },
   {
     "file": "world-context-mobile.webp",
@@ -69,6 +438,8 @@
     "height": 768,
     "bytes": 80504,
     "sha256": "aa290c46b5496598e25d6d2e3243fccdc343387a40504c0786eda828584273a6",
-    "classification": "production-consumed"
+    "classification": "reference-only",
+    "hasAlpha": false,
+    "alphaRange": null
   }
 ]

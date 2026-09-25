@@ -1,5 +1,7 @@
 # ELCEO Asset Register
 
+> Landing-specific revision: see `M5_LANDING_AUTHORITY.md` for the eight newly approved references and explicit user overrides dated 2026-09-25. All other protections remain in force.
+
 ## Classification
 
 Every asset must be classified before implementation as one of:

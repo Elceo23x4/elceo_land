@@ -6,9 +6,9 @@ export function SceneMedia({ asset, className, fill = false }: {
   asset: keyof typeof media; className?: string; fill?: boolean;
 }) {
   const pair = media[asset];
-  const common = { alt: '', className, sizes: asset === 'world' ? '(max-width: 760px) 115vw, 64vw' : '100vw',
-    loading: asset === 'world' ? 'eager' as const : 'lazy' as const,
-    fetchPriority: asset === 'world' ? 'high' as const : 'auto' as const };
+  const common = { alt: '', className, sizes: asset === 'network-globe' ? '(max-width: 760px) 115vw, 55vw' : '100vw',
+    loading: asset === 'network-globe' ? 'eager' as const : 'lazy' as const,
+    fetchPriority: asset === 'network-globe' ? 'high' as const : 'auto' as const };
   const props = (source: typeof pair.desktop) => getImageProps({ ...common, ...source,
     ...(fill ? { fill: true, width: undefined, height: undefined } : {}) }).props;
   const mobile = props(pair.mobile);

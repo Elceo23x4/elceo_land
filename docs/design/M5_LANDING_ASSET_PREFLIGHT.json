@@ -1,0 +1,221 @@
+{
+  "starting_head": "e438103a837177590a5d9ef129dee705e44d0366",
+  "assets": [
+    {
+      "original": "hero(2).png",
+      "proposed_semantic_filename": "section-01-hero.png",
+      "classification": "reference",
+      "ingestion_status": "immutable design reference; not runtime served",
+      "width": 2048,
+      "height": 682,
+      "bytes": 1917441,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "partially_transparent_pixels": 0,
+      "sha256": "fbd1d8f5066c8e0120667cee8009065d1afc2bbd7cf99b9d46ed0d134afeb91a",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/section-01-hero.png"
+    },
+    {
+      "original": "2nd(1).png",
+      "proposed_semantic_filename": "section-02-depth.png",
+      "classification": "reference",
+      "ingestion_status": "immutable design reference; not runtime served",
+      "width": 2048,
+      "height": 682,
+      "bytes": 1826335,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "partially_transparent_pixels": 0,
+      "sha256": "1936586d299099da5c72cc2ed513420c0e1c8525cbc7198e90fd0000d4042290",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/section-02-depth.png"
+    },
+    {
+      "original": "3rd(1).png",
+      "proposed_semantic_filename": "section-03-blind-spots.png",
+      "classification": "reference",
+      "ingestion_status": "immutable design reference; not runtime served",
+      "width": 2048,
+      "height": 682,
+      "bytes": 1867807,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "partially_transparent_pixels": 0,
+      "sha256": "1c9a65b2e2e131020426e6f1d8ce0853fcf1a7863306d840fc52b336047e1ab4",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/section-03-blind-spots.png"
+    },
+    {
+      "original": "5th(1).png",
+      "proposed_semantic_filename": "section-04-principles.png",
+      "classification": "reference",
+      "ingestion_status": "immutable design reference; not runtime served",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2392144,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "partially_transparent_pixels": 0,
+      "sha256": "fb78b6e851f835a53921256b5eb3ee7ba85f5e9b9d85eddf451715b8568c58d7",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/section-04-principles.png"
+    },
+    {
+      "original": "5rh(1).png",
+      "proposed_semantic_filename": "section-05-perspective.png",
+      "classification": "reference",
+      "ingestion_status": "immutable design reference; not runtime served",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2678585,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "partially_transparent_pixels": 0,
+      "sha256": "4f1592f6193766f0660f319ab601d6b3cb3e9e470a3e2d9b1e5fc542b31cc29f",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/section-05-perspective.png"
+    },
+    {
+      "original": "6th(1).png",
+      "proposed_semantic_filename": "section-06-workspace.png",
+      "classification": "reference",
+      "ingestion_status": "immutable design reference; not runtime served",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2213592,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "partially_transparent_pixels": 0,
+      "sha256": "c64df1aef1d351d68f42143e493d7bb02cad893b8ad39d030596611517db3967",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/section-06-workspace.png"
+    },
+    {
+      "original": "7th(1).png",
+      "proposed_semantic_filename": "section-07-entry.png",
+      "classification": "reference",
+      "ingestion_status": "immutable design reference; not runtime served",
+      "width": 2048,
+      "height": 682,
+      "bytes": 2164639,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "partially_transparent_pixels": 0,
+      "sha256": "c28ddfd5043f1d7b3c80e6625e7d9ef870bc16bce77ea10538cba84dee11273e",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/section-07-entry.png"
+    },
+    {
+      "original": "8th(1).png",
+      "proposed_semantic_filename": "section-08-footer.png",
+      "classification": "reference",
+      "ingestion_status": "immutable design reference; not runtime served",
+      "width": 2048,
+      "height": 682,
+      "bytes": 1290801,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "partially_transparent_pixels": 0,
+      "sha256": "07c75f4bd22cdcae27e7ddb75b2823ead2c23579fb5332ad5064fa67308fe6c8",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/section-08-footer.png"
+    },
+    {
+      "original": "globe.png",
+      "proposed_semantic_filename": "network-globe.png",
+      "classification": "runtime-layer-source",
+      "ingestion_status": "original layer source; optimized derivatives runtime served",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2783772,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "fully_transparent_pixels": 466201,
+      "partially_transparent_pixels": 1106313,
+      "sha256": "9eb0a5f13f9394f86551f21b77031282f6874f4765bc7736c6791275efe702bd",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/layer-sources/network-globe.png"
+    },
+    {
+      "original": "s3bg.png",
+      "proposed_semantic_filename": "torn-paper-strip.png",
+      "classification": "runtime-layer-source",
+      "ingestion_status": "original layer source; optimized derivatives runtime served",
+      "width": 2048,
+      "height": 682,
+      "bytes": 1668715,
+      "alpha_range": [
+        0,
+        255
+      ],
+      "fully_transparent_pixels": 646250,
+      "partially_transparent_pixels": 750485,
+      "sha256": "fbb4de96dce608c1659ce799fe712f4584ca661fe7bc8d3c523f1b49d897c22b",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/layer-sources/torn-paper-strip.png"
+    },
+    {
+      "original": "dept bg.png",
+      "proposed_semantic_filename": "world-environment.png",
+      "classification": "runtime-layer-source",
+      "ingestion_status": "original layer source; optimized derivatives runtime served",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2633770,
+      "alpha_range": [
+        255,
+        255
+      ],
+      "fully_transparent_pixels": 0,
+      "partially_transparent_pixels": 0,
+      "sha256": "5d5a48f5692f9df3c60a9fd3d642ca111e7088ab1308b4df7c2c2d6b803d3f0a",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/layer-sources/world-environment.png"
+    },
+    {
+      "original": "man.png",
+      "proposed_semantic_filename": "observer-foreground.png",
+      "classification": "runtime-layer-source",
+      "ingestion_status": "original layer source; optimized derivatives runtime served",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 838589,
+      "alpha_range": [
+        0,
+        254
+      ],
+      "fully_transparent_pixels": 1122145,
+      "partially_transparent_pixels": 450719,
+      "sha256": "cc7b11dcc001f9d5cf94e558e665beeb0d3037100f03e0eb37dc62d043603f74",
+      "optimization": "none; original bytes unchanged",
+      "repository_path": "docs/design/references/m5-landing/layer-sources/observer-foreground.png"
+    }
+  ]
+}

@@ -29,3 +29,7 @@
 }
 
 .desktop [aria-current], .footerLinks [aria-current], .mobile nav [aria-current] { display: inline-flex; align-items: center; min-height: 44px; color: #e4ba94; }
+
+/* Landing owns its reference-specific chrome; all other public routes keep theirs. */
+:global([data-elceo-ui="public"]):has(:global([data-landing-root])) > .header,
+:global([data-elceo-ui="public"]):has(:global([data-landing-root])) > .footer { display: none; }
