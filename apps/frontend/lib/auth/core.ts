@@ -322,7 +322,7 @@ export async function relayBrowserApiRequest(
 
 const parseResponseJson = async (response: Response): Promise<unknown> => {
   const text = await response.text();
-  if (!text) return null;
+  if (!text) return Symbol.for('elceo.invalid-json');
   try {
     return JSON.parse(text);
   } catch {

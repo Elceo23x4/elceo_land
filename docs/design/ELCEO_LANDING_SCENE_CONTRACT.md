@@ -1,5 +1,7 @@
 # ELCEO Landing Scene Contract
 
+> Landing-specific revision: see `M5_LANDING_AUTHORITY.md` for the eight newly approved references and explicit user overrides dated 2026-09-25. All other protections remain in force.
+
 ## Authority
 
 Primary visual reference: `docs/design/references/approved-landing-reference.png`.

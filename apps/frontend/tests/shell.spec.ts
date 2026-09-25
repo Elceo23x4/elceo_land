@@ -1,6 +1,20 @@
 import { test, expect } from '@playwright/test';
 test('server routing, source SVGs and scoped portal inheritance', async ({ page, request }) => {
- for (const path of ['/', '/api/session', '/login']) expect((await request.get(path)).status()).toBe(404);
+ expect((await request.get('/api/session')).status()).toBe(404);
+ const landing = await request.get('/');
+ expect(landing.status()).toBe(200);
+ expect(await landing.text()).toContain('Market intelligence');
+ // M5 now authors public account entry. The absent alternative session endpoint
+ // and fail-closed protected navigation below remain unchanged.
+ for (const path of ['/login', '/signup']) {
+   const entry = await request.get(path);
+   expect(entry.status()).toBe(200);
+   // Deliberately absent topology is unavailable, never signed-out acquisition.
+   await page.goto(path);
+   await expect(page.locator('[data-auth-state="unavailable"]')).toBeVisible();
+   await expect(page.getByRole('heading', { name: 'Sign-in service unavailable.' })).toBeVisible();
+   await expect(page.getByRole('button', { name: 'Continue with Google' })).toHaveCount(0);
+ }
  // M3 adds a fail-closed document guard before protected pages exist. With the
  // engineering server's deliberately absent auth topology, protected paths must
  // not fall through as anonymously accessible pages.

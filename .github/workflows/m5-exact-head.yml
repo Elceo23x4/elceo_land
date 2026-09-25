@@ -1,0 +1,33 @@
+name: M5 Exact Head Aggregate
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+  statuses: write
+concurrency:
+  group: m5-aggregate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: node --test scripts/m5-aggregate-policy.test.mjs
+      - name: Verify existing exact-head workflow evidence
+        run: node scripts/m5-aggregate-status.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m5-aggregate-${{ github.event.pull_request.head.sha }}-${{ github.run_attempt }}
+          path: m5-aggregate-evidence.json

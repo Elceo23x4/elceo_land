@@ -1,0 +1,50 @@
+name: M5 Production UI
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+  statuses: write
+jobs:
+  presentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Invalidate previous aggregate on this workflow attempt
+        if: github.event_name == 'pull_request'
+        run: node scripts/m5-aggregate-status.mjs invalidate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: npm ci
+      - run: npm run build:vite
+      - run: npm run build:next
+      - run: npm run typecheck:next
+      - run: npm run test:m1
+      - name: M5 hardening rejection tests
+        run: node --test scripts/m5-*-policy.test.mjs scripts/m5-asset-reachability.test.mjs scripts/m5-route-identity.test.mjs
+      - run: node scripts/check-m5-coverage.mjs
+      - run: node scripts/check-m5-assets.mjs
+      - run: npx playwright install --with-deps chromium
+        working-directory: apps/frontend
+      - run: npx playwright test --config=playwright.m5.config.ts
+        working-directory: apps/frontend
+      - name: Export controlled visual-review copies
+        if: always()
+        run: node scripts/m5-visual-evidence.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m5-presentation-${{ github.run_id }}
+          path: apps/frontend/test-results
+          retention-days: 14

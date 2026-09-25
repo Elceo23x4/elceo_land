@@ -1,0 +1,55 @@
+{
+  "clients": [
+    {
+      "path": "apps/frontend/features/landing/LandingMotion.tsx",
+      "purpose": "Lazy, capability-gated cinematic scene setup and disposal; no route tree is made client-owned.",
+      "authority": "Presentation only. No account, storage, cookie, business data or backend decisions. Static server content remains readable without motion."
+    },
+    {
+      "path": "apps/frontend/features/account-entry/GoogleEntry.tsx",
+      "purpose": "Google entry interaction: verify public provider availability, obtain canonical CSRF challenge and submit the existing same-origin sign-in form.",
+      "authority": "No session minting, identity decisions, credential storage, cookie inspection or backend origin. Canonical M3 relay owns provider redirects and opaque cookies. Callback path is sanitized by the server parent."
+    },
+    {
+      "path": "apps/frontend/components/primitives/Modal.tsx",
+      "purpose": "Native top-layer dialog opening, dismissal and focus restoration for public cookie information and later reviewed dialogs.",
+      "authority": "Presentation only; no cookies, storage, sessions, credentials or backend decisions are read or written."
+    },
+    {
+      "path": "apps/frontend/app/(app)/dashboard/error.tsx",
+      "purpose": "Next error boundary retry interaction inherited from M4.",
+      "authority": "Renders error recovery only; canonical session and access remain server-owned."
+    },
+    {
+      "path": "apps/frontend/app/m1-proof/M2BrowserClientProof.tsx",
+      "purpose": "Inherited noindex engineering proof of the same-origin typed browser client.",
+      "authority": "Only the generated browser operation partition is callable."
+    },
+    {
+      "path": "apps/frontend/components/primitives/ScopedPortal.tsx",
+      "purpose": "Browser portal mounting with protected dashboard typography inheritance.",
+      "authority": "Presentation only; no session or backend authority."
+    },
+    {
+      "path": "apps/frontend/features/dashboard/DashboardParityClient.tsx",
+      "purpose": "Narrow M4 browser-only dashboard parity bridge.",
+      "authority": "Preserves accepted fixture presentation; never derives production cognition or access."
+    },
+    {
+      "path": "apps/frontend/lib/api/authenticated-browser.ts",
+      "purpose": "Inherited typed same-origin browser transport binding.",
+      "authority": "Opaque cookies and upstream credentials remain exclusively in the canonical server relay."
+    },
+    {
+      "path": "apps/frontend/components/public/RouteLink.tsx",
+      "purpose": "Central active-destination navigation semantics; renders current destinations as non-action text.",
+      "authority": "Presentation pathname only. No session, cookies, permissions or backend access decisions."
+    }
+  ],
+  "landingMotionOwners": [
+    {
+      "path": "apps/frontend/features/landing/motion/scene-choreography.ts",
+      "purpose": "Sole public landing owner of scrubbed world recession, staggered placards and local pointer depth/lens; all tweens/listeners are disposed on exit or reduced-motion change."
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # ELCEO UI Constitution
 
+> Landing-specific revision: see `M5_LANDING_AUTHORITY.md` for the eight newly approved references and explicit user overrides dated 2026-09-25. All other protections remain in force.
+
 ## Purpose
 
 This document governs the production frontend in `Elceo23x4/elceo_land`. It exists to prevent generic design substitution, visual drift, unsupported backend behavior, and performance regressions while GPT Work/Codex implements the UI.

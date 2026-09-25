@@ -1,0 +1,165 @@
+import { resourceControls } from './resource-controls';
+import { createResourceDriver } from './resource-driver';
+import { heapCensus } from './resource-snapshot';
+import { execFileSync } from 'node:child_process';
+import { evaluateResourceJourney, resourcePolicy } from '../../../../scripts/m5-resource-policy.mjs';
+import { test, expect } from '@playwright/test';
+const origin = 'http://127.0.0.1:3102';
+
+for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
+  test(`eight-scene readable landing at ${width}px with reduced motion`, async ({ page }, testInfo) => {
+    await page.setViewportSize({ width, height: width === 1920 ? 1080 : 900 });
+    const errors: string[] = [];
+    const downloaded: string[] = [];
+    page.on('request', request => {
+      const url = new URL(request.url());
+      const source = url.searchParams.get('url') ?? url.pathname;
+      if (source.startsWith('/m5-assets/')) downloaded.push(source);
+    });
+    page.on('pageerror', error => errors.push(error.message));
+    expect((await page.goto(origin))?.status()).toBe(200);
+    await expect(page.locator('[data-landing-scene]')).toHaveCount(8);
+    await expect(page.locator('main > section')).toHaveCount(7);
+    await expect(page.getByRole('heading', { level: 1, name: 'ELCEO', exact: true })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    for (const section of await page.locator('[data-landing-scene]').all()) await section.scrollIntoViewIfNeeded();
+    for (const image of await page.locator('main img').all()) await expect.poll(() => image.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
+    for (const heading of await page.locator('main h1, main section h2, main section h3').all()) {
+      const box = await heading.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box!.x).toBeGreaterThanOrEqual(-1);
+      expect(box!.x + box!.width).toBeLessThanOrEqual(width + 1);
+    }
+    for (const section of await page.locator('[data-landing-scene]').all()) {
+      const box = await section.boundingBox();
+      expect(box!.x).toBeCloseTo(0, 0);
+      expect(box!.width).toBeCloseTo(width, 0);
+    }
+    for (const key of ['network-globe','torn-paper-strip','world-environment','observer-foreground','planetary-field']) {
+      const selected = await page.locator(`[data-scene-media="${key}"] img`).evaluate((el: HTMLImageElement) => el.currentSrc);
+      const source = new URL(selected).searchParams.get('url');
+      expect(source).toContain(width <= 760 ? '-mobile.webp' : '-desktop.webp');
+      const stem = key;
+      expect(downloaded.filter(url => url.includes(stem) && url.includes(width <= 760 ? '-desktop.webp' : '-mobile.webp'))).toEqual([]);
+    }
+    const stages = await page.locator('[data-landing-scene]').evaluateAll(nodes => nodes.map(node => { const r=node.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height}; }));
+    for (let i=1;i<stages.length;i++) expect(stages[i].y-(stages[i-1].y+stages[i-1].height)).toBeLessThanOrEqual(1);
+    const footer = await page.locator('main > footer').boundingBox();
+    expect(footer!.width).toBeCloseTo(width,0);
+    if (width >=1440) expect((await page.locator('[data-landing-scene="section-06-workspace"] figure').boundingBox())!.width).toBeLessThan(width*.3);
+    if ([390,1440,1920].includes(width)) console.log(`M5_WIDTH:${JSON.stringify({width,stages,downloaded})}`);
+    await testInfo.attach(`landing-width-${width}`, {body:JSON.stringify({head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),width,stages,downloaded}),contentType:'application/json'});
+    await expect(page.locator('[data-landing-world]')).not.toHaveAttribute('style', /transform/);
+    await expect(page.locator('main img[src*="dashboard-preview"]')).toHaveCount(0);
+    await expect(page.locator('#market-depth img, #market-depth canvas, #market-depth video')).toHaveCount(0);
+    await expect(page.getByRole('link', { name: /Continue with Google/ })).toHaveAttribute('href', '/signup');
+    if (width === 390 || width === 1440 || width === 1920) {
+      const geometry = await page.locator('[data-landing-placard]').evaluateAll(nodes=>nodes.map(el=>{const b=el.getBoundingClientRect();return {top:b.top+scrollY,bottom:b.bottom+scrollY,width:b.width};}));
+      if(width>=1440) for(const [a,b] of [[geometry[1].top,geometry[0].bottom],[geometry[2].bottom,geometry[1].top],[geometry[3].top,geometry[2].bottom],[geometry[4].bottom,geometry[3].top]]) expect(Math.abs(a-b)).toBeLessThanOrEqual(1);
+      console.log(`M5_PRINCIPLES_GEOMETRY:${JSON.stringify({width,cards:geometry})}`);
+      const layers = await page.locator('[data-landing-scene="section-05-perspective"]').evaluate(el=>{
+        const panels=el.querySelector('[data-landing-planes]')!, observer=el.querySelector('[class*="observer"]')!;
+        return {panelsZ:getComputedStyle(panels).zIndex,observerZ:getComputedStyle(observer).zIndex,perspective:getComputedStyle(panels).perspective,planes:[...panels.children].map(n=>getComputedStyle(n).transform)};
+      });
+      expect(Number(layers.observerZ)).toBeGreaterThan(Number(layers.panelsZ));
+      if(width>=1440) expect(layers.perspective).not.toBe('none');
+      console.log(`M5_LAYERS:${JSON.stringify({width,...layers})}`);
+      for(const section of await page.locator('[data-landing-scene]').all()) {
+        const id=await section.getAttribute('data-landing-scene');
+        const sceneFile=testInfo.outputPath(`${id}-${width}.png`);
+        await section.screenshot({path:sceneFile});
+        await testInfo.attach(`${id}-${width}`,{path:sceneFile,contentType:'image/png'});
+      }
+      const file = testInfo.outputPath(`landing-${width}.png`);
+      await page.screenshot({ path: file, fullPage: true });
+      await testInfo.attach(`landing-${width}`, { path: file, contentType: 'image/png' });
+    }
+    if (width <= 430) {
+      const aperture = page.locator('[data-landing-lens-scope]');
+      const bottomLabel = aperture.getByText('Unreviewed pattern repetition');
+      const apertureBox = await aperture.boundingBox();
+      const labelBox = await bottomLabel.boundingBox();
+      expect(apertureBox!.y + apertureBox!.height - labelBox!.y - labelBox!.height).toBeGreaterThanOrEqual(150);
+      for (const card of await page.locator('main article').filter({ has: page.locator('h3') }).all()) {
+        // The principle constellation intentionally remains staggered; product
+        // cards instead preserve a full reading measure on narrow phones.
+        if (await card.locator('a').count()) expect((await card.boundingBox())!.width).toBeGreaterThan(width * .8);
+      }
+    }
+    if (width < 768) {
+      const field = page.locator('[data-landing-planes]');
+      await field.focus(); await page.keyboard.press('ArrowRight');
+      await expect.poll(() => field.evaluate(el => el.scrollLeft)).toBeGreaterThan(0);
+    }
+    expect(errors).toEqual([]);
+  });
+}
+
+test('desktop motion cleans up on reduced-motion changes and repeated route journeys', async ({ page, browser }, testInfo) => {
+  test.setTimeout(240_000); // Fixed journeys plus failure-only isolated diagnostic controls.
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto(origin);
+  const world = page.locator('[data-landing-world]');
+  await page.getByRole('heading', { name: /Price is visible/ }).scrollIntoViewIfNeeded();
+  await expect(world).toHaveAttribute('style', /transform/);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(world).not.toHaveAttribute('style', /transform/);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  const session = await page.context().newCDPSession(page);
+  await session.send('Performance.enable');
+  await session.send('HeapProfiler.enable');
+  const driver = await createResourceDriver(session);
+  const census: Awaited<ReturnType<typeof heapCensus>>[] = [];
+  const diagnostics = process.env.M5_HEAP_DIAGNOSTICS === '1';
+  const samples: Array<{ heap: number; nodes: number; listeners: number }> = [];
+  // Fixed lifecycle warm-up: document mount, client remount, cached remount.
+  // Every early sample remains subject to the first-to-final growth ceiling.
+  for (let journey = 0; journey < resourcePolicy.warmupJourneys + resourcePolicy.repeats; journey++) {
+    await driver.scroll();
+    await driver.pointer('[data-landing-lens-scope]');
+    await driver.pointer('[data-landing-planes]');
+    await driver.scroll(true);
+    await driver.navigate('/about', 'More context');
+    await page.waitForTimeout(resourcePolicy.idleMs);
+    await session.send('HeapProfiler.collectGarbage');
+    await driver.frames();
+    await session.send('HeapProfiler.collectGarbage');
+    if (diagnostics && (journey === 0 || journey === resourcePolicy.warmupJourneys + resourcePolicy.repeats - 1)) census.push(await heapCensus(session));
+    const metrics = await session.send('Performance.getMetrics');
+    const dom = await session.send('Memory.getDOMCounters');
+    samples.push({ heap: metrics.metrics.find(metric => metric.name === 'JSHeapUsedSize')?.value ?? 0, nodes: dom.nodes, listeners: dom.jsEventListeners });
+    await driver.navigate('/', 'ELCEO');
+  }
+  if (diagnostics) {
+  const changes = (key: 'byType' | 'byClass' | 'byOwner') => Object.entries(census[1][key]).map(([name, value])=>({name,bytes:value.bytes-(census[0][key][name]?.bytes??0),count:value.count-(census[0][key][name]?.count??0)})).sort((a,b)=>b.bytes-a.bytes).slice(0,25);
+  console.log(`M5_HEAP_CENSUS:${JSON.stringify({types:changes('byType'),classes:changes('byClass'),owners:changes('byOwner')})}`);
+  await testInfo.attach('landing-heap-census', {body:JSON.stringify(census),contentType:'application/json'});
+  }
+  const result = evaluateResourceJourney(samples);
+  const evidence = { head: execFileSync('git', ['rev-parse','HEAD'], { encoding: 'utf8' }).trim(), diagnostics, documentContinuityVerified: true, samples, ...result };
+  console.log(`M5_RESOURCE:${JSON.stringify(evidence)}`);
+  await testInfo.attach('landing-journey-resources', { body: JSON.stringify(evidence, null, 2), contentType: 'application/json' });
+  await driver.dispose();
+  await session.detach();
+  if (!result.pass) {
+    const controls = await resourceControls(browser, origin);
+    console.log(`M5_RESOURCE_CONTROLS:${JSON.stringify({head:evidence.head,production:evidence,controls})}`);
+    await testInfo.attach('landing-resource-controls',{body:JSON.stringify({head:evidence.head,production:evidence,controls}),contentType:'application/json'});
+  }
+  expect(result.pass, JSON.stringify(result.counters)).toBe(true);
+});
+
+
+test('resource driver rejects absent scenes and full document reloads', async ({ page }) => {
+  await page.goto(origin + '/about');
+  const session = await page.context().newCDPSession(page);
+  try {
+    const driver = await createResourceDriver(session);
+    await expect(driver.scroll()).rejects.toThrow('Resource journey failed');
+    await page.goto(origin);
+    await expect(driver.frames()).rejects.toThrow('Resource journey failed');
+  } finally {
+    await session.detach();
+  }
+});
