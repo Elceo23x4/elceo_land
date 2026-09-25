@@ -68,3 +68,11 @@ No candidate project/deployment was created, and no existing production/Vite pro
 ## Remaining blockers and recommendation
 
 Final-head browser scene review, resource result (and differential controls if needed), inherited regression result, and separately hosted Next preview remain required. Supplemental generated objects/panels are not exact source extractions. Real intro film, social URLs, Insights destination, final legal publication copy and broader M5 families remain outstanding. Do not merge or expand product families. This checkpoint is not yet accepted for visual closure.
+
+## First published candidate CI diagnosis
+
+Candidate `6ae7de1a01fdfc26079af3bbc364c84c530ee1f9`: UI Foundation, Vite production and M2 workflows passed. M1 failed solely because its directory-wide reference diff rejected the twelve authorized additions. M3/M4/M5 stopped at that inherited M1 test; browser/resource tests did not run. The aggregate correctly failed closed. Local pre-publication M1 had not detected new untracked reference files; the published-head failure exposed that limitation.
+
+Original assertion: `git diff <M1 base> -- docs/design/references` must be empty. This encoded the temporary assumption that no new design authority could be approved. Replacement: enumerate every reference present at the original M1 base and require its exact unchanged bytes; require current reference files to equal those originals plus exactly the twelve reviewed manifest paths; reject duplicates, invalid paths, missing/extra files, byte-count changes and SHA-256 changes. The original approved PNG remains independently fully decoded/CRC-checked. The M5 asset gate additionally decodes all twelve new sources and verifies alpha. Frozen backend/dashboard assertions are unchanged.
+
+This is a narrow evolution of a phase-specific topology assertion, explicitly authorized by the user's inherited-gate principle. It does not exempt or remove any historical authority file.

@@ -151,3 +151,7 @@ No auth-family or broad product expansion proceeds from this checkpoint. No thre
 ## Authorized landing replacement — 2026-09-25
 
 See `M5_LANDING_REVIEW_REPORT.md` and `M5_LANDING_AUTHORITY.md`. The user resolved Section4 placement as end-to-start while preserving reference styling. The new eight-scene work remains under review, with all M1–M4 and resource protections retained. That report explicitly lists each changed inherited M5 assertion, its now-obsolete assumption and replacement invariant. Earlier exact-head acceptance measurements are historical and do not certify this replacement.
+
+### Additional inherited M1 reference-directory assertion
+
+The first eight-scene candidate failed because new approved PNGs were treated as modifications to the original reference directory. The replacement verifies each original base-tree file unchanged and permits only the exact twelve hash-pinned additions, rejecting all other files and tampering. See M5_LANDING_REVIEW_REPORT.md for original assertion, evidence and equal-or-stronger protection. No backend, client/server, auth or dashboard gate is relaxed.
