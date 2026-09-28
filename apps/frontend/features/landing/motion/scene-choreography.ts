@@ -332,5 +332,13 @@ export function mountLandingMotion(root: HTMLElement) {
     cleanup.forEach(dispose => dispose());
     ownedTriggers.forEach(trigger => trigger.kill());
     context.revert();
+
+    /* GSAP can leave an identity transform behind after reverting a tweened image.
+       Reduced-motion and breakpoint remounts must restore the genuine static DOM, not
+       a matrix(1,0,0,1,0,0) residue that changes later layout/acceptance semantics. */
+    const world = root.querySelector<HTMLElement>('[data-landing-world]');
+    world?.style.removeProperty('transform');
+    world?.style.removeProperty('filter');
+    world?.style.removeProperty('opacity');
   };
 }
