@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import styles from './LandingMotion.module.css';
+import refinement from './LandingRefinement.module.css';
 
 /** Narrow, presentation-only controller. Every scene remains readable without it. */
 export function LandingMotion() {
@@ -8,7 +9,10 @@ export function LandingMotion() {
     const root = document.querySelector<HTMLElement>('[data-landing-root]');
     if (!root) return;
 
-    const condition = window.matchMedia('(prefers-reduced-motion: no-preference)');
+    const motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+    const desktop = window.matchMedia('(min-width: 761px)');
+    const finePointer = window.matchMedia('(pointer: fine)');
+    const conditions = [motion, desktop, finePointer];
     let epoch = 0;
     let dispose: (() => void) | undefined;
 
@@ -16,10 +20,10 @@ export function LandingMotion() {
       const current = ++epoch;
       dispose?.();
       dispose = undefined;
-      if (!condition.matches) return;
+      if (!motion.matches) return;
 
       void import('./motion/scene-choreography').then(({ mountLandingMotion }) => {
-        if (current === epoch && root.isConnected && condition.matches) {
+        if (current === epoch && root.isConnected && motion.matches) {
           dispose = mountLandingMotion(root);
         }
       }).catch(() => {
@@ -27,17 +31,17 @@ export function LandingMotion() {
       });
     };
 
-    condition.addEventListener('change', update);
+    conditions.forEach(condition => condition.addEventListener('change', update));
     update();
 
     return () => {
       epoch++;
-      condition.removeEventListener('change', update);
+      conditions.forEach(condition => condition.removeEventListener('change', update));
       dispose?.();
     };
   }, []);
 
-  return <div className={styles.scope} data-landing-revealer aria-hidden="true">
+  return <div className={`${styles.scope} ${refinement.scope}`} data-landing-revealer aria-hidden="true">
     <span className={styles.axis} />
     <span className={styles.ringOuter} />
     <span className={styles.ringInner} />
