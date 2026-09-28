@@ -36,8 +36,7 @@
   z-index: 1;
 }
 
-/* Section 04 — preserve the approved end-to-start equation exactly. The former 57svh
-   low lane introduced an 8svh gap at desktop heights (72px at 900, 86.4px at 1080). */
+/* Section 04 — preserve the approved end-to-start equation exactly. */
 :global([data-landing-root]):has(.scope) > :global([data-landing-scene="section-04-principles"]) {
   --low-top: calc(var(--high-top) + var(--card-height)) !important;
 }
@@ -67,6 +66,15 @@
    boundary. The mobile field remains a native keyboard/touch scroll surface. */
 :global([data-landing-root]):has(.scope) > :global([data-landing-scene="section-05-perspective"]) {
   overflow: clip !important;
+}
+
+/* Five information planes need real reading time. On motion-capable desktop the extra
+   180svh is not a visible gap: Section 05 remains pinned for 280svh while this exact
+   runway advances Section 06 from one viewport below to the top edge. */
+@media (min-width:761px) and (prefers-reduced-motion:no-preference) {
+  :global([data-landing-root]):has(.scope) > :global([data-landing-scene="section-05-perspective"]) {
+    margin-bottom: 180svh !important;
+  }
 }
 
 :global([data-landing-root]):has(.scope) :global([data-landing-planes]) {
