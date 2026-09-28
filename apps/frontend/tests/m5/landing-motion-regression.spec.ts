@@ -66,32 +66,54 @@ test('landing motion is reversible, contained and footer-safe on desktop', async
   const reverseState = await principles.evaluate(section => {
     const title = section.querySelector('h2') as HTMLElement;
     const placards = section.querySelector('[class*="placards"]') as HTMLElement;
+    const sectionStyle = getComputedStyle(section);
     return {
+      sectionOpacity: Number(sectionStyle.opacity),
+      sectionFilter: sectionStyle.filter,
       titleOpacity: Number(getComputedStyle(title).opacity),
       titleFilter: getComputedStyle(title).filter,
       placardsOpacity: Number(getComputedStyle(placards).opacity),
       placardsFilter: getComputedStyle(placards).filter,
     };
   });
+  expect(reverseState.sectionOpacity).toBeGreaterThan(0.98);
   expect(reverseState.titleOpacity).toBeGreaterThan(0.98);
   expect(reverseState.placardsOpacity).toBeGreaterThan(0.98);
+  expect(reverseState.sectionFilter === 'none' || reverseState.sectionFilter.includes('blur(0px)')).toBe(true);
   expect(reverseState.titleFilter === 'none' || reverseState.titleFilter.includes('blur(0px)')).toBe(true);
   expect(reverseState.placardsFilter === 'none' || reverseState.placardsFilter.includes('blur(0px)')).toBe(true);
 
-  await bringSceneToTop(page, 'section-05-perspective');
-  for (const delta of [0.05, 0.24, 0.24, 0.24]) {
+  /* Section 05 must consume a real reading runway rather than cycling five cards in a
+     single viewport. At 1440x900, four 0.55vh advances should move monotonically
+     through the deck while every foreground card stays inside the browser canvas. */
+  const perspective = await bringSceneToTop(page, 'section-05-perspective');
+  const activeIndices: number[] = [];
+  for (const delta of [0.12, 0.55, 0.55, 0.55, 0.55]) {
     await page.evaluate(value => window.scrollBy(0, innerHeight * value), delta);
     await settle(page);
-    const activePlane = await page.locator('[data-landing-plane]').evaluateAll(nodes => {
-      const states = nodes.map(node => {
+    const state = await page.locator('[data-landing-plane]').evaluateAll(nodes => {
+      const states = nodes.map((node, index) => {
         const rect = node.getBoundingClientRect();
-        return { left: rect.left, right: rect.right, opacity: Number(getComputedStyle(node).opacity) };
+        return { index, left: rect.left, right: rect.right, opacity: Number(getComputedStyle(node).opacity) };
       });
       return states.sort((a, b) => b.opacity - a.opacity)[0];
     });
-    expect(activePlane.left).toBeGreaterThanOrEqual(-2);
-    expect(activePlane.right).toBeLessThanOrEqual(1442);
+    activeIndices.push(state.index);
+    expect(state.left).toBeGreaterThanOrEqual(-2);
+    expect(state.right).toBeLessThanOrEqual(1442);
   }
+  expect(activeIndices.every((value, index) => index === 0 || value >= activeIndices[index - 1])).toBe(true);
+  expect(new Set(activeIndices).size).toBeGreaterThanOrEqual(4);
+  expect(activeIndices.at(-1)).toBeGreaterThanOrEqual(3);
+
+  await page.evaluate(() => window.scrollBy(0, innerHeight * 0.45));
+  await settle(page);
+  const handoffGeometry = await page.locator('[data-landing-scene="section-06-workspace"]').evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    return { top: rect.top, bottom: rect.bottom };
+  });
+  expect(handoffGeometry.top).toBeGreaterThanOrEqual(-4);
+  expect(handoffGeometry.top).toBeLessThanOrEqual(70);
 
   await bringSceneToTop(page, 'section-05-perspective');
   const reversePlanes = await page.locator('[data-landing-plane]').evaluateAll(nodes => nodes.map(node => {
@@ -99,6 +121,7 @@ test('landing motion is reversible, contained and footer-safe on desktop', async
     return { left: rect.left, right: rect.right, transform: getComputedStyle(node).transform };
   }));
   expect(reversePlanes.every(plane => plane.left > -100 && plane.right < 1540 && plane.transform !== 'none')).toBe(true);
+  expect(Number(await perspective.evaluate(section => getComputedStyle(section).opacity))).toBeGreaterThan(0.98);
 
   const footer = page.locator('footer[data-landing-scene="section-08-footer"]');
   await footer.scrollIntoViewIfNeeded();
