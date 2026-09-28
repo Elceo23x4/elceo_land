@@ -18,9 +18,9 @@
       "height": 682
     },
     "mobile": {
-      "src": "/m5-assets/landing/blind-spots/torn-paper-strip-desktop.webp",
-      "width": 2048,
-      "height": 682
+      "src": "/m5-assets/landing/blind-spots/torn-paper-strip-mobile.webp",
+      "width": 960,
+      "height": 320
     }
   },
   "world-environment": {
