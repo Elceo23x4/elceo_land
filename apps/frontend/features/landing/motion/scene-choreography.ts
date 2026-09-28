@@ -1,8 +1,14 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
 const range = (value: number, start: number, end: number) => clamp01((value - start) / Math.max(end - start, 0.0001));
+const smoothstep = (value: number) => {
+  const p = clamp01(value);
+  return p * p * (3 - 2 * p);
+};
 
 type SceneName =
   | 'section-01-hero'
@@ -21,324 +27,348 @@ type TransitionOptions = {
 };
 
 /**
- * Sole cinematic owner for the landing page.
+ * Landing-only cinematic controller.
  *
- * Design invariant: one scroll timeline owns a scene transition. No second tween is
- * allowed to leave the same opacity/filter/transform property in an intermediate
- * state. Desktop chapters pin while the following scene reaches the viewport, then
- * reveal it only near the end of the pin. Mobile uses lighter reversible entrances.
+ * Every scroll-owned visual property is derived from ScrollTrigger.progress on each
+ * update. There are no scrubbed GSAP timelines holding stale intermediate state, so
+ * forward/reverse traversal is symmetrical and teardown can release every trigger.
  */
 export function mountLandingMotion(root: HTMLElement) {
-  gsap.registerPlugin(ScrollTrigger);
-
   const cleanup: Array<() => void> = [];
   const ownedTriggers: ScrollTrigger[] = [];
   const desktop = window.matchMedia('(min-width: 761px)').matches;
   const finePointer = window.matchMedia('(pointer: fine)').matches;
 
-  const context = gsap.context(() => {
-    const scene = (name: SceneName) => root.querySelector<HTMLElement>(`[data-landing-scene="${name}"]`);
-    const directChildren = (element: HTMLElement) => [...element.children].filter((node): node is HTMLElement => node instanceof HTMLElement);
-    const revealer = root.querySelector<HTMLElement>('[data-landing-revealer]');
+  const scene = (name: SceneName) => root.querySelector<HTMLElement>(`[data-landing-scene="${name}"]`);
+  const directChildren = (element: HTMLElement) => [...element.children].filter((node): node is HTMLElement => node instanceof HTMLElement);
+  const own = (vars: ScrollTrigger.Vars) => {
+    const trigger = ScrollTrigger.create(vars);
+    ownedTriggers.push(trigger);
+    return trigger;
+  };
+  const removeProperties = (element: HTMLElement, properties: string[]) => {
+    properties.forEach(property => element.style.removeProperty(property));
+  };
 
-    const hero = scene('section-01-hero');
-    const depth = scene('section-02-depth');
-    const aperture = scene('section-03-blind-spots');
-    const principles = scene('section-04-principles');
-    const perspective = scene('section-05-perspective');
-    const workspace = scene('section-06-workspace');
-    const entry = scene('section-07-entry');
+  const hero = scene('section-01-hero');
+  const depth = scene('section-02-depth');
+  const aperture = scene('section-03-blind-spots');
+  const principles = scene('section-04-principles');
+  const perspective = scene('section-05-perspective');
+  const workspace = scene('section-06-workspace');
+  const entry = scene('section-07-entry');
+  const revealer = root.querySelector<HTMLElement>('[data-landing-revealer]');
 
-    if (revealer) gsap.set(revealer, { opacity: 0, y: 0, rotation: 0, scale: 0.9 });
+  if (revealer) {
+    revealer.style.opacity = '0';
+    revealer.style.translate = '0 0';
+    revealer.style.rotate = '0deg';
+    revealer.style.scale = '.9';
+    cleanup.push(() => removeProperties(revealer, ['opacity', 'translate', 'rotate', 'scale']));
+  }
 
-    const addPinnedTransition = (
-      current: HTMLElement,
-      next: HTMLElement,
-      revealFrom: gsap.TweenVars,
-      options: TransitionOptions = {},
-    ) => {
-      const currentContent = directChildren(current);
-      const timeline = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: {
-          trigger: current,
+  const addPinnedTransition = (
+    current: HTMLElement,
+    next: HTMLElement,
+    revealFrom: gsap.TweenVars,
+    options: TransitionOptions = {},
+  ) => {
+    const currentContent = directChildren(current);
+    const fromClip = String(revealFrom.clipPath ?? 'inset(0% 0% 100% 0%)');
+    const toClip = String(options.revealTo?.clipPath ?? 'inset(0% 0% 0% 0%)');
+    const fromScale = Number(revealFrom.scale ?? 1);
+    const exitY = Math.abs(options.exitY ?? -22);
+    const exitBlur = Math.max(0, options.exitBlur ?? 8);
+
+    const render = (progress: number) => {
+      const p = clamp01(progress);
+      const reveal = smoothstep(range(p, 0.72, 0.985));
+      const sectionFade = smoothstep(range(p, 0.84, 1));
+
+      next.style.opacity = String(0.04 + reveal * 0.96);
+      next.style.clipPath = gsap.utils.interpolate(fromClip, toClip, reveal) as string;
+      next.style.scale = String(fromScale + (1 - fromScale) * reveal);
+
+      currentContent.forEach((node, index) => {
+        const dissolve = smoothstep(range(p, 0.56 + index * 0.012, 0.86 + index * 0.012));
+        node.style.opacity = String(1 - dissolve);
+        node.style.filter = `blur(${dissolve * exitBlur}px)`;
+        node.style.translate = `0 ${-dissolve * exitY}px`;
+      });
+      current.style.opacity = String(1 - sectionFade);
+
+      if (options.roller && revealer) {
+        const enter = smoothstep(range(p, 0.61, 0.78));
+        const leave = smoothstep(range(p, 0.86, 0.96));
+        const visible = enter * (1 - leave);
+        const travel = -window.innerHeight * 0.3 + enter * window.innerHeight * 0.58;
+        revealer.style.opacity = String(visible * 0.72);
+        revealer.style.translate = `0 ${travel}px`;
+        revealer.style.rotate = `${-28 + enter * 80}deg`;
+        revealer.style.scale = String(0.74 + enter * 0.28 - leave * 0.16);
+      }
+    };
+
+    const trigger = own({
+      trigger: current,
+      start: 'top top',
+      end: () => `+=${window.innerHeight}`,
+      pin: true,
+      pinSpacing: false,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: self => render(self.progress),
+      onRefresh: self => render(self.progress),
+      onEnter: self => render(self.progress),
+      onEnterBack: self => render(self.progress),
+      onLeave: () => render(1),
+      onLeaveBack: () => render(0),
+    });
+    render(trigger.progress);
+
+    cleanup.push(() => {
+      removeProperties(current, ['opacity']);
+      currentContent.forEach(node => removeProperties(node, ['opacity', 'filter', 'translate']));
+      removeProperties(next, ['opacity', 'clip-path', 'scale']);
+    });
+  };
+
+  if (desktop) {
+    if (hero && depth) {
+      addPinnedTransition(
+        hero,
+        depth,
+        { clipPath: 'inset(0% 0% 100% 0%)', scale: 1.018 },
+        { roller: true, exitY: -18, exitBlur: 8, revealTo: { clipPath: 'inset(0% 0% 0% 0%)' } },
+      );
+    }
+    if (depth && aperture) {
+      addPinnedTransition(
+        depth,
+        aperture,
+        { clipPath: 'polygon(0 48%, 100% 43%, 100% 57%, 0 52%)', scale: 1.012 },
+        { exitY: -16, exitBlur: 7, revealTo: { clipPath: 'polygon(0 0%, 100% 0%, 100% 100%, 0 100%)' } },
+      );
+    }
+    if (aperture && principles) {
+      addPinnedTransition(
+        aperture,
+        principles,
+        { clipPath: 'inset(0% 49% 0% 49%)', scale: 1.014 },
+        { exitY: -18, exitBlur: 7, revealTo: { clipPath: 'inset(0% 0% 0% 0%)' } },
+      );
+    }
+    if (principles && perspective) {
+      addPinnedTransition(
+        principles,
+        perspective,
+        { clipPath: 'polygon(0 100%, 100% 66%, 100% 100%, 0 100%)', scale: 1.014 },
+        { exitY: -15, exitBlur: 8, revealTo: { clipPath: 'polygon(0 0%, 100% 0%, 100% 100%, 0 100%)' } },
+      );
+    }
+
+    /* Section 05 is a continuous depth deck. Progress is paced so each card settles
+       briefly before the next interpolation, removing the old abrupt index jump and
+       the delayed CSS-transition tail. */
+    if (perspective && workspace) {
+      const field = perspective.querySelector<HTMLElement>('[data-landing-planes]');
+      const planes = field ? [...field.querySelectorAll<HTMLElement>('[data-landing-plane]')] : [];
+      const horizon = perspective.querySelector<HTMLElement>('[data-scene-media="world-environment"]');
+      const fadeTargets = directChildren(perspective).filter(child => child !== horizon && child !== field);
+
+      if (field && planes.length) {
+        const planeText = planes.map(plane => [...plane.querySelectorAll<HTMLElement>(':scope > span, :scope > p')]);
+
+        const render = (progress: number) => {
+          const p = clamp01(progress);
+          const raw = range(p, 0.02, 0.79) * (planes.length - 1);
+          const step = Math.min(planes.length - 1, Math.floor(raw));
+          const fraction = raw - step;
+          const pacedFraction = smoothstep(range(fraction, 0.16, 0.84));
+          const active = Math.min(planes.length - 1, step + pacedFraction);
+          const middle = (planes.length - 1) / 2;
+          const fieldShift = (middle - active) * 4.5;
+          field.style.transform = `translate3d(${fieldShift}%,0,0)`;
+
+          planes.forEach((plane, index) => {
+            const signed = index - active;
+            const distance = Math.abs(signed);
+            const z = 84 - Math.min(distance, 2.6) * 86;
+            const y = Math.min(distance * 1.4, 4);
+            const rotation = Math.max(-18, Math.min(18, -signed * 8));
+            const scale = Math.max(0.87, 1.02 - distance * 0.052);
+            const opacity = Math.max(0.44, 1 - distance * 0.16);
+            const brightness = Math.max(0.56, 1.05 - distance * 0.135);
+            const saturation = Math.max(0.76, 1.06 - distance * 0.075);
+
+            plane.style.setProperty('transform', `translate3d(0,${y}%,${z}px) rotateY(${rotation}deg) scale(${scale})`, 'important');
+            plane.style.opacity = String(opacity);
+            plane.style.filter = `brightness(${brightness}) saturate(${saturation})`;
+            planeText[index].forEach(text => { text.style.opacity = String(Math.max(0.34, 1 - distance * 0.36)); });
+          });
+
+          const exit = smoothstep(range(p, 0.7, 1));
+          const reveal = smoothstep(range(p, 0.76, 0.995));
+          fadeTargets.forEach(target => {
+            target.style.opacity = String(1 - exit * 0.94);
+            target.style.filter = `blur(${exit * 7}px)`;
+          });
+          if (horizon) {
+            horizon.style.opacity = String(1 - exit * 0.72);
+            horizon.style.filter = `blur(${exit * 4}px) saturate(1.22) contrast(1.15) brightness(0.72)`;
+          }
+          field.style.opacity = String(1 - exit * 0.88);
+
+          workspace.style.opacity = String(reveal);
+          workspace.style.clipPath = `polygon(0 ${100 - reveal * 100}%, 100% ${Math.max(0, 72 - reveal * 72)}%, 100% 100%, 0 100%)`;
+        };
+
+        const trigger = own({
+          trigger: perspective,
           start: 'top top',
           end: () => `+=${window.innerHeight}`,
-          scrub: true,
           pin: true,
           pinSpacing: false,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-        },
-      });
+          onUpdate: self => render(self.progress),
+          onRefresh: self => render(self.progress),
+          onEnter: self => render(self.progress),
+          onEnterBack: self => render(self.progress),
+          onLeave: () => render(1),
+          onLeaveBack: () => render(0),
+        });
+        render(trigger.progress);
 
-      /* The following scene travels behind the pinned scene but stays concealed until
-         most of its viewport is physically in place. This removes the generic
-         "next section rising from below" look. */
-      timeline.fromTo(next,
-        { ...revealFrom, opacity: 0.04 },
-        {
-          ...(options.revealTo ?? { clipPath: 'inset(0% 0% 0% 0%)' }),
-          opacity: 1,
-          scale: 1,
-          xPercent: 0,
-          yPercent: 0,
-          rotation: 0,
-          duration: 0.26,
-          immediateRender: false,
-        },
-        0.74,
-      );
-
-      timeline.fromTo(currentContent,
-        { opacity: 1, y: 0, filter: 'blur(0px)' },
-        {
-          opacity: 0,
-          y: options.exitY ?? -26,
-          filter: `blur(${options.exitBlur ?? 10}px)`,
-          duration: 0.34,
-          stagger: 0.012,
-          immediateRender: false,
-        },
-        0.58,
-      );
-
-      timeline.fromTo(current,
-        { opacity: 1 },
-        { opacity: 0, duration: 0.16, immediateRender: false },
-        0.84,
-      );
-
-      /* The transition object is deliberately exclusive to Hero → Section 2. It acts
-         as the roller that drives the first scene change, then disappears permanently. */
-      if (options.roller && revealer) {
-        timeline.fromTo(revealer,
-          { opacity: 0, y: () => -window.innerHeight * 0.36, rotation: -28, scale: 0.74 },
-          { opacity: 0.72, y: () => window.innerHeight * 0.25, rotation: 52, scale: 1.02, duration: 0.27, immediateRender: false },
-          0.65,
-        );
-        timeline.to(revealer, { opacity: 0, scale: 0.82, duration: 0.08 }, 0.92);
-      }
-    };
-
-    if (desktop) {
-      if (hero && depth) {
-        addPinnedTransition(
-          hero,
-          depth,
-          { clipPath: 'inset(0% 0% 100% 0%)', scale: 1.025 },
-          { roller: true, exitY: -20, exitBlur: 12, revealTo: { clipPath: 'inset(0% 0% 0% 0%)' } },
-        );
-      }
-      if (depth && aperture) {
-        addPinnedTransition(
-          depth,
-          aperture,
-          { clipPath: 'polygon(0 48%, 100% 43%, 100% 57%, 0 52%)', scale: 1.012 },
-          { exitY: -18, exitBlur: 9, revealTo: { clipPath: 'polygon(0 0%, 100% 0%, 100% 100%, 0 100%)' } },
-        );
-      }
-      if (aperture && principles) {
-        addPinnedTransition(
-          aperture,
-          principles,
-          { clipPath: 'inset(0% 49% 0% 49%)', scale: 1.015 },
-          { exitY: -22, exitBlur: 8, revealTo: { clipPath: 'inset(0% 0% 0% 0%)' } },
-        );
-      }
-      if (principles && perspective) {
-        addPinnedTransition(
-          principles,
-          perspective,
-          { clipPath: 'polygon(0 100%, 100% 66%, 100% 100%, 0 100%)', scale: 1.018 },
-          { exitY: -18, exitBlur: 11, revealTo: { clipPath: 'polygon(0 0%, 100% 0%, 100% 100%, 0 100%)' } },
-        );
-      }
-
-      /* Section 05 owns its own pin because its information planes progress through
-         depth continuously. Its final quarter also reveals Section 06. */
-      if (perspective && workspace) {
-        const field = perspective.querySelector<HTMLElement>('[data-landing-planes]');
-        const planes = field ? [...field.querySelectorAll<HTMLElement>('[data-landing-plane]')] : [];
-        const horizon = perspective.querySelector<HTMLElement>('[data-scene-media="world-environment"]');
-        const fadeTargets = directChildren(perspective).filter(child => child !== horizon && child !== field);
-
-        if (field && planes.length) {
-          const planeText = planes.map(plane => [...plane.querySelectorAll<HTMLElement>(':scope > span, :scope > p')]);
-
-          const render = (progress: number) => {
-            const p = clamp01(progress);
-            const deckProgress = range(p, 0, 0.78);
-            const active = deckProgress * (planes.length - 1);
-            const middle = (planes.length - 1) / 2;
-            const fieldShift = (middle - active) * 7.5;
-            field.style.transform = `translate3d(${fieldShift}%,0,0)`;
-
-            planes.forEach((plane, index) => {
-              const signed = index - active;
-              const distance = Math.abs(signed);
-              const z = 92 - Math.min(distance, 2.6) * 92;
-              const y = Math.min(distance * 1.55, 4.4);
-              const rotation = Math.max(-20, Math.min(20, -signed * 8.5));
-              const scale = Math.max(0.86, 1.035 - distance * 0.055);
-              const opacity = Math.max(0.42, 1 - distance * 0.17);
-              const brightness = Math.max(0.54, 1.06 - distance * 0.14);
-              const saturation = Math.max(0.74, 1.08 - distance * 0.08);
-
-              /* Existing M5 CSS intentionally gives the static perspective transforms
-                 !important. Inline important keeps this continuous runtime state as the
-                 sole active owner without weakening the static/reduced-motion fallback. */
-              plane.style.setProperty('transform', `translate3d(0,${y}%,${z}px) rotateY(${rotation}deg) scale(${scale})`, 'important');
-              plane.style.opacity = String(opacity);
-              plane.style.filter = `brightness(${brightness}) saturate(${saturation})`;
-              planeText[index].forEach(text => { text.style.opacity = String(Math.max(0.32, 1 - distance * 0.38)); });
-            });
-
-            const exit = range(p, 0.66, 1);
-            const reveal = range(p, 0.73, 1);
-            const fadeOpacity = String(1 - exit * 0.96);
-            const blur = `blur(${exit * 9}px)`;
-
-            fadeTargets.forEach(target => {
-              target.style.opacity = fadeOpacity;
-              target.style.filter = blur;
-            });
-            if (horizon) {
-              horizon.style.opacity = String(1 - exit * 0.74);
-              horizon.style.filter = `blur(${exit * 5}px)`;
-            }
-            field.style.opacity = String(1 - exit * 0.9);
-
-            workspace.style.opacity = String(reveal);
-            workspace.style.clipPath = `polygon(0 ${100 - reveal * 100}%, 100% ${Math.max(0, 72 - reveal * 72)}%, 100% 100%, 0 100%)`;
-          };
-
-          const trigger = ScrollTrigger.create({
-            trigger: perspective,
-            start: 'top top',
-            end: () => `+=${window.innerHeight}`,
-            scrub: true,
-            pin: true,
-            pinSpacing: false,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: self => render(self.progress),
-            onRefresh: self => render(self.progress),
-          });
-          ownedTriggers.push(trigger);
-          render(trigger.progress);
-
-          cleanup.push(() => {
-            field.style.removeProperty('transform');
-            field.style.removeProperty('opacity');
-            planes.forEach((plane, index) => {
-              plane.style.removeProperty('transform');
-              plane.style.removeProperty('opacity');
-              plane.style.removeProperty('filter');
-              planeText[index].forEach(text => text.style.removeProperty('opacity'));
-            });
-            fadeTargets.forEach(target => {
-              target.style.removeProperty('opacity');
-              target.style.removeProperty('filter');
-            });
-            horizon?.style.removeProperty('opacity');
-            horizon?.style.removeProperty('filter');
-            workspace.style.removeProperty('opacity');
-            workspace.style.removeProperty('clip-path');
-          });
-        }
-      }
-
-      if (workspace && entry) {
-        addPinnedTransition(
-          workspace,
-          entry,
-          { clipPath: 'circle(4% at 50% 54%)', scale: 1.028 },
-          { exitY: -20, exitBlur: 9, revealTo: { clipPath: 'circle(78% at 50% 54%)' } },
-        );
-      }
-    } else {
-      /* Mobile remains cinematic but avoids desktop pinning/perspective ownership.
-         Every state is reversible and tied directly to scroll position. */
-      const mobileScenes = [depth, aperture, principles, perspective, workspace, entry].filter((item): item is HTMLElement => Boolean(item));
-      mobileScenes.forEach((chapter, index) => {
-        const content = directChildren(chapter);
-        gsap.fromTo(content,
-          { opacity: 0.48, y: 24 + (index % 2) * 6 },
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.018,
-            ease: 'none',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: chapter,
-              start: 'top 96%',
-              end: 'top 48%',
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      });
-    }
-
-    /* Section 03 ambient lens is independent of scroll and is deliberately omitted on
-       coarse pointers. It never owns the paper/content transform state. */
-    if (aperture) {
-      const lens = aperture.querySelector<HTMLElement>('[data-landing-lens]');
-      if (finePointer && lens) {
-        let bounds = aperture.getBoundingClientRect();
-        const x = gsap.quickTo(lens, 'x', { duration: 0.62, ease: 'power2.out' });
-        const y = gsap.quickTo(lens, 'y', { duration: 0.62, ease: 'power2.out' });
-        const opacity = gsap.quickTo(lens, 'opacity', { duration: 0.22, ease: 'power1.out' });
-        const enter = () => { bounds = aperture.getBoundingClientRect(); opacity(0.34); };
-        const move = (event: PointerEvent) => { x(event.clientX - bounds.left); y(event.clientY - bounds.top); };
-        const leave = () => { opacity(0); };
-        aperture.addEventListener('pointerenter', enter);
-        aperture.addEventListener('pointermove', move);
-        aperture.addEventListener('pointerleave', leave);
         cleanup.push(() => {
-          aperture.removeEventListener('pointerenter', enter);
-          aperture.removeEventListener('pointermove', move);
-          aperture.removeEventListener('pointerleave', leave);
+          removeProperties(field, ['transform', 'opacity']);
+          planes.forEach((plane, index) => {
+            removeProperties(plane, ['transform', 'opacity', 'filter']);
+            planeText[index].forEach(text => removeProperties(text, ['opacity']));
+          });
+          fadeTargets.forEach(target => removeProperties(target, ['opacity', 'filter']));
+          if (horizon) removeProperties(horizon, ['opacity', 'filter']);
+          removeProperties(workspace, ['opacity', 'clip-path']);
         });
       }
     }
 
-    /* Footer is visible by construction. Only its internal content receives a subtle
-       lift, so a missed/partial ScrollTrigger can never hide the legal scene itself. */
-    const footer = root.querySelector<HTMLElement>('footer[data-landing-scene="section-08-footer"]');
-    if (footer) {
-      const footerContent = directChildren(footer);
-      gsap.fromTo(footerContent,
-        { y: 22, opacity: 0.62 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.035,
-          ease: 'none',
-          immediateRender: false,
-          scrollTrigger: { trigger: footer, start: 'top 98%', end: 'top 72%', scrub: true, invalidateOnRefresh: true },
-        },
+    if (workspace && entry) {
+      addPinnedTransition(
+        workspace,
+        entry,
+        { clipPath: 'circle(4% at 50% 54%)', scale: 1.02 },
+        { exitY: -16, exitBlur: 7, revealTo: { clipPath: 'circle(78% at 50% 54%)' } },
       );
     }
+  } else {
+    /* Mobile keeps motion light and fully reversible. No pin wrappers are created. */
+    const mobileScenes = [depth, aperture, principles, perspective, workspace, entry].filter((item): item is HTMLElement => Boolean(item));
+    mobileScenes.forEach((chapter, index) => {
+      const content = directChildren(chapter);
+      const render = (progress: number) => {
+        const p = smoothstep(clamp01(progress));
+        content.forEach((node, itemIndex) => {
+          const local = smoothstep(range(p, itemIndex * 0.018, 0.86 + itemIndex * 0.018));
+          node.style.opacity = String(0.56 + local * 0.44);
+          node.style.translate = `0 ${(1 - local) * (22 + (index % 2) * 4)}px`;
+        });
+      };
+      const trigger = own({
+        trigger: chapter,
+        start: 'top 96%',
+        end: 'top 48%',
+        invalidateOnRefresh: true,
+        onUpdate: self => render(self.progress),
+        onRefresh: self => render(self.progress),
+        onEnter: self => render(self.progress),
+        onEnterBack: self => render(self.progress),
+        onLeave: () => render(1),
+        onLeaveBack: () => render(0),
+      });
+      render(trigger.progress);
+      cleanup.push(() => content.forEach(node => removeProperties(node, ['opacity', 'translate'])));
+    });
+  }
 
-    const refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
-    cleanup.push(() => window.cancelAnimationFrame(refreshFrame));
-  }, root);
+  /* Fine-pointer lens uses one rAF write per pointer frame. It owns no GSAP tween and
+     therefore cannot retain the section across Next route transitions. */
+  if (aperture && finePointer) {
+    const lens = aperture.querySelector<HTMLElement>('[data-landing-lens]');
+    if (lens) {
+      let bounds = aperture.getBoundingClientRect();
+      let frame = 0;
+      let targetX = 0;
+      let targetY = 0;
+      const flush = () => {
+        frame = 0;
+        lens.style.translate = `${targetX}px ${targetY}px`;
+      };
+      const enter = () => {
+        bounds = aperture.getBoundingClientRect();
+        lens.style.opacity = '.34';
+      };
+      const move = (event: PointerEvent) => {
+        targetX = event.clientX - bounds.left;
+        targetY = event.clientY - bounds.top;
+        if (!frame) frame = window.requestAnimationFrame(flush);
+      };
+      const leave = () => { lens.style.opacity = '0'; };
+      lens.style.transition = 'opacity 220ms ease-out, translate 90ms linear';
+      aperture.addEventListener('pointerenter', enter);
+      aperture.addEventListener('pointermove', move);
+      aperture.addEventListener('pointerleave', leave);
+      cleanup.push(() => {
+        aperture.removeEventListener('pointerenter', enter);
+        aperture.removeEventListener('pointermove', move);
+        aperture.removeEventListener('pointerleave', leave);
+        if (frame) window.cancelAnimationFrame(frame);
+        removeProperties(lens, ['opacity', 'translate', 'transition']);
+      });
+    }
+  }
+
+  /* Footer itself is never transformed. Only its content lifts, and reverse scroll
+     restores the exact static state. */
+  const footer = root.querySelector<HTMLElement>('footer[data-landing-scene="section-08-footer"]');
+  if (footer) {
+    const footerContent = directChildren(footer);
+    const render = (progress: number) => {
+      const p = smoothstep(clamp01(progress));
+      footerContent.forEach((node, index) => {
+        const local = smoothstep(range(p, index * 0.05, 0.9 + index * 0.05));
+        node.style.opacity = String(0.64 + local * 0.36);
+        node.style.translate = `0 ${(1 - local) * 18}px`;
+      });
+    };
+    const trigger = own({
+      trigger: footer,
+      start: 'top 98%',
+      end: 'top 72%',
+      invalidateOnRefresh: true,
+      onUpdate: self => render(self.progress),
+      onRefresh: self => render(self.progress),
+      onEnter: self => render(self.progress),
+      onEnterBack: self => render(self.progress),
+      onLeave: () => render(1),
+      onLeaveBack: () => render(0),
+    });
+    render(trigger.progress);
+    cleanup.push(() => footerContent.forEach(node => removeProperties(node, ['opacity', 'translate'])));
+  }
+
+  const refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
 
   return () => {
-    cleanup.forEach(dispose => dispose());
-    ownedTriggers.forEach(trigger => trigger.kill());
-    context.revert();
+    window.cancelAnimationFrame(refreshFrame);
 
-    /* GSAP can leave an identity transform behind after reverting a tweened image.
-       Reduced-motion and breakpoint remounts must restore the genuine static DOM, not
-       a matrix(1,0,0,1,0,0) residue that changes later layout/acceptance semantics. */
+    /* Kill every landing trigger with revert=true before releasing DOM references.
+       This removes pin spacers and ScrollTrigger bookkeeping instead of relying on a
+       context rollback that previously left detached landing trees measurable. */
+    ownedTriggers.forEach(trigger => trigger.kill(true));
+    cleanup.reverse().forEach(dispose => dispose());
+
     const world = root.querySelector<HTMLElement>('[data-landing-world]');
-    world?.style.removeProperty('transform');
-    world?.style.removeProperty('filter');
-    world?.style.removeProperty('opacity');
+    if (world) removeProperties(world, ['transform', 'filter', 'opacity', 'translate', 'scale']);
   };
 }
