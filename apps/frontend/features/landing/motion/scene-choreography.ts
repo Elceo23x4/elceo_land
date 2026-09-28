@@ -73,33 +73,39 @@ export function mountLandingMotion(root: HTMLElement) {
     revealFrom: gsap.TweenVars,
     options: TransitionOptions = {},
   ) => {
-    const currentContent = directChildren(current);
     const fromClip = String(revealFrom.clipPath ?? 'inset(0% 0% 100% 0%)');
     const toClip = String(options.revealTo?.clipPath ?? 'inset(0% 0% 0% 0%)');
     const fromScale = Number(revealFrom.scale ?? 1);
     const exitY = Math.abs(options.exitY ?? -22);
     const exitBlur = Math.max(0, options.exitBlur ?? 8);
+    const heroWorld = current === hero ? current.querySelector<HTMLElement>('[data-landing-world]') : null;
 
     const render = (progress: number) => {
       const p = clamp01(progress);
-      const reveal = smoothstep(range(p, 0.72, 0.985));
+      const dissolve = smoothstep(range(p, 0.5, 0.78));
+      const reveal = smoothstep(range(p, 0.76, 0.985));
       const sectionFade = smoothstep(range(p, 0.84, 1));
 
-      next.style.opacity = String(0.04 + reveal * 0.96);
+      next.style.opacity = String(0.035 + reveal * 0.965);
       next.style.clipPath = gsap.utils.interpolate(fromClip, toClip, reveal) as string;
       next.style.scale = String(fromScale + (1 - fromScale) * reveal);
 
-      currentContent.forEach((node, index) => {
-        const dissolve = smoothstep(range(p, 0.56 + index * 0.012, 0.86 + index * 0.012));
-        node.style.opacity = String(1 - dissolve);
-        node.style.filter = `blur(${dissolve * exitBlur}px)`;
-        node.style.translate = `0 ${-dissolve * exitY}px`;
-      });
+      /* Dissolve the scene as one visual surface. Individual headings/cards are never
+         assigned opacity/filter, so reverse entry cannot strand one child blurred or
+         invisible while the rest of the section has already returned. */
       current.style.opacity = String(1 - sectionFade);
+      current.style.filter = `blur(${dissolve * exitBlur}px)`;
+      current.style.translate = `0 ${-dissolve * exitY}px`;
+
+      /* Preserve the established lifecycle contract: Hero motion owns a transform on
+         the globe and teardown removes it completely for reduced-motion/static state. */
+      if (heroWorld) {
+        heroWorld.style.transform = `translate3d(0,${dissolve * 8}%,0) scale(${1 - dissolve * 0.08})`;
+      }
 
       if (options.roller && revealer) {
-        const enter = smoothstep(range(p, 0.61, 0.78));
-        const leave = smoothstep(range(p, 0.86, 0.96));
+        const enter = smoothstep(range(p, 0.62, 0.79));
+        const leave = smoothstep(range(p, 0.87, 0.96));
         const visible = enter * (1 - leave);
         const travel = -window.innerHeight * 0.3 + enter * window.innerHeight * 0.58;
         revealer.style.opacity = String(visible * 0.72);
@@ -107,6 +113,15 @@ export function mountLandingMotion(root: HTMLElement) {
         revealer.style.rotate = `${-28 + enter * 80}deg`;
         revealer.style.scale = String(0.74 + enter * 0.28 - leave * 0.16);
       }
+    };
+
+    const renderTriggerState = (self: ScrollTrigger) => {
+      /* Reverse navigation should restore a chapter promptly instead of requiring an
+         extra wheel gesture. The page may jump across several pinned ranges at once
+         (browser scrollIntoView, trackpad fling, anchor navigation); compressing the
+         reverse visual tail makes the returning chapter readable immediately. */
+      const visualProgress = self.direction < 0 ? Math.min(self.progress * 0.52, 0.52) : self.progress;
+      render(visualProgress);
     };
 
     const trigger = own({
@@ -117,18 +132,18 @@ export function mountLandingMotion(root: HTMLElement) {
       pinSpacing: false,
       anticipatePin: 1,
       invalidateOnRefresh: true,
-      onUpdate: self => render(self.progress),
+      onUpdate: renderTriggerState,
       onRefresh: self => render(self.progress),
-      onEnter: self => render(self.progress),
-      onEnterBack: self => render(self.progress),
+      onEnter: renderTriggerState,
+      onEnterBack: renderTriggerState,
       onLeave: () => render(1),
       onLeaveBack: () => render(0),
     });
     render(trigger.progress);
 
     cleanup.push(() => {
-      removeProperties(current, ['opacity']);
-      currentContent.forEach(node => removeProperties(node, ['opacity', 'filter', 'translate']));
+      removeProperties(current, ['opacity', 'filter', 'translate']);
+      if (heroWorld) removeProperties(heroWorld, ['transform']);
       removeProperties(next, ['opacity', 'clip-path', 'scale']);
     });
   };
