@@ -79,8 +79,8 @@ test('landing motion is reversible, contained and footer-safe on desktop', async
   expect(reverseState.placardsFilter === 'none' || reverseState.placardsFilter.includes('blur(0px)')).toBe(true);
 
   await bringSceneToTop(page, 'section-05-perspective');
-  for (const fraction of [0.05, 0.28, 0.52, 0.76]) {
-    await page.evaluate(value => window.scrollBy(0, innerHeight * value), fraction === 0.05 ? fraction : 0.24);
+  for (const delta of [0.05, 0.24, 0.24, 0.24]) {
+    await page.evaluate(value => window.scrollBy(0, innerHeight * value), delta);
     await settle(page);
     const activePlane = await page.locator('[data-landing-plane]').evaluateAll(nodes => {
       const states = nodes.map(node => {
@@ -141,3 +141,20 @@ test('landing choreography cleans desktop pin state when resized to mobile', asy
   expect(inlineTransforms.every(value => value === '')).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
+
+for (const width of [768, 1024]) {
+  test(`landing preserves reading integrity at ${width}px tablet width`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto(origin);
+
+    const fontSize = async (selector: string) => Number.parseFloat(await page.locator(selector).first().evaluate(element => getComputedStyle(element).fontSize));
+    expect(await fontSize('[data-landing-scene="section-03-blind-spots"] li')).toBeGreaterThanOrEqual(11);
+    expect(await fontSize('[data-landing-placard] h3')).toBeGreaterThanOrEqual(19);
+    expect(await fontSize('[data-landing-placard] > p')).toBeGreaterThanOrEqual(9);
+    expect(await fontSize('[data-landing-plane] > p')).toBeGreaterThanOrEqual(12);
+    expect(await fontSize('[data-landing-scene="section-06-workspace"] article h3')).toBeGreaterThanOrEqual(15);
+    expect(await fontSize('[data-landing-scene="section-07-entry"] [class*="trust"] p')).toBeGreaterThanOrEqual(12);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  });
+}
