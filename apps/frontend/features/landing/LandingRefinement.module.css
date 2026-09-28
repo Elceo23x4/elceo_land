@@ -1,7 +1,7 @@
 /* M5 landing hardening layer.
    This module owns geometry/containment corrections only. Scroll choreography stays in
    scene-choreography.ts so CSS and GSAP never compete for the same transform state. */
-.scope { display: contents; }
+.scope { --landing-refinement-active: 1; }
 
 :global([data-landing-root]):has(.scope) {
   overflow-x: clip;
