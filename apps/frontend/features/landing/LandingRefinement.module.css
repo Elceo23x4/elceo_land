@@ -1,6 +1,6 @@
 /* M5 landing hardening layer.
    This module owns geometry/containment corrections only. Scroll choreography stays in
-   scene-choreography.ts so CSS and GSAP never compete for the same transform state. */
+   scene-choreography.ts so CSS and ScrollTrigger never compete for element state. */
 .scope { --landing-refinement-active: 1; }
 
 :global([data-landing-root]):has(.scope) {
@@ -13,9 +13,7 @@
   overflow: clip !important;
 }
 
-/* Section 03 — the physical paper is a scene layer, never a negative-z descendant.
-   Negative z-index inside an isolated section was able to place the asset behind the
-   section's own black paint, which made the torn paper intermittently disappear. */
+/* Section 03 — the physical paper is a scene layer, never a negative-z descendant. */
 :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] > picture[data-scene-media="torn-paper-strip"]) {
   position: absolute;
   inset: 0;
@@ -38,8 +36,14 @@
   z-index: 1;
 }
 
-/* Section 04 — placards have no outline. Use the independent translate longhand for
-   hover lift so the locked V33 placement transforms remain completely untouched. */
+/* Section 04 — preserve the approved end-to-start equation exactly. The former 57svh
+   low lane introduced an 8svh gap at desktop heights (72px at 900, 86.4px at 1080). */
+:global([data-landing-root]):has(.scope) > :global([data-landing-scene="section-04-principles"]) {
+  --low-top: calc(var(--high-top) + var(--card-height)) !important;
+}
+
+/* Placards have no outline. Independent translate lifts the card without changing the
+   locked placement transform or allowing hover to collide with neighbouring lanes. */
 :global([data-landing-root]):has(.scope) :global([data-landing-placard]) {
   border: 0 !important;
   outline: 0 !important;
@@ -60,7 +64,7 @@
 }
 
 /* Section 05 — the scene, rather than the perspective field, is the desktop clipping
-   boundary. The mobile field must remain a native keyboard/touch scroll surface. */
+   boundary. The mobile field remains a native keyboard/touch scroll surface. */
 :global([data-landing-root]):has(.scope) > :global([data-landing-scene="section-05-perspective"]) {
   overflow: clip !important;
 }
