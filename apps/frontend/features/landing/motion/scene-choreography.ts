@@ -90,15 +90,10 @@ export function mountLandingMotion(root: HTMLElement) {
       next.style.clipPath = gsap.utils.interpolate(fromClip, toClip, reveal) as string;
       next.style.scale = String(fromScale + (1 - fromScale) * reveal);
 
-      /* Dissolve the scene as one visual surface. Individual headings/cards are never
-         assigned opacity/filter, so reverse entry cannot strand one child blurred or
-         invisible while the rest of the section has already returned. */
       current.style.opacity = String(1 - sectionFade);
       current.style.filter = `blur(${dissolve * exitBlur}px)`;
       current.style.translate = `0 ${-dissolve * exitY}px`;
 
-      /* Preserve the established lifecycle contract: Hero motion owns a transform on
-         the globe and teardown removes it completely for reduced-motion/static state. */
       if (heroWorld) {
         heroWorld.style.transform = `translate3d(0,${dissolve * 8}%,0) scale(${1 - dissolve * 0.08})`;
       }
@@ -116,10 +111,6 @@ export function mountLandingMotion(root: HTMLElement) {
     };
 
     const renderTriggerState = (self: ScrollTrigger) => {
-      /* Reverse navigation should restore a chapter promptly instead of requiring an
-         extra wheel gesture. The page may jump across several pinned ranges at once
-         (browser scrollIntoView, trackpad fling, anchor navigation); compressing the
-         reverse visual tail makes the returning chapter readable immediately. */
       const visualProgress = self.direction < 0 ? Math.min(self.progress * 0.52, 0.52) : self.progress;
       render(visualProgress);
     };
@@ -182,9 +173,9 @@ export function mountLandingMotion(root: HTMLElement) {
       );
     }
 
-    /* Section 05 is a continuous depth deck. Progress is paced so each card settles
-       briefly before the next interpolation, removing the old abrupt index jump and
-       the delayed CSS-transition tail. */
+    /* Section 05 receives 2.8 viewport-heights of real scroll travel. The matching
+       180svh layout runway in LandingRefinement means Section 06 reaches top exactly
+       when this pin ends; no blank gap or post-pin jump is introduced. */
     if (perspective && workspace) {
       const field = perspective.querySelector<HTMLElement>('[data-landing-planes]');
       const planes = field ? [...field.querySelectorAll<HTMLElement>('[data-landing-plane]')] : [];
@@ -241,7 +232,7 @@ export function mountLandingMotion(root: HTMLElement) {
         const trigger = own({
           trigger: perspective,
           start: 'top top',
-          end: () => `+=${window.innerHeight}`,
+          end: () => `+=${window.innerHeight * 2.8}`,
           pin: true,
           pinSpacing: false,
           anticipatePin: 1,
@@ -277,7 +268,6 @@ export function mountLandingMotion(root: HTMLElement) {
       );
     }
   } else {
-    /* Mobile keeps motion light and fully reversible. No pin wrappers are created. */
     const mobileScenes = [depth, aperture, principles, perspective, workspace, entry].filter((item): item is HTMLElement => Boolean(item));
     mobileScenes.forEach((chapter, index) => {
       const content = directChildren(chapter);
@@ -306,8 +296,6 @@ export function mountLandingMotion(root: HTMLElement) {
     });
   }
 
-  /* Fine-pointer lens uses one rAF write per pointer frame. It owns no GSAP tween and
-     therefore cannot retain the section across Next route transitions. */
   if (aperture && finePointer) {
     const lens = aperture.querySelector<HTMLElement>('[data-landing-lens]');
     if (lens) {
@@ -343,8 +331,6 @@ export function mountLandingMotion(root: HTMLElement) {
     }
   }
 
-  /* Footer itself is never transformed. Only its content lifts, and reverse scroll
-     restores the exact static state. */
   const footer = root.querySelector<HTMLElement>('footer[data-landing-scene="section-08-footer"]');
   if (footer) {
     const footerContent = directChildren(footer);
@@ -376,10 +362,6 @@ export function mountLandingMotion(root: HTMLElement) {
 
   return () => {
     window.cancelAnimationFrame(refreshFrame);
-
-    /* Kill every landing trigger with revert=true before releasing DOM references.
-       This removes pin spacers and ScrollTrigger bookkeeping instead of relying on a
-       context rollback that previously left detached landing trees measurable. */
     ownedTriggers.forEach(trigger => trigger.kill(true));
     cleanup.reverse().forEach(dispose => dispose());
 
