@@ -165,3 +165,7 @@ Baseline `35f6f5dd9886f4bd391020ef865f8065a591f082` passes M1–M4, Foundation a
 - The broad Section 5 `> :not(picture)` rule overwrote observer z-index 3 with 1. An explicit foreground rule restores its depth. The original observer-above-panels assertion is retained.
 
 These repairs do not alter backend/auth/dashboard boundaries, resource budgets or production deployment configuration. Exact repaired-head browser results and visual review are still required before landing acceptance or subsequent M5 families.
+
+Repaired head `bd7a7e37e248d26048ac63d7dddadb766f1ac30b` passes all eight workflows, including 49 Playwright tests (M5 run 36588994248). Resource samples remain exactly 200 nodes/349 listeners throughout; heap late growth 103188 bytes, slope 26686 bytes/journey, unchanged budgets. Separate Git-linked Next deployment `dpl_2g3zRe4BpZakMjUu64x6TMuyPo7M` is READY for this SHA. Browser inspection redirects to Vercel authentication; protection was not changed.
+
+Screenshot review still rejected mobile paper/content alignment, perspective thumbnail/body overlap, and undersized workspace labels, plus crowded desktop blind-spot text. These are visual production defects despite green automation. Follow-up CSS keeps the paper around its content, separates perspective copy/control/deck bands, raises the editorial rail, and gives mobile workspace labels a readable two-column asymmetric mosaic. Landing acceptance remains pending recapture.

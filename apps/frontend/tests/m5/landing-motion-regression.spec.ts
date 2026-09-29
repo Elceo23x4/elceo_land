@@ -271,7 +271,17 @@ test('390px layout keeps the carousel and workspace inside one screen', async ({
     expect(box!.height).toBeCloseTo(844, 0);
   }
 
+  const aperture = await bringSceneToTop(page, 'section-03-blind-spots');
+  const paperBox = await aperture.locator('picture[data-scene-media="torn-paper-strip"]').boundingBox();
+  const headingBox = await aperture.locator('h2').boundingBox();
+  const itemsBox = await aperture.locator('ul').boundingBox();
+  expect(headingBox!.y).toBeGreaterThan(paperBox!.y + 20);
+  expect(itemsBox!.y + itemsBox!.height).toBeLessThan(paperBox!.y + paperBox!.height - 20);
+
   const perspective = await bringSceneToTop(page, 'section-05-perspective');
+  const copyBox = await perspective.locator('[class*="informationCopy"]').boundingBox();
+  const controlsBox = await perspective.locator('[class*="perspectiveControls"]').boundingBox();
+  expect(controlsBox!.y).toBeGreaterThan(copyBox!.y + copyBox!.height + 8);
   const fieldBox = await perspective.locator('[data-landing-planes]').boundingBox();
   expect(fieldBox).not.toBeNull();
   expect(fieldBox!.height).toBeGreaterThanOrEqual(190);
@@ -283,6 +293,9 @@ test('390px layout keeps the carousel and workspace inside one screen', async ({
   const workspaceBox = await workspace.boundingBox();
   const headerBox = await workspace.locator(':scope > header').boundingBox();
   const mosaicBox = await workspace.locator('[class*="mosaic"]').boundingBox();
+  for (const label of await workspace.locator('article h3').all()) {
+    expect(await label.evaluate(el => parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(14);
+  }
   expect(workspaceBox).not.toBeNull();
   expect(headerBox).not.toBeNull();
   expect(mosaicBox).not.toBeNull();

@@ -389,3 +389,68 @@
     translate: 0 0 !important;
   }
 }
+
+/* Visual review: preserve readable content inside the physical paper aperture. */
+@media (min-width:1181px) {
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-03-blind-spots"] li) {
+    min-width: 0;
+    padding-inline: clamp(8px, .7vw, 14px);
+    font-size: clamp(14px, .95vw, 20px);
+    overflow-wrap: normal;
+  }
+}
+@media (max-width:760px) {
+  :global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-03-blind-spots"]) {
+    padding-top: 24svh !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-03-blind-spots"] > picture[data-scene-media="torn-paper-strip"]) {
+    inset: 12svh 0 auto;
+    height: 66svh;
+    transform: none;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-03-blind-spots"] > picture[data-scene-media="torn-paper-strip"] > img) {
+    height: 100% !important;
+    aspect-ratio: auto;
+    object-fit: fill !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [class*="placards"]) {
+    top: 40svh;
+    bottom: auto;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] [class*="informationCopy"] h2) {
+    margin-top: 18px;
+    font-size: clamp(30px, 8.8vw, 38px);
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] [class*="informationCopy"] > p:last-child) {
+    margin-top: 14px;
+    font-size: 16px;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] [class*="perspectiveControls"]) {
+    top: 32svh !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-planes]) {
+    top: 39svh !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="mosaic"]) {
+    grid-template-columns: minmax(0, 42fr) minmax(0, 58fr) !important;
+    grid-template-rows: 1fr 1fr 1fr !important;
+    height: min(53svh, 450px) !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="tablet"]) {
+    grid-row: 1 / 4 !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="track"]) {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="routine"]) {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="mosaic"] h3) {
+    font-size: 14px !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="mosaic"] p) {
+    font-size: 10px !important;
+  }
+}
