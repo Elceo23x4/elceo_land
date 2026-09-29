@@ -4,6 +4,22 @@ PR #62 · `m5/production-ui-design-implementation` · starting head `e438103a837
 
 This is the landing-only replacement authorized on 2026-09-25. It is not full M5 completion, merge approval, or production cutover. The latest eight supplied references supersede earlier conflicting landing composition instructions. The user explicitly resolved Section 4: preserve its image's visual language but use end-to-start placement. All backend, authentication and dashboard authorities remain unchanged.
 
+## Current checkpoint — 29 September 2026
+
+Latest verified implementation head: `c08da37c029c6e74b3749321a220e7b772b00cbb`. All eight workflows passed: Foundation 36627318949, Vite 36627319091, M1 36627319200, M2 36627319296, M3 36627319151, M4 36627319133, M5 36627319211 and exact-head aggregate 36627319230. M5 passed all 49 browser tests, clean Node 22 locked installation, both production builds, typecheck, hardening rejections, coverage and asset checks.
+
+Resource samples: 200 DOM nodes and 349 listeners at every sample. Warm-to-final retained heap increase 291456 bytes; late increase 119468 bytes; late slope 30667.6 bytes/journey. All original ceilings pass unchanged. These controlled measurements are not field Core Web Vitals or GPU certification.
+
+Repairs since resumed head 35f6f5d: corrected sticky reverse-scroll test targeting, preserved viewport containment for each accessible rail card, restored observer foreground ordering, separated mobile perspective copy/controls/deck, raised the principles rail, restored readable workspace labels, removed the lens from flex layout, and put mobile blind-spot text inside the actual opaque paper. A final CSS crop preserves the paper's aspect ratio rather than stretching its fibrous edge; its own exact-head rerun remains required.
+
+Direct screenshot review: all eight scenes were inspected at 390/1440/1920 on bd7a7e3; focused follow-up b3dab0 and c08da37 review confirms the desktop Section 3 alignment repair and mobile Section 5/6 repairs. The new source-preserving paper crop still needs recapture. See root `design-qa.md` for findings and limitations. The original composition/formula notes below are historical: current Section 4 uses height-aware end-to-start placement with a tablet/mobile editorial rail; Section 5 uses native frame-coalesced sticky choreography with its extended reading runway; Section 7 remains full-screen and footer overlays it, with a sequential reduced-motion fallback.
+
+Vercel organization access and candidate provisioning are resolved. Separate Git-linked project `elceo-next-preview` has READY deployment `dpl_BqutACxVmhsaHYovYBu5No2QGwwx` for c08da37. Direct browser inspection reaches Vercel login. Hosted visual acceptance is therefore pending authenticated access, not a deployment-build failure. No production Vite project, domain, environment, routing or protection configuration was changed.
+
+All 28 frozen backend files and the original approved PNG independently reverified locally. Protected dashboard/legacy sources and assets, mirrored contracts, lockfile and production configuration have no diff from merged M4. No new auth/session/backend behavior or application family is introduced. Full M5 is not complete; broader families remain gated on landing acceptance.
+
+The following sections preserve earlier provenance and checkpoint history; they do not supersede the current evidence above.
+
 ## Supplied assets
 
 `M5_LANDING_ASSET_PREFLIGHT.json` records every original filename, semantic repository filename, classification, dimensions, byte count, complete SHA-256 and alpha census. Eight opaque reference PNGs and four original layer-source PNGs are copied without byte changes under `references/m5-landing/`. These originals are never served as page backgrounds.
@@ -59,13 +75,13 @@ Starting-head history: M1/M2/M3/M4/foundation/Vite passed; M5 and aggregate fail
 
 Local pre-publication checks: asset coverage/hash/decode/alpha/source checks passed; all17 existing hardening rejection tests passed. Clean Node22.23.2 npm ci, Vite build, Next production build, Next typecheck, M1 (16 tests), M2 runtime/contracts, M3 (15 tests), M4 static (5 tests), deterministic generation and both browser-authority bundle scans passed locally. Browser parity/resource and exact-head CI results remain pending. The first local Next attempt failed on a stale generated cache database; rebuilding after isolating that cache passed. M1 was rerun after the build completed, preserving its required nonempty production-bundle assertion.
 
-## Vercel blocker
+## Historical Vercel blocker — resolved
 
 Connected Vercel `list_teams` returned no teams. Requesting `list_projects` for the known organization `elceo23x4s-projects` returned403 Forbidden: “Not authorized: Trying to access resource under scope elceo23x4s-projects. You must re-authenticate to this scope or use a token with access to this scope.” Reported team ID: `team_SSDvFY8cn36WkNWEcsQO82p8`.
 
 No candidate project/deployment was created, and no existing production/Vite project, framework, domain, routing or environment configuration was modified. A browser-accessible Next candidate URL cannot be claimed until organization access is restored.
 
-## Remaining blockers and recommendation
+## Historical remaining blockers and recommendation
 
 Final-head browser scene review, resource result (and differential controls if needed), inherited regression result, and separately hosted Next preview remain required. Supplemental generated objects/panels are not exact source extractions. Real intro film, social URLs, Insights destination, final legal publication copy and broader M5 families remain outstanding. Do not merge or expand product families. This checkpoint is not yet accepted for visual closure.
 

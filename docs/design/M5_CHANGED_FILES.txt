@@ -98,6 +98,7 @@ apps/frontend/tests/m5/resource-controls.ts
 apps/frontend/tests/m5/resource-driver.ts
 apps/frontend/tests/m5/resource-snapshot.ts
 apps/frontend/tests/shell.spec.ts
+design-qa.md
 docs/design/ELCEO_ASSET_REGISTER.md
 docs/design/ELCEO_EDITORIAL_STANDARD.md
 docs/design/ELCEO_LANDING_SCENE_CONTRACT.md

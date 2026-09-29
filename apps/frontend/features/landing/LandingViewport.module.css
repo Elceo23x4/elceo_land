@@ -415,7 +415,8 @@
     top: -48% !important;
     height: 180% !important;
     aspect-ratio: auto;
-    object-fit: fill !important;
+    object-fit: cover !important;
+    object-position: center;
   }
   :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [class*="placards"]) {
     top: 40svh;
