@@ -49,7 +49,7 @@
   "landingMotionOwners": [
     {
       "path": "apps/frontend/features/landing/motion/scene-choreography.ts",
-      "purpose": "Sole public landing owner of scrubbed world recession, staggered placards and local pointer depth/lens; all tweens/listeners are disposed on exit or reduced-motion change."
+      "purpose": "Sole public landing owner of frame-coalesced native scroll choreography, reversible scene state, Section 5 perspective focus/pause and local pointer lens behavior; all listeners and frame handles are disposed on exit or reduced-motion change."
     }
   ]
 }
