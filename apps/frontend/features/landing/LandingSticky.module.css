@@ -1,0 +1,19 @@
+.sticky { --landing-native-sticky: 1; }
+
+/* Native sticky chapters replace plugin pin-spacers. Later chapters paint above earlier
+   ones while the JS controller reveals them only near the end of each viewport travel. */
+@media (prefers-reduced-motion:no-preference) {
+  :global([data-landing-root]):has(.sticky) > :global(section[data-landing-scene]) {
+    position: sticky !important;
+    top: 0;
+  }
+
+  :global([data-landing-root]):has(.sticky) > :global([data-landing-scene="section-01-hero"]) { z-index: 1; }
+  :global([data-landing-root]):has(.sticky) > :global([data-landing-scene="section-02-depth"]) { z-index: 2; }
+  :global([data-landing-root]):has(.sticky) > :global([data-landing-scene="section-03-blind-spots"]) { z-index: 3; }
+  :global([data-landing-root]):has(.sticky) > :global([data-landing-scene="section-04-principles"]) { z-index: 4; }
+  :global([data-landing-root]):has(.sticky) > :global([data-landing-scene="section-05-perspective"]) { z-index: 5; }
+  :global([data-landing-root]):has(.sticky) > :global([data-landing-scene="section-06-workspace"]) { z-index: 6; }
+  :global([data-landing-root]):has(.sticky) > :global([data-landing-scene="section-07-entry"]) { z-index: 7; }
+  :global([data-landing-root]):has(.sticky) > :global(footer[data-landing-scene="section-08-footer"]) { z-index: 20; }
+}
