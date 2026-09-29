@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import styles from './LandingMotion.module.css';
 import refinement from './LandingRefinement.module.css';
 import viewport from './LandingViewport.module.css';
+import sticky from './LandingSticky.module.css';
 
 /** Narrow, presentation-only controller. Every scene remains readable without it. */
 export function LandingMotion() {
@@ -42,7 +43,7 @@ export function LandingMotion() {
     };
   }, []);
 
-  return <div className={`${styles.scope} ${refinement.scope} ${viewport.viewport}`} data-landing-revealer aria-hidden="true">
+  return <div className={`${styles.scope} ${refinement.scope} ${viewport.viewport} ${sticky.sticky}`} data-landing-revealer aria-hidden="true">
     <span className={styles.axis} />
     <span className={styles.ringOuter} />
     <span className={styles.ringInner} />
