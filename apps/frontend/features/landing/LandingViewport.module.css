@@ -140,11 +140,9 @@
   }
 }
 
-/* SECTION 07 / FOOTER — Section 07 is a complete chapter. The footer stays outside
-   its composition and rises over the sticky seventh scene only at the final scroll. */
+/* SECTION 07 / FOOTER — the seventh scene is a complete viewport. Motion-capable
+   browsers get the sticky overlap from LandingSticky; reduced motion stays sequential. */
 :global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-07-entry"]) {
-  position: sticky !important;
-  top: 0;
   z-index: 7;
   height: 100svh !important;
   min-height: 100svh !important;
