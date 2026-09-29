@@ -53,9 +53,13 @@ export function inspectModule(file, source) {
     ts.forEachChild(node, visit);
   }
   visit(ast);
+  const executable = source.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*/gu, '');
   // gsap/all re-exports ScrollTrigger; deep source/dist imports count too.
-  const scroll = imports.some(specifier => /^gsap\/(?:.*\/)?(?:ScrollTrigger|all)(?:\.js)?$/u.test(specifier)) || /\bScrollTrigger\b/u.test(source.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*/gu, ''));
-  return { client, imports, opaqueImport, scroll };
+  const scroll = imports.some(specifier => /^gsap\/(?:.*\/)?(?:ScrollTrigger|all)(?:\.js)?$/u.test(specifier)) || /\bScrollTrigger\b/u.test(executable);
+  // Native landing choreography must be an explicit frame-coalesced scroll owner. A
+  // random click/resize listener does not satisfy this contract.
+  const nativeMotion = /\.addEventListener\s*\(\s*['"]scroll['"]/u.test(executable) && /\brequestAnimationFrame\s*\(/u.test(executable);
+  return { client, imports, opaqueImport, scroll, nativeMotion };
 }
 
 export function checkBoundaries(sources, registry, root = process.cwd()) {
@@ -115,16 +119,20 @@ export function checkBoundaries(sources, registry, root = process.cwd()) {
     if (owners.has(owner.path)) errors.push(`Duplicate motion owner: ${owner.path}`);
     owners.add(owner.path);
     if (!/^apps\/frontend\/features\/landing\/motion\/[^/]+\.[cm]?[jt]sx?$/u.test(owner.path) || !owner.purpose?.trim()) errors.push(`Motion owner must be a dedicated reviewed landing module: ${owner.path}`);
-    if (!modules.get(owner.path)?.scroll) errors.push(`Stale motion owner: ${owner.path}`);
+    const info = modules.get(owner.path);
+    if (!info?.scroll && !info?.nativeMotion) errors.push(`Stale motion owner: ${owner.path}`);
   }
   for (const [file, info] of modules) {
     if (!file.startsWith(frontend) && !file.startsWith('src/dashboard/')) continue;
     if (info.opaqueImport) errors.push(`Unreviewable runtime import: ${file}`);
     if (info.scroll && !owners.has(file)) errors.push(`ScrollTrigger outside reviewed landing owner: ${file}`);
+    if (info.nativeMotion && file.startsWith(`${frontend}features/landing/motion/`) && !owners.has(file)) errors.push(`Native landing motion outside reviewed landing owner: ${file}`);
     // Only public routes and landing feature modules may reach cinematic motion.
     if (!file.startsWith(`${frontend}app/(public)/`) && !file.startsWith(`${frontend}features/landing/`)) {
       for (const reached of graph(file)) {
-        if (modules.get(reached).scroll) errors.push(`Non-public graph reaches ScrollTrigger: ${file} -> ${reached}`);
+        const reachedInfo = modules.get(reached);
+        if (reachedInfo?.scroll) errors.push(`Non-public graph reaches ScrollTrigger: ${file} -> ${reached}`);
+        if (reachedInfo?.nativeMotion) errors.push(`Non-public graph reaches native landing motion: ${file} -> ${reached}`);
       }
     }
   }
