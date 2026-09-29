@@ -155,3 +155,13 @@ See `M5_LANDING_REVIEW_REPORT.md` and `M5_LANDING_AUTHORITY.md`. The user resolv
 ### Additional inherited M1 reference-directory assertion
 
 The first eight-scene candidate failed because new approved PNGs were treated as modifications to the original reference directory. The replacement verifies each original base-tree file unchanged and permits only the exact twelve hash-pinned additions, rejecting all other files and tampering. See M5_LANDING_REVIEW_REPORT.md for original assertion, evidence and equal-or-stronger protection. No backend, client/server, auth or dashboard gate is relaxed.
+
+### 2026-09-29 resumed landing gate repair
+
+Baseline `35f6f5dd9886f4bd391020ef865f8065a591f082` passes M1–M4, Foundation and Vite. M5 run 36578554614 has eight presentation failures. Resource acceptance passes unchanged: 200 DOM nodes and 349 listeners at all nine samples; heap late growth 110108 bytes and slope 28778.4 bytes/journey.
+
+- The inherited all-headings-simultaneously-on-screen assertion became invalid for the expressly approved tablet/phone editorial rail. Replacement brings **every** principle card into the native scrollport and retains the same horizontal text-containment bounds, then restores the starting position for captures. It neither hides overflow defects nor skips cards.
+- Reverse-scroll regression targeted sticky `offsetTop`, which tracks the current stuck position. Its target now derives the chapter's normal-flow position from preceding sibling heights/margins, independently of animated transforms. Opacity/blur assertions remain unchanged.
+- The broad Section 5 `> :not(picture)` rule overwrote observer z-index 3 with 1. An explicit foreground rule restores its depth. The original observer-above-panels assertion is retained.
+
+These repairs do not alter backend/auth/dashboard boundaries, resource budgets or production deployment configuration. Exact repaired-head browser results and visual review are still required before landing acceptance or subsequent M5 families.

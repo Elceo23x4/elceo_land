@@ -13,7 +13,17 @@ async function bringSceneToTop(page: import('@playwright/test').Page, name: stri
   await page.evaluate(({ sceneName, delta }) => {
     const element = document.querySelector<HTMLElement>(`[data-landing-scene="${sceneName}"]`);
     if (!element) throw new Error(`Missing landing scene: ${sceneName}`);
-    window.scrollTo({ top: element.offsetTop + delta, behavior: 'instant' });
+    // Sticky offsetTop follows the current scroll position. Measure the normal-flow
+    // chapter origin from preceding siblings, independently of presentation transforms.
+    const root = element.parentElement!;
+    let top = root.getBoundingClientRect().top + scrollY;
+    for (const sibling of Array.from(root.children)) {
+      if (sibling === element) break;
+      const style = getComputedStyle(sibling);
+      if (style.position === 'absolute' || style.position === 'fixed') continue;
+      top += (sibling as HTMLElement).offsetHeight + parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+    }
+    window.scrollTo({ top: top + delta, behavior: 'instant' });
   }, { sceneName: name, delta: extra });
   await settle(page);
   return target;

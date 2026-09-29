@@ -6,6 +6,7 @@
 .github/workflows/m5-production-ui.yml
 .github/workflows/ui-foundation-integrity.yml
 .github/workflows/webpack.yml
+README.md
 apps/frontend/app/(auth)/layout.tsx
 apps/frontend/app/(auth)/login/page.tsx
 apps/frontend/app/(auth)/signup/page.tsx
@@ -34,9 +35,13 @@ apps/frontend/components/public/RouteLink.tsx
 apps/frontend/features/account-entry/AccountEntry.module.css
 apps/frontend/features/account-entry/AccountEntry.tsx
 apps/frontend/features/account-entry/GoogleEntry.tsx
+apps/frontend/features/landing/LandingMotion.module.css
 apps/frontend/features/landing/LandingMotion.tsx
 apps/frontend/features/landing/LandingNarrative.module.css
 apps/frontend/features/landing/LandingNarrative.tsx
+apps/frontend/features/landing/LandingRefinement.module.css
+apps/frontend/features/landing/LandingSticky.module.css
+apps/frontend/features/landing/LandingViewport.module.css
 apps/frontend/features/landing/SceneMedia.tsx
 apps/frontend/features/landing/motion/scene-choreography.ts
 apps/frontend/features/landing/scene-media.json
@@ -86,6 +91,7 @@ apps/frontend/public/m5-assets/world-context-desktop.webp
 apps/frontend/public/m5-assets/world-context-mobile.webp
 apps/frontend/tests/auth/topology.runtime.test.ts
 apps/frontend/tests/m5/account-entry.spec.ts
+apps/frontend/tests/m5/landing-motion-regression.spec.ts
 apps/frontend/tests/m5/landing.spec.ts
 apps/frontend/tests/m5/public-foundation.spec.ts
 apps/frontend/tests/m5/resource-controls.ts

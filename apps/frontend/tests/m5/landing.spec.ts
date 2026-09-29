@@ -25,11 +25,17 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
     for (const section of await page.locator('[data-landing-scene]').all()) await section.scrollIntoViewIfNeeded();
     for (const image of await page.locator('main img').all()) await expect.poll(() => image.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
     for (const heading of await page.locator('main h1, main section h2, main section h3').all()) {
+      // The reviewed tablet/phone principles rail deliberately has offscreen cards.
+      // Bring each card into its own scrollport and retain the viewport fit assertion.
+      if (width <= 1180 && await heading.evaluate(el => Boolean(el.closest('[data-landing-placard]')))) {
+        await heading.evaluate(el => el.closest('[data-landing-placard]')!.scrollIntoView({block:'nearest',inline:'center',behavior:'instant'}));
+      }
       const box = await heading.boundingBox();
       expect(box).not.toBeNull();
       expect(box!.x).toBeGreaterThanOrEqual(-1);
       expect(box!.x + box!.width).toBeLessThanOrEqual(width + 1);
     }
+    await page.locator('[class*="placards"]').evaluate(el => { el.scrollLeft = 0; });
     for (const section of await page.locator('[data-landing-scene]').all()) {
       const box = await section.boundingBox();
       expect(box!.x).toBeCloseTo(0, 0);

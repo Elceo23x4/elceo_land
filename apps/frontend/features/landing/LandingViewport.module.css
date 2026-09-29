@@ -115,6 +115,11 @@
   z-index: 1;
 }
 
+/* The foreground observer remains above the independent information field. */
+:global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] > [class*="observer"]) {
+  z-index: 3;
+}
+
 :global([data-landing-root]):has(.viewport) :global([data-landing-planes]) {
   max-height: 43svh;
 }
