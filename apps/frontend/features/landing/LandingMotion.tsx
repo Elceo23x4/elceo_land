@@ -43,11 +43,16 @@ export function LandingMotion() {
     };
   }, []);
 
-  return <div className={`${styles.scope} ${refinement.scope} ${viewport.viewport} ${sticky.sticky}`} data-landing-revealer aria-hidden="true">
+  return <><div className={`${styles.scope} ${refinement.scope} ${viewport.viewport} ${sticky.sticky}`} data-landing-revealer aria-hidden="true">
     <span className={styles.axis} />
     <span className={styles.ringOuter} />
     <span className={styles.ringInner} />
     <span className={styles.core} />
     <span className={styles.spark} />
-  </div>;
+  </div>
+    <div className={styles.splitCandle} data-landing-split-candle aria-hidden="true">
+      <span className={styles.candleHalf} data-candle-half="left" />
+      <span className={styles.candleHalf} data-candle-half="right" />
+    </div>
+  </>;
 }

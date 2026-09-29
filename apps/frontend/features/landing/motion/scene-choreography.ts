@@ -14,7 +14,7 @@ type SceneName =
   | 'section-06-workspace'
   | 'section-07-entry';
 
-type RevealKind = 'curtain' | 'slit' | 'iris' | 'wedge' | 'circle';
+type RevealKind = 'curtain' | 'slit' | 'candle' | 'wedge' | 'circle';
 
 type TransitionSpec = {
   current: HTMLElement;
@@ -31,7 +31,7 @@ const revealClip = (kind: RevealKind, progress: number) => {
   switch (kind) {
     case 'slit':
       return `polygon(0 ${48 * inverse}%, 100% ${43 * inverse}%, 100% ${57 + 43 * p}%, 0 ${52 + 48 * p}%)`;
-    case 'iris': {
+    case 'candle': {
       const side = 49 * inverse;
       return `inset(0% ${side}% 0% ${side}%)`;
     }
@@ -76,6 +76,13 @@ export function mountLandingMotion(root: HTMLElement) {
   const entry = scene('section-07-entry');
   const revealer = root.querySelector<HTMLElement>('[data-landing-revealer]');
 
+  const candle = root.querySelector<HTMLElement>('[data-landing-split-candle]');
+  const candleHalves = candle ? [...candle.querySelectorAll<HTMLElement>('[data-candle-half]')] : [];
+  if (candle) cleanup.push(() => {
+    removeProperties(candle, ['opacity', 'visibility']);
+    candleHalves.forEach(half => removeProperties(half, ['transform', 'opacity']));
+  });
+
   const transitions: TransitionSpec[] = [];
   const addTransition = (
     current: HTMLElement | null,
@@ -90,7 +97,7 @@ export function mountLandingMotion(root: HTMLElement) {
 
   addTransition(hero, depth, 'curtain', 18, 8, true);
   addTransition(depth, aperture, 'slit', 16, 7);
-  addTransition(aperture, principles, 'iris', 18, 7);
+  addTransition(aperture, principles, 'candle', 18, 7);
   addTransition(principles, perspective, 'wedge', 15, 8);
   addTransition(workspace, entry, 'circle', 16, 7);
 
@@ -114,6 +121,25 @@ export function mountLandingMotion(root: HTMLElement) {
     spec.current.style.opacity = String(1 - sectionFade);
     spec.current.style.filter = dissolve > 0.0001 ? `blur(${dissolve * spec.exitBlur}px)` : 'blur(0px)';
     spec.current.style.translate = `0 ${-dissolve * spec.exitY}px`;
+
+    if (spec.kind === 'candle' && candle) {
+      // Absolute scroll geometry is the sole clock: no retained timeline/playhead.
+      const appear = smoothstep(range(p, 0.30, 0.50));
+      const split = smoothstep(range(p, 0.52, 0.97));
+      const fade = smoothstep(range(p, 0.73, 0.99));
+      const visible = appear * (1 - fade);
+      const width = candle.offsetWidth;
+      const distance = split * (window.innerWidth + width) / 2;
+      candle.style.visibility = visible > 0.001 ? 'visible' : 'hidden';
+      candle.style.opacity = String(visible);
+      candleHalves.forEach((half, index) => {
+        half.style.transform = `translate3d(${index === 0 ? -distance : distance}px,0,0)`;
+      });
+      // The aperture follows the departing inner wick edges, not an unrelated iris.
+      spec.next.style.clipPath = `inset(0 ${Math.max(0, 50 - distance / window.innerWidth * 100)}% 0)`;
+      spec.next.style.opacity = String(smoothstep(range(p, 0.50, 0.70)));
+      spec.next.style.scale = '1';
+    }
 
     if (spec.current === hero) {
       const world = hero?.querySelector<HTMLElement>('[data-landing-world]');

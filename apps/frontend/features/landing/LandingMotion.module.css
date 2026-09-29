@@ -284,3 +284,50 @@
     opacity: 1;
   }
 }
+
+/* Section 3 → 4 only: one market candlestick becomes two reveal edges.
+   Fixed, inert and absent without motion; never part of either chapter's layout. */
+.splitCandle {
+  position: fixed;
+  z-index: 39;
+  top: 5svh;
+  left: 50%;
+  width: clamp(150px, 18vw, 346px);
+  height: 90svh;
+  transform: translateX(-50%);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.candleHalf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  pointer-events: none;
+}
+.candleHalf:first-child { left: 0; }
+.candleHalf:last-child { right: 0; }
+.candleHalf::before {
+  content: '';
+  position: absolute;
+  inset: 19% 0;
+  background: linear-gradient(90deg, #68200b, #cc581d 55%, #f5ad65);
+  box-shadow: inset 0 1px rgb(255 216 170 / .65), inset 0 -1px rgb(255 160 79 / .35);
+}
+.candleHalf:last-child::before {
+  background: linear-gradient(90deg, #f5ad65, #b74413 45%, #421408);
+}
+.candleHalf::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 2px;
+  background: linear-gradient(transparent, #cf682d 7%, #ffe0ae 48%, #cf682d 93%, transparent);
+}
+.candleHalf:last-child::after { right: auto; left: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .splitCandle { display: none; }
+}

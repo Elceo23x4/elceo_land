@@ -328,3 +328,50 @@ for (const width of [768, 1024]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }
+
+for (const width of [390, 1920]) {
+  test(`split candlestick opens principles reversibly at ${width}px`, async ({ page }, testInfo) => {
+    const height = width === 1920 ? 1080 : 844;
+    await page.setViewportSize({ width, height });
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto(origin);
+    const candle = page.locator('[data-landing-split-candle]');
+    const halves = candle.locator('[data-candle-half]');
+    await expect(halves).toHaveCount(2);
+    const state = () => candle.evaluate(el => ({
+      opacity: Number(getComputedStyle(el).opacity),
+      visibility: getComputedStyle(el).visibility,
+      pointer: getComputedStyle(el).pointerEvents,
+      halves: [...el.children].map(half => new DOMMatrixReadOnly(getComputedStyle(half).transform).m41),
+    }));
+    await bringSceneToTop(page, 'section-03-blind-spots');
+    expect((await state()).visibility).toBe('hidden');
+    await bringSceneToTop(page, 'section-04-principles', -height * .5);
+    const assembled = await state();
+    expect(assembled.opacity).toBeGreaterThan(.99);
+    expect(assembled.halves).toEqual([0, 0]);
+    expect(assembled.pointer).toBe('none');
+    await page.screenshot({ path: testInfo.outputPath(`candle-assembled-${width}.png`) });
+    await bringSceneToTop(page, 'section-04-principles', -height * .3);
+    const split = await state();
+    expect(split.halves[0]).toBeLessThan(-width * .1);
+    expect(split.halves[1]).toBeGreaterThan(width * .1);
+    expect(split.halves[0] + split.halves[1]).toBeCloseTo(0, 1);
+    await page.screenshot({ path: testInfo.outputPath(`candle-split-${width}.png`) });
+    await bringSceneToTop(page, 'section-04-principles', -height * .12);
+    const fading = await state();
+    expect(fading.opacity).toBeLessThan(split.opacity);
+    expect(fading.halves[1]).toBeGreaterThan(split.halves[1]);
+    await page.screenshot({ path: testInfo.outputPath(`candle-fading-${width}.png`) });
+    await bringSceneToTop(page, 'section-04-principles');
+    expect((await state()).visibility).toBe('hidden');
+    await bringSceneToTop(page, 'section-04-principles', -height * .3);
+    const reverse = await state();
+    expect(reverse.opacity).toBeCloseTo(split.opacity, 3);
+    for (let i = 0; i < 2; i++) expect(reverse.halves[i]).toBeCloseTo(split.halves[i], 1);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect(candle).toBeHidden();
+    for (const half of await halves.all()) await expect(half).not.toHaveAttribute('style', /transform/);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  });
+}
