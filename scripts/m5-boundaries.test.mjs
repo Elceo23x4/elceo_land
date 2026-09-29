@@ -58,6 +58,13 @@ test('positive M5 proof: only registered landing motion may use ScrollTrigger', 
   ], registry), []);
   assert.match(check([[motion, 'import "gsap/ScrollTrigger";']], { clients: [], landingMotionOwners: [] }).join('\n'), /outside reviewed/);
 });
+test('reviewed native landing motion requires frame-coalesced scroll ownership', () => {
+  const registry = { clients: [], landingMotionOwners: [{ path: motion, purpose: 'Native landing scene choreography.' }] };
+  const native = 'const schedule=()=>requestAnimationFrame(()=>{}); window.addEventListener("scroll",schedule,{passive:true});';
+  assert.deepEqual(check([[motion, native]], registry), []);
+  assert.match(check([[motion, native]], { clients: [], landingMotionOwners: [] }).join('\n'), /Native landing motion outside reviewed/);
+  assert.match(check([[motion, 'window.addEventListener("scroll",()=>{});']], registry).join('\n'), /Stale motion owner/);
+});
 test('dashboard and application graphs cannot reach a registered landing owner through a barrel', () => {
   const registry = { clients: [], landingMotionOwners: [{ path: motion, purpose: 'Landing choreography.' }] };
   for (const root of ['apps/frontend/features/dashboard/bridge.ts', 'apps/frontend/app/(app)/dashboard/page.tsx','apps/frontend/features/journal/view.ts', 'apps/frontend/app/admin/page.tsx','apps/frontend/app/layout.tsx','src/dashboard/bridge.ts']) {
@@ -68,6 +75,19 @@ test('dashboard and application graphs cannot reach a registered landing owner t
       [motion, 'import "gsap/ScrollTrigger";'],
     ], registry);
     assert.ok(errors.includes(`Non-public graph reaches ScrollTrigger: ${root} -> ${motion}`), errors.join('\n'));
+  }
+});
+test('dashboard and application graphs cannot reach native landing motion through a barrel', () => {
+  const registry = { clients: [], landingMotionOwners: [{ path: motion, purpose: 'Native landing choreography.' }] };
+  const native = 'const schedule=()=>requestAnimationFrame(()=>{}); window.addEventListener("scroll",schedule,{passive:true});';
+  for (const root of ['apps/frontend/features/dashboard/bridge.ts', 'apps/frontend/app/(app)/dashboard/page.tsx', 'src/dashboard/bridge.ts']) {
+    const relative = path.posix.relative(path.posix.dirname(root), 'apps/frontend/shared');
+    const errors = check([
+      [root, `import "${relative}";`],
+      ['apps/frontend/shared.ts', 'export * from "./features/landing/motion/scenes";'],
+      [motion, native],
+    ], registry);
+    assert.ok(errors.includes(`Non-public graph reaches native landing motion: ${root} -> ${motion}`), errors.join('\n'));
   }
 });
 test('static, dynamic, require, re-export, dist and gsap/all imports remain forbidden outside landing', () => {
