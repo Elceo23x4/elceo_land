@@ -409,7 +409,11 @@
     transform: none;
   }
   :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-03-blind-spots"] > picture[data-scene-media="torn-paper-strip"] > img) {
-    height: 100% !important;
+    /* Source opaque core occupies y=91..227 of 320px. Expand the material region,
+       preserving the supplied source and keeping the real deckled edge visible. */
+    position: absolute !important;
+    top: -48% !important;
+    height: 180% !important;
     aspect-ratio: auto;
     object-fit: fill !important;
   }

@@ -33,6 +33,7 @@
 }
 
 :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] [data-landing-lens]) {
+  position: absolute;
   z-index: 1;
 }
 

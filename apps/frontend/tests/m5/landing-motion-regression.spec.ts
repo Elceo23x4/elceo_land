@@ -86,6 +86,9 @@ test('landing motion is reversible, contained, hover-pausable and footer-safe on
       height: imageBox.height,
     };
   });
+  expect(await aperture.locator("[data-landing-lens]").evaluate(el => getComputedStyle(el).position)).toBe("absolute");
+  const apertureHeading = await aperture.locator("h2").boundingBox();
+  expect(apertureHeading!.x).toBeLessThan(1440 * 0.1);
   expect(paperState.opacity).toBeGreaterThan(0.9);
   expect(paperState.intersects).toBe(true);
   expect(paperState.width).toBeGreaterThan(1000);
@@ -273,8 +276,13 @@ test('390px layout keeps the carousel and workspace inside one screen', async ({
 
   const aperture = await bringSceneToTop(page, 'section-03-blind-spots');
   const paperBox = await aperture.locator('picture[data-scene-media="torn-paper-strip"]').boundingBox();
+  const materialBox = await aperture.locator('picture[data-scene-media="torn-paper-strip"] img').boundingBox();
   const headingBox = await aperture.locator('h2').boundingBox();
   const itemsBox = await aperture.locator('ul').boundingBox();
+  // The source image has transparent margins; test the fully opaque material,
+  // not just the picture box (measured source rows 91..227 of 320).
+  expect(headingBox!.y).toBeGreaterThan(materialBox!.y + materialBox!.height * 91 / 320 + 20);
+  expect(itemsBox!.y + itemsBox!.height).toBeLessThan(materialBox!.y + materialBox!.height * 227 / 320 - 20);
   expect(headingBox!.y).toBeGreaterThan(paperBox!.y + 20);
   expect(itemsBox!.y + itemsBox!.height).toBeLessThan(paperBox!.y + paperBox!.height - 20);
 
