@@ -7,8 +7,10 @@
 .github/workflows/ui-foundation-integrity.yml
 .github/workflows/webpack.yml
 README.md
+apps/frontend/app/(auth)/forgot-password/page.tsx
 apps/frontend/app/(auth)/layout.tsx
 apps/frontend/app/(auth)/login/page.tsx
+apps/frontend/app/(auth)/reset-password/page.tsx
 apps/frontend/app/(auth)/signup/page.tsx
 apps/frontend/app/(public)/about/page.tsx
 apps/frontend/app/(public)/demo/page.tsx
@@ -20,6 +22,8 @@ apps/frontend/app/(public)/legal/risk-disclosure/page.tsx
 apps/frontend/app/(public)/legal/terms/page.tsx
 apps/frontend/app/(public)/page.tsx
 apps/frontend/app/(public)/pricing/page.tsx
+apps/frontend/app/api/auth/password-reset/confirm/route.ts
+apps/frontend/app/api/auth/password-reset/request/route.ts
 apps/frontend/assets/fonts/Geist-Variable.woff2
 apps/frontend/assets/fonts/OFL.txt
 apps/frontend/components/brand/type.ts
@@ -45,7 +49,12 @@ apps/frontend/features/landing/LandingViewport.module.css
 apps/frontend/features/landing/SceneMedia.tsx
 apps/frontend/features/landing/motion/scene-choreography.ts
 apps/frontend/features/landing/scene-media.json
+apps/frontend/features/recovery/Recovery.module.css
+apps/frontend/features/recovery/RecoveryForm.tsx
+apps/frontend/features/recovery/RecoveryPage.tsx
 apps/frontend/lib/auth/core.ts
+apps/frontend/lib/auth/recovery-core.ts
+apps/frontend/lib/auth/recovery-server.ts
 apps/frontend/lib/auth/server.ts
 apps/frontend/playwright.m5.config.ts
 apps/frontend/public/m5-assets/dashboard-preview.webp
@@ -89,11 +98,13 @@ apps/frontend/public/m5-assets/market-depth-desktop.webp
 apps/frontend/public/m5-assets/market-depth-mobile.webp
 apps/frontend/public/m5-assets/world-context-desktop.webp
 apps/frontend/public/m5-assets/world-context-mobile.webp
+apps/frontend/tests/auth/recovery.runtime.test.ts
 apps/frontend/tests/auth/topology.runtime.test.ts
 apps/frontend/tests/m5/account-entry.spec.ts
 apps/frontend/tests/m5/landing-motion-regression.spec.ts
 apps/frontend/tests/m5/landing.spec.ts
 apps/frontend/tests/m5/public-foundation.spec.ts
+apps/frontend/tests/m5/recovery.spec.ts
 apps/frontend/tests/m5/resource-controls.ts
 apps/frontend/tests/m5/resource-driver.ts
 apps/frontend/tests/m5/resource-snapshot.ts

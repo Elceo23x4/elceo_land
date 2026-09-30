@@ -40,6 +40,8 @@ test('candidate keeps reviewed client ownership and only reviewed frontend media
  assert.deepEqual(apiRoutes,[
   'apps/frontend/app/api/[...elceo]/route.ts',
   'apps/frontend/app/api/auth/[...nextauth]/route.ts',
+  'apps/frontend/app/api/auth/password-reset/confirm/route.ts',
+  'apps/frontend/app/api/auth/password-reset/request/route.ts',
  ]);
  assert.match(read('apps/frontend/lib/api/server.ts'),/import 'server-only'/);
  assert.match(read('apps/frontend/lib/auth/server.ts'),/import 'server-only'/);

@@ -36,7 +36,7 @@ export async function AccountEntry({ mode, searchParams }: { mode: 'login' | 'si
       </>}
       <div className={styles.readBefore}><p>Read before continuing</p><Link href="/legal/terms">Terms</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/risk-disclosure">Risk disclosure</Link></div>
       <p className={styles.note}>Signing in does not record your Terms acceptance, risk acknowledgement or age attestation. Those are separate onboarding steps.</p>
-      <div className={styles.alternative}><Link href={signup ? '/login' : '/signup'}>{signup ? 'Already have an account? Sign in' : 'New to ELCEO? Start here'}</Link><Link href="/help">Need guidance?</Link></div>
+      <div className={styles.alternative}><Link href={signup ? '/login' : '/signup'}>{signup ? 'Already have an account? Sign in' : 'New to ELCEO? Start here'}</Link><Link href="/forgot-password">Recover existing credentials</Link><Link href="/help">Need guidance?</Link></div>
     </section>
   </main>;
 }

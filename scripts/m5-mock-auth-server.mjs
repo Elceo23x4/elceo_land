@@ -21,6 +21,12 @@ const server = createServer(async (request, response) => {
     }
     return json(200, state === 'signed-out' ? null : session);
   }
+  if (request.url?.startsWith('/api/auth/password-reset/') && request.method === 'POST') {
+    let body = ''; for await (const chunk of request) body += chunk;
+    const fields = JSON.parse(body);
+    if (request.url.endsWith('/request')) return json(202, {accepted:true});
+    return fields.token === 'controlled-valid' ? json(200,{reset:true}) : json(400,{error:'invalid_or_expired_token'});
+  }
   if (request.url === '/api/auth/providers') return json(200, { google: { id: 'google', name: 'Google', type: 'oidc' } });
   if (request.url === '/api/auth/csrf') return json(200, { csrfToken: 'm5-controlled-csrf' }, { 'set-cookie': 'm5-controlled-challenge=present; HttpOnly; Path=/; SameSite=Lax' });
   if (request.url === '/api/auth/signin/google' && request.method === 'POST') {

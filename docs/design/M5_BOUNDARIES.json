@@ -44,6 +44,11 @@
       "path": "apps/frontend/components/public/RouteLink.tsx",
       "purpose": "Central active-destination navigation semantics; renders current destinations as non-action text.",
       "authority": "Presentation pathname only. No session, cookies, permissions or backend access decisions."
+    },
+    {
+      "path": "apps/frontend/features/recovery/RecoveryForm.tsx",
+      "purpose": "Ephemeral credential-recovery form and explicit single submission to two reviewed same-origin recovery routes.",
+      "authority": "No session, identity or account-existence authority. No credential persistence or automatic retry. Only exact confirmed backend outcomes are rendered."
     }
   ],
   "landingMotionOwners": [

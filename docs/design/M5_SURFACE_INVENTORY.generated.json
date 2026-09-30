@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 12
+    "routeFilesPresent": 14
   },
   "surfaces": [
     {
@@ -162,8 +162,8 @@
         "Email submission, neutral anti-enumeration success, unavailable state when credentials disabled."
       ],
       "route": "/forgot-password",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(auth)/forgot-password/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "AUTH-04",
@@ -175,8 +175,8 @@
         "Token validation, new password, expired/invalid token, completion and return-to-login states."
       ],
       "route": "/reset-password",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(auth)/reset-password/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "AUTH-05",
