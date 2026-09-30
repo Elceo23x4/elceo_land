@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 24
+    "routeFilesPresent": 27
   },
   "surfaces": [
     {
@@ -299,8 +299,8 @@
         "`GET /api/journal/cases`"
       ],
       "route": "/journal",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/journal/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "JRN-02",
@@ -311,8 +311,8 @@
         "`POST /api/journal/cases`"
       ],
       "route": "/journal/new",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/journal/new/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "JRN-03",
@@ -323,8 +323,8 @@
         "Case-scoped journal read contract"
       ],
       "route": "/journal/[caseId]",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/journal/[caseId]/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "JRN-04",

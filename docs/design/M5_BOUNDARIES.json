@@ -64,6 +64,11 @@
       "path": "apps/frontend/features/review/GenerateReview.tsx",
       "purpose": "Explicit analytics/coaching generation using only the two frozen operations and server-owned default scope.",
       "authority": "No scores, intelligence, permissions or generation outcomes computed locally. One logical idempotency key; no automatic retry or generation-on-read. Confirmed snapshots are re-read from the service."
+    },
+    {
+      "path": "apps/frontend/features/journal/CreateDraft.tsx",
+      "purpose": "Explicit journal draft form with one idempotent submission and confirmed saved-case navigation.",
+      "authority": "Only the frozen owner-scoped draft operation. No trade execution, outcome computation, session authority, automatic retries or durable local storage. Unmount cancels the browser wait, not the server action."
     }
   ],
   "landingMotionOwners": [

@@ -1,0 +1,12 @@
+.form { max-width:70ch; }
+.fields { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem 2rem;margin-block:2rem; }
+.field { display:flex;flex-direction:column;gap:.65rem;min-width:0; }
+.field label { color:#eeece6;font-size:1rem; }
+.field input,.field select,.field textarea { width:100%;min-height:54px;border:0;border-bottom:1px solid #727e72;border-radius:0;background:#141a16;color:#eeece6;padding:.8rem 1rem;font:inherit;font-size:16px;box-sizing:border-box; }
+.field textarea { min-height:140px;resize:vertical; }
+.field :is(input,select,textarea):focus-visible { outline:2px solid #e6a86e;outline-offset:4px; }
+.wide { grid-column:1/-1; }
+.form fieldset { border:0;padding:0;margin:0; }
+.form legend { font-size:1.35rem; }
+.form p { color:#a7aaa7; }
+@media(max-width:600px){.fields{grid-template-columns:1fr;}}

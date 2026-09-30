@@ -10,6 +10,18 @@ let lastSignIn = null;
 const server = createServer(async (request, response) => {
   const json = (status, value, headers = {}) => { response.writeHead(status, { 'content-type': 'application/json', 'cache-control': 'no-store', ...headers }); response.end(JSON.stringify(value)); };
   if (request.url === '/health') return json(200, { ok: true });
+  if(request.url?.startsWith('/api/journal/cases')) {
+    const fixture=JSON.parse(readFileSync(new URL('../contracts/backend/mocks/journal-cases-list.json',import.meta.url),'utf8'));
+    const scenario=/(?:^|; )m5-journal=([^;]+)/.exec(request.headers.cookie??'')?.[1];
+    if(request.method==='POST'){
+      let body='';for await(const chunk of request)body+=chunk;const input=JSON.parse(body);
+      if(!request.headers['idempotency-key']||!input.asset||!input.title||!input.timeframe)return json(400,{ok:false,error:{code:'validation_error',message:'Controlled invalid draft'}});
+      const item=fixture.data.cases[0];item.identity.title=input.title;item.status='draft';return json(200,{ok:true,data:{case:item}});
+    }
+    if(request.url==='/api/journal/cases')return json(200,scenario==='empty'?{ok:true,data:{cases:[]}}:scenario==='malformed'?{ok:true,data:{cases:[{}]}}:fixture);
+    if(request.url==='/api/journal/cases/jcase-demo-001')return json(200,{ok:true,data:{case:fixture.data.cases[0]}});
+    return json(404,{ok:false,error:{code:'not_found',message:'Controlled missing case'}});
+  }
   if(request.url?.startsWith('/api/notifications/')) {
     const scenario=/(?:^|; )m5-notifications=([^;]+)/.exec(request.headers.cookie??'')?.[1];
     if(scenario==='unavailable')return json(503,{ok:false,error:{code:'dependency_failed',message:'Controlled unavailable'}});
