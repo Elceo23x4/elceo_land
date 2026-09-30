@@ -44,7 +44,7 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
         ['section-01-hero', ['[class*="identity"]','[class*="heroNote"]','[class*="film"]','[class*="scroll"]']],
         ['section-02-depth', ['[class*="depthTitle"]','[class*="depthCopy"]']],
         ['section-03-blind-spots', ['[class*="problemHeading"]','ul']],
-        ['section-04-principles', [':scope > h2','[class*="principlesCopy"]']],
+        ['section-04-principles', [':scope > h2','[class*="principlesCopy"]', ...(innerWidth <= 1180 ? ['[class*="placards"]'] : [])]],
         ['section-05-perspective', ['[class*="informationCopy"]','[class*="perspectiveControls"]']],
         ['section-06-workspace', [':scope > header','[class*="mosaic"]']],
         ['section-07-entry', [':scope > h2','[class*="trust"]','[class*="learn"]']],

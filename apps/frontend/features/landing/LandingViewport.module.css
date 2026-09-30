@@ -175,7 +175,7 @@
     padding: 0 4.5% !important;
   }
 
-  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [class*="placards"]) {
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] > div[class*="placards"]:last-child) {
     position: absolute !important;
     left: 4.5%;
     right: 0;

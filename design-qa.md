@@ -1,6 +1,6 @@
-# M5 landing visual QA — 29 September 2026
+# M5 landing visual QA — 30 September 2026
 
-Status: **blocked** pending revised-head capture review and protected hosted-preview inspection. This is not M5 acceptance or permission to expand product families.
+Status: **under review** pending tablet correction recapture. Hosted authenticated access is now verified. This is not M5 acceptance or permission to expand product families.
 
 Authority: the eight original PNGs in `docs/design/references/m5-landing/`, with the user's full-viewport and Section 4 end-to-start overrides in `docs/design/M5_LANDING_AUTHORITY.md`. Supplemental artwork is reconstructed, not an exact extraction. Film and independent continent geometry remain unavailable.
 
@@ -29,3 +29,11 @@ The inherited suite retains forward/reverse motion, rapid direction changes, fiv
 ## Hosted inspection
 
 The separate Git-linked `elceo-next-preview` project deploys the candidate without modifying the production Vite project. Deployment `dpl_BqutACxVmhsaHYovYBu5No2QGwwx` is READY for c08da37. Direct browser navigation reaches Vercel login. No protection setting, credential, domain, routing or production configuration was changed. Hosted visual acceptance requires authenticated access.
+
+### 30 September 2026 — sea-green checkpoint and tablet correction
+
+Verified head `7d047fdc7e046ebcb1b30637dc10aee6e918cd9a` passed all eight workflows (M5 run 36664759275, aggregate 36664759471) and 51 browser tests. Nine realistic viewport pairs passed the initial semantic spacing checks. Resource samples remained 200 nodes / 349 listeners throughout; warm-to-final heap growth 295184 bytes, late growth 113192 bytes, slope 29484.4 bytes/journey, all within unchanged limits. The sea-green body is exactly 90% on both axes; split/reverse/fade and reduced-motion checks pass.
+
+Hosted access is resolved: deployment `dpl_HfEMe4LSpiDbCEXQocP3inFjmrCk` is READY, and direct authenticated browser inspection showed the assembled sea-green candle and separating halves on the actual candidate page. No protection or production configuration was changed.
+
+Visual review nevertheless rejected the 768/1024 principles captures: the older `> div:last-child` full-height rule outranked the tablet rail selector, causing card/heading overlap. This follow-up increases only that tablet selector's specificity so its existing 43svh height wins. The semantic overlap check now includes the entire tablet/phone principles rail against its heading and body. Desktop end-to-start geometry, assets and mobile placement remain unchanged. Follow-up exact-head results must be read from CI; this entry does not predeclare success or full M5 acceptance.
