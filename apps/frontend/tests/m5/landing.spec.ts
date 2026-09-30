@@ -8,7 +8,8 @@ const origin = 'http://127.0.0.1:3102';
 
 for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
   test(`eight-scene readable landing at ${width}px with reduced motion`, async ({ page }, testInfo) => {
-    await page.setViewportSize({ width, height: width === 1920 ? 1080 : 900 });
+    const height = ({360:780,390:844,430:932,768:1024,1024:768,1280:800,1440:900,1920:1080,2560:1440} as Record<number,number>)[width];
+    await page.setViewportSize({ width, height });
     const errors: string[] = [];
     const downloaded: string[] = [];
     page.on('request', request => {
@@ -36,6 +37,38 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
       expect(box!.x + box!.width).toBeLessThanOrEqual(width + 1);
     }
     await page.locator('[class*="placards"]').evaluate(el => { el.scrollLeft = 0; });
+    // Check semantic content blocks, excluding deliberate decorative layering and
+    // offscreen rail cards. A full-width canvas alone does not prove readability.
+    const spacing = await page.locator('[data-landing-root]').evaluate(root => {
+      const groups: [string,string[]][] = [
+        ['section-01-hero', ['[class*="identity"]','[class*="heroNote"]','[class*="film"]','[class*="scroll"]']],
+        ['section-02-depth', ['[class*="depthTitle"]','[class*="depthCopy"]']],
+        ['section-03-blind-spots', ['[class*="problemHeading"]','ul']],
+        ['section-04-principles', [':scope > h2','[class*="principlesCopy"]']],
+        ['section-05-perspective', ['[class*="informationCopy"]','[class*="perspectiveControls"]']],
+        ['section-06-workspace', [':scope > header','[class*="mosaic"]']],
+        ['section-07-entry', [':scope > h2','[class*="trust"]','[class*="learn"]']],
+      ];
+      const failures: string[] = [];
+      for (const [name,selectors] of groups) {
+        const scene = root.querySelector(`[data-landing-scene="${name}"]`)!;
+        const stage = scene.getBoundingClientRect();
+        const boxes = selectors.map(selector => {
+          const el = scene.querySelector(selector);
+          if (!el) throw new Error(`${name}: missing ${selector}`);
+          const box = el.getBoundingClientRect();
+          if (box.top < stage.top - 1 || box.bottom > stage.bottom + 1) failures.push(`${name}: vertical clipping ${selector}`);
+          return box;
+        });
+        for(let i=0;i<boxes.length;i++) for(let j=i+1;j<boxes.length;j++) {
+          const a=boxes[i],b=boxes[j];
+          if (Math.min(a.right,b.right)-Math.max(a.left,b.left)>1 && Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>1)
+            failures.push(`${name}: ${selectors[i]} overlaps ${selectors[j]}`);
+        }
+      }
+      return failures;
+    });
+    expect(spacing).toEqual([]);
     for (const section of await page.locator('[data-landing-scene]').all()) {
       const box = await section.boundingBox();
       expect(box!.x).toBeCloseTo(0, 0);
@@ -59,7 +92,7 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
     await expect(page.locator('main img[src*="dashboard-preview"]')).toHaveCount(0);
     await expect(page.locator('#market-depth img, #market-depth canvas, #market-depth video')).toHaveCount(0);
     await expect(page.getByRole('link', { name: /Continue with Google/ })).toHaveAttribute('href', '/signup');
-    if (width === 390 || width === 1440 || width === 1920) {
+    if ([390,768,1024,1440,1920].includes(width)) {
       const geometry = await page.locator('[data-landing-placard]').evaluateAll(nodes=>nodes.map(el=>{const b=el.getBoundingClientRect();return {top:b.top+scrollY,bottom:b.bottom+scrollY,width:b.width};}));
       if(width>=1440) for(const [a,b] of [[geometry[1].top,geometry[0].bottom],[geometry[2].bottom,geometry[1].top],[geometry[3].top,geometry[2].bottom],[geometry[4].bottom,geometry[3].top]]) expect(Math.abs(a-b)).toBeLessThanOrEqual(1);
       console.log(`M5_PRINCIPLES_GEOMETRY:${JSON.stringify({width,cards:geometry})}`);

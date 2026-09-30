@@ -351,6 +351,16 @@ for (const width of [390, 1920]) {
     expect(assembled.opacity).toBeGreaterThan(.99);
     expect(assembled.halves).toEqual([0, 0]);
     expect(assembled.pointer).toBe('none');
+    for (const half of await halves.all()) {
+      const body = await half.evaluate(el => {
+        const style = getComputedStyle(el, '::before');
+        const matrix = new DOMMatrixReadOnly(style.transform);
+        return {x: matrix.a, y: matrix.d, color: style.backgroundImage};
+      });
+      expect(body.x).toBeCloseTo(.9, 5);
+      expect(body.y).toBeCloseTo(.9, 5);
+      expect(body.color).toContain('46, 139, 87');
+    }
     await page.screenshot({ path: testInfo.outputPath(`candle-assembled-${width}.png`) });
     await bringSceneToTop(page, 'section-04-principles', -height * .3);
     const split = await state();
