@@ -7,6 +7,11 @@
 .github/workflows/ui-foundation-integrity.yml
 .github/workflows/webpack.yml
 README.md
+apps/frontend/app/(app)/analytics/page.tsx
+apps/frontend/app/(app)/coaching/page.tsx
+apps/frontend/app/(app)/settings/page.tsx
+apps/frontend/app/(app)/settings/profile/page.tsx
+apps/frontend/app/(app)/settings/security/page.tsx
 apps/frontend/app/(app)/workspace/agenda/page.tsx
 apps/frontend/app/(app)/workspace/history/page.tsx
 apps/frontend/app/(app)/workspace/loading.tsx
@@ -14,6 +19,7 @@ apps/frontend/app/(app)/workspace/page.tsx
 apps/frontend/app/(auth)/forgot-password/page.tsx
 apps/frontend/app/(auth)/layout.tsx
 apps/frontend/app/(auth)/login/page.tsx
+apps/frontend/app/(auth)/onboarding/page.tsx
 apps/frontend/app/(auth)/reset-password/page.tsx
 apps/frontend/app/(auth)/signup/page.tsx
 apps/frontend/app/(public)/about/page.tsx
@@ -59,6 +65,11 @@ apps/frontend/features/landing/scene-media.json
 apps/frontend/features/recovery/Recovery.module.css
 apps/frontend/features/recovery/RecoveryForm.tsx
 apps/frontend/features/recovery/RecoveryPage.tsx
+apps/frontend/features/review/GenerateReview.tsx
+apps/frontend/features/review/ReviewPage.tsx
+apps/frontend/features/review/projection.ts
+apps/frontend/features/settings/SettingsPage.tsx
+apps/frontend/features/settings/SignOut.tsx
 apps/frontend/features/workspace/Freshness.tsx
 apps/frontend/features/workspace/RefreshWorkspace.tsx
 apps/frontend/features/workspace/WorkspacePage.tsx
@@ -123,7 +134,10 @@ apps/frontend/tests/m5/recovery.spec.ts
 apps/frontend/tests/m5/resource-controls.ts
 apps/frontend/tests/m5/resource-driver.ts
 apps/frontend/tests/m5/resource-snapshot.ts
+apps/frontend/tests/m5/review.spec.ts
+apps/frontend/tests/m5/settings.spec.ts
 apps/frontend/tests/m5/workspace.spec.ts
+apps/frontend/tests/review/projection.runtime.test.ts
 apps/frontend/tests/shell.spec.ts
 apps/frontend/tests/workspace/projection.runtime.test.ts
 design-qa.md

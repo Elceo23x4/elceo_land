@@ -215,3 +215,27 @@ WKS-01/02/03 now render current workspace, agenda and history through the existi
 Display refinements retain server timestamps, health, attention, portfolio counts, agenda rationale and dependency status without calculations. Proven sources: `packages/types/src/workspace.ts` blob `2c403b60bfb974b24dd8712b96a7634efc0a0215`; current route `1c33422c60e490253745572e0aa7629fe1bee110`; agenda route `c310b6088fc241b3d4b8f147d7344c10d6165d09`; history route `79d9bad66489c74e7e4367fd835428b31e42a1e1`, all from the unchanged source pin. Canonical mock shape tests reject missing/wrong-type projections instead of inventing zero values. Empty, unavailable, forbidden and malformed states remain distinct.
 
 Freshness detail is a passive read. Explicit refresh is a narrow registered client interaction with one idempotency key and no automatic retry. Partial/failed/uncertain outcomes do not imply success; subsequent snapshot reads are passive. The separately documented workspace request-body refinement reconciles the generated OpenAPI omission with the exact frozen validator; no generated type, backend file or policy is edited. Responsive tests cover six widths and all three pages, plus state distinctions and explicit refresh.
+
+### Account identity/security and bounded onboarding
+
+SET-01/02/08 now provide the settings hub, canonical read-only profile and supported security surface. Name/email/role/session plan label/onboarding timestamp are supplied by the existing M3 session; the label is explicitly not treated as entitlement authority. No unsupported name/email/avatar edits, MFA/device list or other-session termination controls are fabricated. Social-identifier editing and the remaining settings families remain outstanding; profile identity alone is not full SET-02 acceptance.
+
+Sign-out uses a narrowly registered confirmation client, obtains the canonical CSRF challenge and submits the existing Auth.js relay with the fixed local callback `/login`. It does not inspect cookies or create local session authority. Controlled tests verify native POST/CSRF forwarding and failure without a false signed-out claim.
+
+AUTH-05 has a bounded, protected onboarding status surface. Existing completion is read only from the canonical session. Incomplete accounts encounter the explicit legal-publication/age-attestation persistence blockers before any acknowledgement or mutation. The five-stage sequence is explained, but unavailable stages are not fake operational controls. No acceptance, age, plan or asset preference is submitted or persisted. This is not full onboarding completion and does not resolve the documented backend/content gaps.
+
+### Analytics and coaching presentation
+
+ANL-01/COA-01 now render passive latest snapshots with explicit generation controls. Display projections come from the pinned `packages/types/src/analytics.ts` and `coaching.ts` and are exercised against both untouched canonical mocks. Counts, scores, priorities, sample limits, cautions, focus, strengths and action-plan instructions remain server supplied; the frontend does not rank, score, infer confidence or calculate intelligence.
+
+The two pinned generate handlers use their server defaults when no query override is supplied (analytics: wildcard asset/timeframe, 180-day lookback; coaching: wildcard asset/timeframe). The UI deliberately sends no speculative filter/query or body. Each click requires the generated idempotency context; no automatic retry follows uncertainty. Only a returned snapshot identity causes a passive latest re-read, and the latest read still validates the display shape. Entitlement denial, null snapshot and malformed payload remain distinct.
+
+Three-width captures and browser tests cover both views and explicit generation; separate canonical-mock tests protect projection semantics. These additions are not a claim that all remaining M5 application families or admin surfaces are complete.
+
+### Resumed validation and preservation of user candle edits
+
+The user-authored head `5886f82c4d77c06791d64093354798f36aedddca` changes only `LandingMotion.module.css` relative to the workspace checkpoint. Its complete blob `a916a80fc2766bd2e365899240accc04a593cfbc` is preserved byte-for-byte. No candle styling or choreography is changed by this continuation.
+
+Local checks on the resumed settings/review work: Next production build, Vite production build and Next typecheck pass; M1 19/19, M2 24/24 plus client graph, M3 15/15, M4 5/5, and M5 hardening/runtime 24/24 pass. Foundation PNG decode/integrity and all 28 frozen backend files pass. Local runtime is Node 24.19.0, so these results do not substitute for the required clean Node 22 CI proof. Local Playwright cannot launch because the expected Chromium executable is absent; no local browser pass is claimed. CI and screenshot review remain required for these additions.
+
+Inventory currently contains 23 of 61 durable routes. This is an implementation checkpoint, not full M5 completion. Journal, portfolio, notifications, remaining settings, admin and integrated acceptance remain outstanding; publication/media/age-persistence gaps remain separately recorded.

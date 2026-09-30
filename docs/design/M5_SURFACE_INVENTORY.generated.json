@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 17
+    "routeFilesPresent": 23
   },
   "surfaces": [
     {
@@ -188,8 +188,8 @@
         "Five stages: Welcome → Compliance → Assets → Plan → Complete."
       ],
       "route": "/onboarding",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(auth)/onboarding/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "AUTH-06",
@@ -407,8 +407,8 @@
         "`GET /api/analytics/latest`, `POST /api/analytics/generate`, `/top-behaviors`, `/top-setups`"
       ],
       "route": "/analytics",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/analytics/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "COA-01",
@@ -419,8 +419,8 @@
         "`/api/coaching/latest`, `/generate`, `/focus`, `/action-plan`"
       ],
       "route": "/coaching",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/coaching/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "NTF-01",
@@ -443,8 +443,8 @@
         "Aggregated navigation/status"
       ],
       "route": "/settings",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/settings/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "SET-02",
@@ -455,8 +455,8 @@
         "Auth.js session + account state + `/api/account/profile/social-identifiers`"
       ],
       "route": "/settings/profile",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/settings/profile/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "SET-03",
@@ -527,8 +527,8 @@
         "Auth.js session + password recovery entry points; see contract limitation below"
       ],
       "route": "/settings/security",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/settings/security/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "OVL-01",

@@ -54,6 +54,16 @@
       "path": "apps/frontend/features/workspace/RefreshWorkspace.tsx",
       "purpose": "Explicit user-requested workspace refresh with one in-flight mutation and stable logical idempotency key.",
       "authority": "Uses the generated browser operation partition. No automatic retries, refresh-on-read, intelligence computation or local permission decisions. Unconfirmed results remain uncertain; follow-up reads are passive."
+    },
+    {
+      "path": "apps/frontend/features/settings/SignOut.tsx",
+      "purpose": "Explicit sign-out confirmation using the existing canonical Auth.js CSRF and native POST relay.",
+      "authority": "No cookie inspection or session minting; session termination and redirects remain canonical server responsibilities. The only callback is the fixed local login route."
+    },
+    {
+      "path": "apps/frontend/features/review/GenerateReview.tsx",
+      "purpose": "Explicit analytics/coaching generation using only the two frozen operations and server-owned default scope.",
+      "authority": "No scores, intelligence, permissions or generation outcomes computed locally. One logical idempotency key; no automatic retry or generation-on-read. Confirmed snapshots are re-read from the service."
     }
   ],
   "landingMotionOwners": [

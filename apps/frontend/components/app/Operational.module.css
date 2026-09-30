@@ -32,3 +32,8 @@
 .details summary { min-height:48px; cursor:pointer; padding-block:1rem; }
 @media(max-width:760px) { .bar { align-items:start; flex-wrap:wrap; gap:.5rem 1.5rem; }.bar nav{order:3;width:100%;gap:1rem;}.title{display:block;}.title h1{font-size:2.7rem;}.split{grid-template-columns:1fr;}.tabs{gap:1rem;}.main{padding-top:2rem;}.metrics dd{font-size:1.8rem;}.identity{max-width:18ch;} }
 @media(prefers-reduced-motion:no-preference) { .surface button { transition:background 150ms ease; }.surface button:hover{background:#20261f;} }
+.identityFields { margin:0; }
+.identityFields > div { display:grid; grid-template-columns:minmax(110px,1fr) minmax(0,2fr); gap:1.5rem; border-bottom:1px solid var(--line); padding:1rem 0; }
+.identityFields dt { color:var(--muted); }
+.identityFields dd { margin:0; overflow-wrap:anywhere; }
+@media(max-width:430px) { .identityFields > div { grid-template-columns:1fr; gap:.5rem; } }

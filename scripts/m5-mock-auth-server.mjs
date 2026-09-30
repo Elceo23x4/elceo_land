@@ -29,6 +29,16 @@ const server = createServer(async (request, response) => {
     if (request.url.endsWith('/request')) return json(202, {accepted:true});
     return fields.token === 'controlled-valid' ? json(200,{reset:true}) : json(400,{error:'invalid_or_expired_token'});
   }
+  for(const family of ['analytics','coaching']) {
+    if(request.url===`/api/${family}/latest`||request.url===`/api/${family}/generate`) {
+      const fixture=JSON.parse(readFileSync(new URL(`../contracts/backend/mocks/${family}-latest.json`,import.meta.url),'utf8'));
+      const scenario=/(?:^|; )m5-review=([^;]+)/.exec(request.headers.cookie??'')?.[1];
+      if(scenario==='forbidden')return json(403,{ok:false,error:{code:'forbidden',message:'Fixture access denied'}});
+      if(scenario==='empty')return json(200,{ok:true,data:{snapshot:null}});
+      if(scenario==='malformed')return json(200,{ok:true,data:{snapshot:{}}});
+      return json(200,fixture);
+    }
+  }
   if (request.url?.startsWith('/api/workspace/')) {
     const scenario=/(?:^|; )m5-workspace=([^;]+)/.exec(request.headers.cookie??'')?.[1];
     if(scenario==='forbidden')return json(403,{ok:false,error:{code:'forbidden',message:'Fixture access denied'}});
@@ -42,6 +52,12 @@ const server = createServer(async (request, response) => {
   }
   if (request.url === '/api/auth/providers') return json(200, { google: { id: 'google', name: 'Google', type: 'oidc' } });
   if (request.url === '/api/auth/csrf') return json(200, { csrfToken: 'm5-controlled-csrf' }, { 'set-cookie': 'm5-controlled-challenge=present; HttpOnly; Path=/; SameSite=Lax' });
+  if (request.url === '/api/auth/signout' && request.method === 'POST') {
+    let body='';for await(const chunk of request)body+=chunk;
+    const fields=new URLSearchParams(body);
+    if(fields.get('csrfToken')!=='m5-controlled-csrf'||!request.headers.cookie?.includes('m5-controlled-challenge=present'))return json(403,{error:'fixture_csrf_failed'});
+    response.writeHead(303,{location:'/login?m5=controlled-signout','cache-control':'no-store'});response.end();return;
+  }
   if (request.url === '/api/auth/signin/google' && request.method === 'POST') {
     let body = ''; for await (const chunk of request) body += chunk;
     const fields = new URLSearchParams(body);
