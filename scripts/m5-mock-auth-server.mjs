@@ -1,5 +1,7 @@
 // Controlled browser-test service only. Never imported by application code.
 import { createServer } from 'node:http';
+import { readFileSync } from 'node:fs';
+const workspaceFixture=JSON.parse(readFileSync(new URL('../contracts/backend/mocks/workspace-current.json',import.meta.url),'utf8'));
 const session = {
   user: { id: 'm4-parity-user', email: 'm4-parity@example.test', name: 'M4 Parity User', role: 'user', planTier: 'free', onboardingCompletedAt: null },
   expires: '2026-09-27T00:00:00.000Z',
@@ -26,6 +28,17 @@ const server = createServer(async (request, response) => {
     const fields = JSON.parse(body);
     if (request.url.endsWith('/request')) return json(202, {accepted:true});
     return fields.token === 'controlled-valid' ? json(200,{reset:true}) : json(400,{error:'invalid_or_expired_token'});
+  }
+  if (request.url?.startsWith('/api/workspace/')) {
+    const scenario=/(?:^|; )m5-workspace=([^;]+)/.exec(request.headers.cookie??'')?.[1];
+    if(scenario==='forbidden')return json(403,{ok:false,error:{code:'forbidden',message:'Fixture access denied'}});
+    if(scenario==='unavailable')return json(503,{ok:false,error:{code:'dependency_failed',message:'Fixture dependency unavailable'}});
+    if(scenario==='malformed')return json(200,{ok:true,data:{snapshot:{}}});
+    if(request.url==='/api/workspace/current')return json(200,scenario==='empty'?{ok:true,data:{snapshot:null}}:workspaceFixture);
+    if(request.url==='/api/workspace/agenda')return json(200,{ok:true,data:{agenda:workspaceFixture.data.snapshot.summary.agenda}});
+    if(request.url==='/api/workspace/history')return json(200,{ok:true,data:{snapshots:[workspaceFixture.data.snapshot],limit:25}});
+    if(request.url==='/api/workspace/freshness')return json(200,{ok:true,data:{freshnessRecords:[],attentionSummary:null,domainsNeedingRefresh:[]}});
+    if(request.url==='/api/workspace/refresh'&&request.method==='POST')return json(200,{ok:true,data:{report:{refreshRunId:'controlled-refresh',overallStatus:'partial_success'}}});
   }
   if (request.url === '/api/auth/providers') return json(200, { google: { id: 'google', name: 'Google', type: 'oidc' } });
   if (request.url === '/api/auth/csrf') return json(200, { csrfToken: 'm5-controlled-csrf' }, { 'set-cookie': 'm5-controlled-challenge=present; HttpOnly; Path=/; SameSite=Lax' });

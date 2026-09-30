@@ -49,6 +49,11 @@
       "path": "apps/frontend/features/recovery/RecoveryForm.tsx",
       "purpose": "Ephemeral credential-recovery form and explicit single submission to two reviewed same-origin recovery routes.",
       "authority": "No session, identity or account-existence authority. No credential persistence or automatic retry. Only exact confirmed backend outcomes are rendered."
+    },
+    {
+      "path": "apps/frontend/features/workspace/RefreshWorkspace.tsx",
+      "purpose": "Explicit user-requested workspace refresh with one in-flight mutation and stable logical idempotency key.",
+      "authority": "Uses the generated browser operation partition. No automatic retries, refresh-on-read, intelligence computation or local permission decisions. Unconfirmed results remain uncertain; follow-up reads are passive."
     }
   ],
   "landingMotionOwners": [

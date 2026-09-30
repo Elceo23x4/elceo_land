@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
 const origin = 'http://127.0.0.1:3102';
-for (const width of [360,390,768,1024,1920]) test(`recovery form is readable and neutral at ${width}`, async ({page}) => {
+for (const width of [360,390,768,1024,1920]) test(`recovery form is readable and neutral at ${width}`, async ({page},testInfo) => {
   await page.setViewportSize({width,height:900});
   await page.goto(`${origin}/forgot-password`);
   await expect(page.getByRole('heading',{level:1})).toContainText('Find your way');
+  if(width===390)await page.screenshot({path:testInfo.outputPath('recovery-390.png'),fullPage:true});
   await page.getByLabel('Account email').fill('recovery@example.test');
   await page.getByRole('button',{name:'Request recovery instructions'}).click();
   await expect(page.getByRole('status')).toContainText('does not confirm an account exists');

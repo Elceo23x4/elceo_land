@@ -1,3 +1,4 @@
+import type { EvidencedRequestBodies } from '../contracts/refinements/workspace';
 import type { OpenApiOperationTypes } from '../contracts/generated/openapi-operation-map.generated';
 import type {
   AllowedHeaderName,
@@ -8,7 +9,9 @@ import type {
 } from '../contracts/policy';
 import type { ContractResult, SafeBackendError } from '../contracts/result';
 
-type GeneratedRequest<K extends OperationKey> = OpenApiOperationTypes[K]['request'];
+type GeneratedRequest<K extends OperationKey> = K extends keyof EvidencedRequestBodies
+  ? Omit<OpenApiOperationTypes[K]['request'], 'body'> & { body: EvidencedRequestBodies[K] }
+  : OpenApiOperationTypes[K]['request'];
 type GeneratedResponse<K extends OperationKey> = OpenApiOperationTypes[K]['response'];
 
 type NonIdempotencyHeader<H extends string> = H extends unknown

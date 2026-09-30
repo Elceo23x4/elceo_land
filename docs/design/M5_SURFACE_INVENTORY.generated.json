@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 14
+    "routeFilesPresent": 17
   },
   "surfaces": [
     {
@@ -239,8 +239,8 @@
         "`GET /api/workspace/current`, freshness projection"
       ],
       "route": "/workspace",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/workspace/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "WKS-02",
@@ -251,8 +251,8 @@
         "`GET /api/workspace/agenda`"
       ],
       "route": "/workspace/agenda",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/workspace/agenda/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "WKS-03",
@@ -263,8 +263,8 @@
         "`GET /api/workspace/history`"
       ],
       "route": "/workspace/history",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/workspace/history/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "WKS-04",
