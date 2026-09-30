@@ -333,7 +333,9 @@
   bottom: 0;
   right: 0;
   width: 2px;
-  background: linear-gradient(transparent, #2e8b57 7%, #b1f0d8 48%, #2e8b57 93%, transparent);
+  /*background: linear-gradient(transparent, #2e8b57 7%, #b1f0d8 48%, #2e8b57 93%, transparent);*/
+   background: linear-gradient(90deg, #1A4731, #1A4731), 
+               linear-gradient(90deg, transparent 0%, rgba(255, 255, 0.25) 25%, transparent 50%, transparent 100%);
 }
 .candleHalf:last-child::after { right: auto; left: 0; }
 @media (prefers-reduced-motion: reduce) {
