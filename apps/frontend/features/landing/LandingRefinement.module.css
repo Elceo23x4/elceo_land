@@ -115,6 +115,26 @@
 /* Tablet: protect reading size, measure and perspective containment while preserving
    the desktop composition grammar instead of collapsing early to a generic stack. */
 @media (min-width:761px) and (max-width:1180px) {
+  /* Seven single-row labels crowd at tablet widths; preserve the left narrative
+     anchor and use three readable columns within the existing paper field. */
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] ul) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px 10px;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-01-hero"] > figure[class*="film"]) {
+    width: 32%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    bottom: 10%;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-01-hero"] figcaption),
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-01-hero"] figcaption span) {
+    font-size: 10px;
+  }
+
   :global([data-landing-root]):has(.scope) :global([data-landing-planes]) {
     width: 62% !important;
     right: 2% !important;
@@ -125,7 +145,7 @@
   }
 
   :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] li) {
-    font-size: clamp(11px,1.25vw,14px) !important;
+    font-size: clamp(13px,1.25vw,15px) !important;
     line-height: 1.35;
   }
 
@@ -149,7 +169,7 @@
   }
 
   :global([data-landing-root]):has(.scope) :global([data-landing-placard] > p) {
-    font-size: clamp(9px,1vw,11px) !important;
+    font-size: clamp(11px,1vw,12px) !important;
     line-height: 1.45;
     letter-spacing: .1em;
   }

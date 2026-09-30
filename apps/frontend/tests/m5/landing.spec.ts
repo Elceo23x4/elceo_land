@@ -69,6 +69,11 @@ for (const width of [360, 390, 430, 768, 1024, 1280, 1440, 1920, 2560]) {
       return failures;
     });
     expect(spacing).toEqual([]);
+    const labelCollisions = await page.locator('[data-landing-scene="section-03-blind-spots"] li span').evaluateAll(labels => {
+      const boxes=labels.map(el=>el.getBoundingClientRect());
+      return boxes.flatMap((a,i)=>boxes.slice(i+1).filter(b=>Math.min(a.right,b.right)-Math.max(a.left,b.left)>1 && Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>1).map(()=>i));
+    });
+    expect(labelCollisions).toEqual([]);
     for (const section of await page.locator('[data-landing-scene]').all()) {
       const box = await section.boundingBox();
       expect(box!.x).toBeCloseTo(0, 0);
