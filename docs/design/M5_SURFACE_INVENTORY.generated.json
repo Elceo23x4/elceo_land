@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 23
+    "routeFilesPresent": 24
   },
   "surfaces": [
     {
@@ -431,8 +431,8 @@
         "`GET /api/notifications/summary`, `GET /api/notifications/inbox`"
       ],
       "route": "/notifications",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/notifications/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "SET-01",

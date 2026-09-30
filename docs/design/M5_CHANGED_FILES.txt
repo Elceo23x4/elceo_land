@@ -9,6 +9,7 @@
 README.md
 apps/frontend/app/(app)/analytics/page.tsx
 apps/frontend/app/(app)/coaching/page.tsx
+apps/frontend/app/(app)/notifications/page.tsx
 apps/frontend/app/(app)/settings/page.tsx
 apps/frontend/app/(app)/settings/profile/page.tsx
 apps/frontend/app/(app)/settings/security/page.tsx
@@ -62,6 +63,8 @@ apps/frontend/features/landing/LandingViewport.module.css
 apps/frontend/features/landing/SceneMedia.tsx
 apps/frontend/features/landing/motion/scene-choreography.ts
 apps/frontend/features/landing/scene-media.json
+apps/frontend/features/notifications/NotificationsPage.tsx
+apps/frontend/features/notifications/projection.ts
 apps/frontend/features/recovery/Recovery.module.css
 apps/frontend/features/recovery/RecoveryForm.tsx
 apps/frontend/features/recovery/RecoveryPage.tsx
@@ -80,6 +83,7 @@ apps/frontend/lib/auth/core.ts
 apps/frontend/lib/auth/recovery-core.ts
 apps/frontend/lib/auth/recovery-server.ts
 apps/frontend/lib/auth/server.ts
+apps/frontend/lib/contracts/refinements/notifications.ts
 apps/frontend/lib/contracts/refinements/workspace.ts
 apps/frontend/playwright.m5.config.ts
 apps/frontend/public/m5-assets/dashboard-preview.webp
@@ -125,10 +129,12 @@ apps/frontend/public/m5-assets/world-context-desktop.webp
 apps/frontend/public/m5-assets/world-context-mobile.webp
 apps/frontend/tests/auth/recovery.runtime.test.ts
 apps/frontend/tests/auth/topology.runtime.test.ts
+apps/frontend/tests/contracts/notifications-refinement.typecheck.ts
 apps/frontend/tests/contracts/workspace-refinement.typecheck.ts
 apps/frontend/tests/m5/account-entry.spec.ts
 apps/frontend/tests/m5/landing-motion-regression.spec.ts
 apps/frontend/tests/m5/landing.spec.ts
+apps/frontend/tests/m5/notifications.spec.ts
 apps/frontend/tests/m5/public-foundation.spec.ts
 apps/frontend/tests/m5/recovery.spec.ts
 apps/frontend/tests/m5/resource-controls.ts
@@ -137,6 +143,7 @@ apps/frontend/tests/m5/resource-snapshot.ts
 apps/frontend/tests/m5/review.spec.ts
 apps/frontend/tests/m5/settings.spec.ts
 apps/frontend/tests/m5/workspace.spec.ts
+apps/frontend/tests/notifications/projection.runtime.test.ts
 apps/frontend/tests/review/projection.runtime.test.ts
 apps/frontend/tests/shell.spec.ts
 apps/frontend/tests/workspace/projection.runtime.test.ts

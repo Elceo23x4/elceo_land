@@ -10,6 +10,20 @@ let lastSignIn = null;
 const server = createServer(async (request, response) => {
   const json = (status, value, headers = {}) => { response.writeHead(status, { 'content-type': 'application/json', 'cache-control': 'no-store', ...headers }); response.end(JSON.stringify(value)); };
   if (request.url === '/health') return json(200, { ok: true });
+  if(request.url?.startsWith('/api/notifications/')) {
+    const scenario=/(?:^|; )m5-notifications=([^;]+)/.exec(request.headers.cookie??'')?.[1];
+    if(scenario==='unavailable')return json(503,{ok:false,error:{code:'dependency_failed',message:'Controlled unavailable'}});
+    if(request.url==='/api/notifications/summary'){
+      if(scenario==='summary-forbidden')return json(403,{ok:false,error:{code:'forbidden',message:'Controlled summary entitlement'}});
+      return json(200,JSON.parse(readFileSync(new URL('../contracts/backend/mocks/notifications-summary.json',import.meta.url),'utf8')));
+    }
+    if(request.url.startsWith('/api/notifications/inbox')){
+      const item={inboxId:'controlled-inbox',targetId:'private-target',decisionId:'controlled-decision',decisionKey:'controlled-key',asset:'EURUSD',timeframe:'H4',ruleKey:'evidence_refresh',headline:'Context updated for your tracked market',body:'Review the latest recorded context before your next decision.',createdAt:'2026-09-30T10:00:00Z',readAt:null,archivedAt:null,payloadJson:'private-payload'};
+      if(scenario==='malformed')return json(200,{ok:true,data:{inbox:[{headline:'incomplete'}]}});
+      const limit=Number(new URL(request.url,'http://fixture').searchParams.get('limit'));
+      return json(200,{ok:true,data:{inbox:scenario==='empty'?[]:scenario==='window'?Array.from({length:limit},(_,i)=>({...item,inboxId:`controlled-${i}`})):[item]}});
+    }
+  }
   if (request.url === '/__m5/last-signin') return json(200, lastSignIn);
   if (request.url?.startsWith('/api/auth/session')) {
     const state = /(?:^|; )m5-test-state=([^;]+)/.exec(request.headers.cookie ?? '')?.[1];
