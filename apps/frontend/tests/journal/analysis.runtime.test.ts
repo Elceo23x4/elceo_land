@@ -9,6 +9,7 @@ const canonical=JSON.parse(readFileSync(new URL('../../../../contracts/backend/m
 test('dedicated legacy analytics preserves service units/order/zero and rejects envelope substitution',()=>{
  const raw=fixture('analytics'),v=journalAnalyticsProjection(raw);assert.ok(v);assert.equal(v.totals.winRate,50);assert.equal(v.worstMonth,null);assert.equal(v.biasViolationRate,0);assert.equal(journalAnalyticsProjection({ok:true,data:raw}),null);
  for(const value of [null,undefined,'0',NaN]){const bad=structuredClone(raw);bad.performance.totalTrades=value;assert.equal(journalAnalyticsProjection(bad),null);}
+ const badConfidence=structuredClone(raw);badConfidence.coaching.summary.confidenceLevel=['low'];assert.equal(journalAnalyticsProjection(badConfidence),null);
  const empty=structuredClone(raw);empty.performance.totalTrades=0;empty.performance.bestMonth=null;assert.equal(journalAnalyticsProjection(empty)?.totals.totalTrades,0);
 });
 test('influence null averages survive; private identity and unknown payloads do not project',()=>{

@@ -44,13 +44,18 @@ const server = createServer(async (request, response) => {
     const scenario=/(?:^|; )m5-journal=([^;]+)/.exec(request.headers.cookie??'')?.[1];
     const item=fixture.data.cases[0];
     const status=/(?:^|; )m5-case-status=([^;]+)/.exec(request.headers.cookie??'')?.[1];
-    if(status)item.status=status;
+    if(status){item.status=status;if(['executed','partially_closed','closed','reviewed'].includes(status))item.execution.openedAt='2026-09-30T10:00:00Z';if(['closed','reviewed'].includes(status)){item.closure.closedAt='2026-09-30T12:00:00Z';item.closure.outcome='loss';}if(status==='reviewed')item.review.reviewedAt='2026-09-30T14:00:00Z';}
     if(request.url==='/api/journal/cases/jcase-demo-001/replay')return json(200,{ok:true,data:{replay:{caseData:item,caseRecord:{private:'not-for-browser'},revisions:[{revisionId:'controlled-revision',caseId:item.identity.caseId,revisionType:'planned',previousStatus:'draft',nextStatus:'planned',changedAt:'2026-09-30T10:00:00Z',summary:'Plan recorded for review.',changedById:'private-actor',snapshotJson:'private-snapshot'}]}}});
     const action=/^\/api\/journal\/cases\/jcase-demo-001\/(plan|execute|adjust|partial-close|close|cancel|review)$/.exec(request.url??'')?.[1];
     if(action&&request.method==='POST'){
       let body='';for await(const chunk of request)body+=chunk;const input=JSON.parse(body);
       if(!request.headers['idempotency-key'])return json(400,{ok:false,error:{code:'validation_error',message:'Controlled missing key'}});
       if((action==='execute'&&!input.openedAt)||(action==='close'&&(!input.closedAt||!input.outcome||input.outcome==='open'))||(action==='review'&&!input.reviewedAt))return json(400,{ok:false,error:{code:'validation_error',message:'Controlled invalid lifecycle'}});
+      const copy=(target,keys)=>{for(const key of keys)if(input[key]!==undefined)target[key]=input[key];};
+      if(action==='plan'){copy(item.identity,['title']);copy(item.plan,['direction','thesis','setupType','conviction','entryPricePlanned','stopLossPlanned','takeProfitPlanned','riskAmountPlanned','riskPercentPlanned','invalidationNote','executionChecklist']);}
+      if(action==='execute'||action==='adjust'){copy(item.execution,['openedAt','entryPriceExecuted','positionSize','notes','executionQuality','lastAdjustedAt']);if(action==='adjust')copy(item.plan,['stopLossPlanned','takeProfitPlanned']);}
+      if(['partial-close','close','cancel'].includes(action))copy(item.closure,['exitPrice','closedAt','pnlAmount','pnlPercent','rMultiple','closureReason','outcome']);
+      if(action==='review')copy(item.review,['reviewedAt','whatWentWell','whatWentWrong','lessons','behaviorTags','followUpActions']);
       item.status=({plan:'planned',execute:'executed',adjust:item.status,'partial-close':'partially_closed',close:'closed',cancel:'canceled',review:'reviewed'})[action];
       return json(200,{ok:true,data:{case:item}});
     }

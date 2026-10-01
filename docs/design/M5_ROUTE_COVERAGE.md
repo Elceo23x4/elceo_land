@@ -24,7 +24,8 @@ Source: frozen `docs/backend-contract/ui-page-inventory.md`. A route listed belo
 | WKS-01/02/03 | Current, agenda and history; explicit refresh | Canonical snapshots, passive reads, one logical refresh key | Scoped operational layout; six-width tested |
 | ANL-01 / COA-01 | Latest analytics/coaching and explicit generation | All scores, focus, cautions and priorities server supplied | Three-width tested; no intelligence computation |
 | NTF-01 | Inbox, native details, summary and bounded read windows | Owner inbox independent of summary entitlement; canonical unread count | Six-width tested; no invented mark-read/archive |
-| JRN-01/02/03 | Case list/detail and draft creation | Canonical records; explicit required-idempotency write | Six-width tested; lifecycle/analytics/influence still pending |
+| JRN-01/02/03 + OVL-08 | Case list/detail/draft, seven lifecycle dialogs and owner-scoped replay | Exact frozen request mappers and service transitions; shared logical submission lock, passive readback | Existing six-width list/draft evidence; new dialog/browser acceptance pending. Case-linked legacy entries lack authority |
+| JRN-04/05 | Legacy entry analytics and canonical case influence, deliberately separate | Server-reported values only; explicit idempotent influence generation | Controlled five-width and state/lifecycle tests added; exact-head and visual review pending |
 | SET-01/02/08 | Hub, read-only identity, security/recovery/sign-out | Canonical session; social editing still pending | Six-width tested; no unsupported security authority |
 | SET-03/04 | Tracked markets and recorded motion preference | Exact account mutations; preserves notification flags | Six-width tested; no protected dashboard modification |
 | SET-06/07 | Billing/intention, portal, access/usage/decisions | No return-URL grants; new-checkout selection is blocked by documented contract gap | Four-width checks added; full commercial acceptance pending |

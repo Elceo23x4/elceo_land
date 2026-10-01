@@ -17,7 +17,7 @@ export function journalAnalyticsProjection(value:unknown){
  const r=record(value),p=record(r?.performance),b=record(r?.behavior),c=record(r?.coaching),summary=record(c?.summary);
  if(!p||!b||!c||!summary)return null;
  const totals=row(p,[],['totalTrades','winRate','expectancy','averageGain','averageLoss','averageRiskReward']);
- if(!totals||!text(summary.diagnosis)||!['low','medium','high'].includes(String(summary.confidenceLevel))||!finite(b.biasViolationRate))return null;
+ if(!totals||!text(summary.diagnosis)||(!text(summary.confidenceLevel)||!['low','medium','high'].includes(summary.confidenceLevel))||!finite(b.biasViolationRate))return null;
  const month=(v:unknown)=>v===null?null:row(v,['month'],['tradeCount','netPnl','winRate']);
  const bestMonth=month(p.bestMonth),worstMonth=month(p.worstMonth);
  if((p.bestMonth!==null&&!bestMonth)||(p.worstMonth!==null&&!worstMonth))return null;
