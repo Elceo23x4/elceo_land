@@ -4,7 +4,7 @@ import {OperationalChrome} from '../../components/app/OperationalChrome';
 import {RouteLink} from '../../components/public/RouteLink';
 import {SignOut} from './SignOut';
 import styles from '../../components/app/Operational.module.css';
-const destinations=[['/settings/profile','Profile & identity','Your server-supplied identity and account status.'],['/settings/assets','Tracked markets','The markets tracked by your account.'],['/settings/preferences','Motion preference','Your recorded experience preference.'],['/settings/security','Account security','Sign out and recover existing credentials.']] as const;
+const destinations=[['/settings/profile','Profile & identity','Your server-supplied identity and account status.'],['/settings/assets','Tracked markets','The markets tracked by your account.'],['/settings/preferences','Motion preference','Your recorded experience preference.'],['/settings/billing','Plan & billing','Recorded subscription and payment state.'],['/settings/access','Access & usage','Canonical feature access and recorded usage.'],['/settings/security','Account security','Sign out and recover existing credentials.']] as const;
 export async function SettingsPage({mode}:{mode:'hub'|'profile'|'security'}) {
  const path=mode==='hub'?'/settings':`/settings/${mode}`;
  const session=await requireAuthenticatedSession(path),user=session.user;

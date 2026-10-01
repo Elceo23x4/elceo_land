@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 29
+    "routeFilesPresent": 31
   },
   "surfaces": [
     {
@@ -503,8 +503,8 @@
         "`/api/account/billing`, account billing events/policy state, `/api/billing/intention`, checkout, portal"
       ],
       "route": "/settings/billing",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/settings/billing/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "SET-07",
@@ -515,8 +515,8 @@
         "`/api/account/entitlements`, `/usage`, `/access-decisions`, `/access-check`"
       ],
       "route": "/settings/access",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/settings/access/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "SET-08",

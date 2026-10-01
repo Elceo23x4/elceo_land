@@ -19,6 +19,15 @@ Source: frozen `docs/backend-contract/ui-page-inventory.md`. A route listed belo
 | Global public navigation/footer | Implemented; remaining destinations are pending within this M5 branch | Navigation only | Scoped public layout, touch targets, native mobile disclosure |
 | Cookie information dialog | Necessary-only explanation, no optional categories or persistence fabricated | Presentation only; canonical session cookies remain opaque/server-owned | Native modal top layer, focus restoration, keyboard dismissal; CSS-module styling |
 | APP-01 `/dashboard` | Accepted M4 implementation preserved | Exact inherited fixtures; no live intelligence binding | Full-frame cockpit and all protected assets unchanged |
+| AUTH-03/04 recovery | Request/reset forms and two exact mediators | Neutral acceptance, explicit confirmed reset, unknown outcomes never retried | Frozen recovery/password evidence; five-width tested |
+| AUTH-05 onboarding | Bounded status page | Canonical completion only; legal publication/age persistence blocks new completion | No fabricated consent controls or persistence |
+| WKS-01/02/03 | Current, agenda and history; explicit refresh | Canonical snapshots, passive reads, one logical refresh key | Scoped operational layout; six-width tested |
+| ANL-01 / COA-01 | Latest analytics/coaching and explicit generation | All scores, focus, cautions and priorities server supplied | Three-width tested; no intelligence computation |
+| NTF-01 | Inbox, native details, summary and bounded read windows | Owner inbox independent of summary entitlement; canonical unread count | Six-width tested; no invented mark-read/archive |
+| JRN-01/02/03 | Case list/detail and draft creation | Canonical records; explicit required-idempotency write | Six-width tested; lifecycle/analytics/influence still pending |
+| SET-01/02/08 | Hub, read-only identity, security/recovery/sign-out | Canonical session; social editing still pending | Six-width tested; no unsupported security authority |
+| SET-03/04 | Tracked markets and recorded motion preference | Exact account mutations; preserves notification flags | Six-width tested; no protected dashboard modification |
+| SET-06/07 | Billing/intention, portal, access/usage/decisions | No return-URL grants; new-checkout selection is blocked by documented contract gap | Four-width checks added; full commercial acceptance pending |
 | Other M5 routes/overlays | Pending | Must be mapped individually before implementation | No placeholder page files created |
 
 Responsive classification: public reading/content/navigation is Essential; large editorial title proportions are Adaptive; landing pointer lens/depth and scroll choreography are Desktop enhancements, confined to the registered landing owner. Mobile layouts stack intentionally with 16px+ body/input typography and 44px+ controls. Modal movement is removed under reduced motion. No new global provider or authenticated shell is installed.

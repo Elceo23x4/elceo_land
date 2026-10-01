@@ -74,6 +74,11 @@
       "path": "apps/frontend/features/settings/AccountPreferenceForm.tsx",
       "purpose": "Explicit tracked-market and motion preference forms using two frozen owner-scoped mutations.",
       "authority": "No portfolio, session, entitlement or notification-delivery authority. Motion saves re-read and preserve all required notification flags; unknown outcomes are not retried. Device reduced-motion and protected dashboard behavior remain unchanged."
+    },
+    {
+      "path": "apps/frontend/features/settings/BillingPortal.tsx",
+      "purpose": "Explicit request for the canonical provider billing-management link.",
+      "authority": "Only the frozen portal operation. No checkout initiation, subscription edits, payment success inference or entitlement grant. HTTPS links are server returned, credential-free and require an explicit second navigation action."
     }
   ],
   "landingMotionOwners": [

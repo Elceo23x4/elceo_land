@@ -10,6 +10,15 @@ let lastSignIn = null;
 const server = createServer(async (request, response) => {
   const json = (status, value, headers = {}) => { response.writeHead(status, { 'content-type': 'application/json', 'cache-control': 'no-store', ...headers }); response.end(JSON.stringify(value)); };
   if (request.url === '/health') return json(200, { ok: true });
+  if(request.url==='/api/account/billing'){
+    if(request.headers.cookie?.includes('m5-billing=malformed'))return json(200,{ok:true,data:{snapshot:{}}});
+    return json(200,JSON.parse(readFileSync(new URL('../contracts/backend/mocks/account-billing.json',import.meta.url),'utf8')));
+  }
+  if(request.url==='/api/account/entitlements')return json(200,JSON.parse(readFileSync(new URL('../contracts/backend/mocks/account-entitlements.json',import.meta.url),'utf8')));
+  if(request.url==='/api/account/usage')return json(200,{ok:true,data:{usage:[]}});
+  if(request.url==='/api/account/access-decisions')return json(200,{ok:true,data:{decisions:[]}});
+  if(request.url==='/api/billing/intention')return json(200,{intention:{operationId:'controlled-payment',paymentState:'unknown',subscriptionState:null,commercialAccessActive:false,checkoutContinuationAvailable:false,checkoutUrl:null,reconciliationRequired:true,newIntentionAllowed:false,billingManagementRequired:false}});
+  if(request.url==='/api/billing/portal'&&request.method==='POST')return json(200,{portalUrl:'https://billing.example.test/controlled-session'});
   if(['/api/account/state','/api/account/preferences','/api/account/watchlist'].includes(request.url)) {
     const account={profile:{motionIntensity:'medium'},watchlist:{assets:['XAU/USD']},notifications:{inApp:true,email:false,browserPush:false,biasChanges:true,contradictionSpikes:false,keyLevelInteractions:true,macroEventWarnings:false,postEventRegimeShift:true,journalCoaching:false}};
     if(request.method==='PATCH'){
