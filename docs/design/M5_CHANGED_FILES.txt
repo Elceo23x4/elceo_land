@@ -15,6 +15,10 @@ apps/frontend/app/(app)/journal/influence/page.tsx
 apps/frontend/app/(app)/journal/new/page.tsx
 apps/frontend/app/(app)/journal/page.tsx
 apps/frontend/app/(app)/notifications/page.tsx
+apps/frontend/app/(app)/portfolio/actions/page.tsx
+apps/frontend/app/(app)/portfolio/page.tsx
+apps/frontend/app/(app)/portfolio/positions/page.tsx
+apps/frontend/app/(app)/portfolio/watchlist/page.tsx
 apps/frontend/app/(app)/settings/access/page.tsx
 apps/frontend/app/(app)/settings/assets/page.tsx
 apps/frontend/app/(app)/settings/billing/page.tsx
@@ -86,6 +90,12 @@ apps/frontend/features/landing/motion/scene-choreography.ts
 apps/frontend/features/landing/scene-media.json
 apps/frontend/features/notifications/NotificationsPage.tsx
 apps/frontend/features/notifications/projection.ts
+apps/frontend/features/portfolio/Portfolio.module.css
+apps/frontend/features/portfolio/PortfolioMutations.tsx
+apps/frontend/features/portfolio/PortfolioPage.tsx
+apps/frontend/features/portfolio/operations.ts
+apps/frontend/features/portfolio/projection.ts
+apps/frontend/features/portfolio/values.ts
 apps/frontend/features/recovery/Recovery.module.css
 apps/frontend/features/recovery/RecoveryForm.tsx
 apps/frontend/features/recovery/RecoveryPage.tsx
@@ -114,6 +124,7 @@ apps/frontend/lib/auth/server.ts
 apps/frontend/lib/contracts/refinements/account-settings.ts
 apps/frontend/lib/contracts/refinements/journal.ts
 apps/frontend/lib/contracts/refinements/notifications.ts
+apps/frontend/lib/contracts/refinements/portfolio.ts
 apps/frontend/lib/contracts/refinements/workspace.ts
 apps/frontend/playwright.m5.config.ts
 apps/frontend/public/m5-assets/dashboard-preview.webp
@@ -162,6 +173,7 @@ apps/frontend/tests/auth/topology.runtime.test.ts
 apps/frontend/tests/contracts/account-settings-refinement.typecheck.ts
 apps/frontend/tests/contracts/journal-refinement.typecheck.ts
 apps/frontend/tests/contracts/notifications-refinement.typecheck.ts
+apps/frontend/tests/contracts/portfolio-refinement.typecheck.ts
 apps/frontend/tests/contracts/workspace-refinement.typecheck.ts
 apps/frontend/tests/journal/analysis.runtime.test.ts
 apps/frontend/tests/journal/fixtures/analytics.json
@@ -176,6 +188,7 @@ apps/frontend/tests/m5/journal.spec.ts
 apps/frontend/tests/m5/landing-motion-regression.spec.ts
 apps/frontend/tests/m5/landing.spec.ts
 apps/frontend/tests/m5/notifications.spec.ts
+apps/frontend/tests/m5/portfolio.spec.ts
 apps/frontend/tests/m5/public-foundation.spec.ts
 apps/frontend/tests/m5/recovery.spec.ts
 apps/frontend/tests/m5/resource-controls.ts
@@ -185,6 +198,9 @@ apps/frontend/tests/m5/review.spec.ts
 apps/frontend/tests/m5/settings.spec.ts
 apps/frontend/tests/m5/workspace.spec.ts
 apps/frontend/tests/notifications/projection.runtime.test.ts
+apps/frontend/tests/portfolio/action.fixture.json
+apps/frontend/tests/portfolio/position.fixture.json
+apps/frontend/tests/portfolio/projection.runtime.test.ts
 apps/frontend/tests/review/projection.runtime.test.ts
 apps/frontend/tests/settings/account-projection.runtime.test.ts
 apps/frontend/tests/settings/commercial-projection.runtime.test.ts
@@ -207,6 +223,7 @@ docs/design/M5_LANDING_AUTHORITY.md
 docs/design/M5_LANDING_GENERATED_PROVENANCE.json
 docs/design/M5_LANDING_PREFLIGHT_REPORT.md
 docs/design/M5_LANDING_REVIEW_REPORT.md
+docs/design/M5_PORTFOLIO_SOURCE_EVIDENCE.md
 docs/design/M5_REVIEW_REPORT.md
 docs/design/M5_ROUTE_COVERAGE.md
 docs/design/M5_SURFACE_INVENTORY.generated.json
@@ -233,6 +250,7 @@ scripts/m5-asset-reachability.test.mjs
 scripts/m5-boundaries.test.mjs
 scripts/m5-boundary-lib.mjs
 scripts/m5-mock-auth-server.mjs
+scripts/m5-portfolio-fixture.mjs
 scripts/m5-resource-policy.mjs
 scripts/m5-resource-policy.test.mjs
 scripts/m5-route-identity.mjs

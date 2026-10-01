@@ -1,0 +1,21 @@
+{
+  "actionId": "action-demo-001",
+  "subjectKind": "user",
+  "subjectId": "private-portfolio-subject",
+  "kind": "review_thesis",
+  "status": "open",
+  "priority": "high",
+  "asset": "XAU/USD",
+  "timeframe": "H4",
+  "headline": "Review the recorded thesis",
+  "rationale": "Compare the saved context with your decision record.",
+  "linkedEntryId": null,
+  "linkedPositionId": "position-demo-001",
+  "linkedJournalCaseId": null,
+  "linkedReasoningRunId": null,
+  "linkedNotificationDecisionId": null,
+  "createdAt": "2026-09-30T10:00:00Z",
+  "updatedAt": "2026-09-30T10:00:00Z",
+  "completedAt": null,
+  "dismissedAt": null
+}

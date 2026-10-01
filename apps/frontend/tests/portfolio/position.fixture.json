@@ -1,0 +1,24 @@
+{
+  "positionId": "position-demo-001",
+  "subjectKind": "user",
+  "subjectId": "private-portfolio-subject",
+  "asset": "XAU/USD",
+  "timeframe": "H4",
+  "status": "open",
+  "direction": "long",
+  "entryPrice": 2308,
+  "stopLoss": null,
+  "takeProfitLevels": [
+    2340
+  ],
+  "size": null,
+  "openedAt": "2026-09-30T10:00:00Z",
+  "updatedAt": "2026-09-30T10:00:00Z",
+  "closedAt": null,
+  "thesisHealth": "stable",
+  "linkedJournalCaseId": null,
+  "linkedReasoningRunId": null,
+  "linkedSnapshotId": null,
+  "linkedDriftId": null,
+  "note": "Recorded context only; no live valuation."
+}

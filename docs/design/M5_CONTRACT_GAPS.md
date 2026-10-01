@@ -73,3 +73,7 @@ The frozen `ui-page-inventory.md` scope summary says “24 admin/control-plane p
 ## Journal analytics / influence / lifecycle refinements
 
 See `M5_JOURNAL_SOURCE_EVIDENCE.md` for exact frozen blobs and field/response distinctions. No generated contract or mirrored file is edited. Legacy entry analytics and canonical case influence remain separate. Case-linked add/view entries cannot be proven because legacy entries have no caseId relationship. No association is invented. Clearing optional values to null/empty is not exposed by the current lifecycle forms. Controlled analytics/influence fixtures prove presentation shape only, not production readiness. No universal response-size ceiling is introduced.
+
+## Portfolio passive attention and handler refinements
+
+The frozen attention GET can generate a missing snapshot. See `M5_PORTFOLIO_SOURCE_EVIDENCE.md` for the exact route/query/runtime-boundary chain. Passive attention integration is blocked; the frontend never invokes it or computes a substitute. Snapshot/current is passive and remains usable independently. Position list excludes proposed/closed/canceled records; saved-record lookup uses the supported item GET. Position-cancel note is parsed but discarded by the handler, so the form does not claim to persist it. Explicit thesis recovery is not exposed by these routes. Optional null/empty clearing is not offered. Broad PATCH validators remain a backend validation limitation; frontend typed/form allowlists are not a backend security claim.

@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 33
+    "routeFilesPresent": 37
   },
   "surfaces": [
     {
@@ -359,8 +359,8 @@
         "`/api/portfolio/snapshot`, `/api/portfolio/attention`"
       ],
       "route": "/portfolio",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/portfolio/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "PTF-02",
@@ -371,8 +371,8 @@
         "`/api/portfolio/watchlist/**`"
       ],
       "route": "/portfolio/watchlist",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/portfolio/watchlist/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "PTF-03",
@@ -383,8 +383,8 @@
         "`/api/portfolio/positions/**`"
       ],
       "route": "/portfolio/positions",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/portfolio/positions/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "PTF-04",
@@ -395,8 +395,8 @@
         "`/api/portfolio/actions/**`"
       ],
       "route": "/portfolio/actions",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/portfolio/actions/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ANL-01",

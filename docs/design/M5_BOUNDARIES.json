@@ -89,6 +89,11 @@
       "path": "apps/frontend/features/journal/CaseLifecycle.tsx",
       "purpose": "Seven explicit record-keeping dialogs drawn from the frozen case lifecycle; status-based display is advisory only.",
       "authority": "Only literal typed owner-scoped operations; no market execution, identity generation, authority or calculations. One shared in-flight submission lock/key/controller across dialogs, 30-second wait, unmount cleanup, no retry. Full matching case/status confirmation and passive saved-case navigation required before another action."
+    },
+    {
+      "path": "apps/frontend/features/portfolio/PortfolioMutations.tsx",
+      "purpose": "Explicit portfolio entity and snapshot dialogs with exact frozen operation literals and reviewed request fields.",
+      "authority": "Presentation and user-entered records only. No authority, business cognition, valuation, brokerage, entitlement or invented identity. One controller/key per submission, 30-second wait, unmount cleanup, shared dialog lock, no retry after uncertainty and passive authoritative readback. Server policy and transitions remain authoritative."
     }
   ],
   "landingMotionOwners": [
