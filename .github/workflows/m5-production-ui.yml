@@ -37,8 +37,8 @@ jobs:
       - run: node scripts/check-m5-assets.mjs
       - run: npx playwright install --with-deps chromium
         working-directory: apps/frontend
-      - name: Targeted commercial regression
-        run: npx playwright test tests/m5/commercial.spec.ts --config=playwright.m5.config.ts
+      - name: Targeted commercial and lifecycle regressions
+        run: npx playwright test tests/m5/commercial.spec.ts tests/m5/generation-lifecycle.spec.ts --config=playwright.m5.config.ts
         working-directory: apps/frontend
       - run: npx playwright test --config=playwright.m5.config.ts
         working-directory: apps/frontend

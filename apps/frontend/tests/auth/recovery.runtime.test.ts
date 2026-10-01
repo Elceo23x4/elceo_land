@@ -21,3 +21,18 @@ test('confirm preserves only the two pinned dedicated error outcomes',async()=>{
  const response=await relayRecovery(make('/api/auth/password-reset/confirm'),config,async()=>Response.json({error},{status:400}));assert.equal(response.status,400);assert.deepEqual(await response.json(),{error});
  }
 });
+test('recovery response streaming bound rejects declared, chunked and dishonest sizes without retry',async()=>{
+ for(const declared of [undefined,'0','999999']){
+  let canceled=false,calls=0,pulls=0;
+  const stream=new ReadableStream<Uint8Array>({pull(controller){pulls++;controller.enqueue(new TextEncoder().encode(' '.repeat(2048)));},cancel(){canceled=true;}});
+  const response=await relayRecovery(make(),config,async()=>{calls++;return new Response(stream,{status:202,headers:declared?{'content-length':declared}:{}});});
+  assert.equal(response.status,502);assert.deepEqual(await response.json(),{error:'recovery_unavailable'});assert.equal(calls,1);assert.equal(canceled,true);assert(pulls<=4);
+ }
+});
+test('recovery bound counts UTF-8 bytes and preserves fixed outcomes with serialization headroom',async()=>{
+ const literal=JSON.stringify({accepted:true});
+ const accepted=await relayRecovery(make(),config,async()=>new Response(literal+' '.repeat(4096-literal.length),{status:202}));assert.equal(accepted.status,202);
+ for(const body of [literal+' '.repeat(4097-literal.length),JSON.stringify({accepted:true,extra:'é'.repeat(2048)}),new Uint8Array([0xff])]){
+  const result=await relayRecovery(make(),config,async()=>new Response(body,{status:202}));assert.equal(result.status,502);
+ }
+});

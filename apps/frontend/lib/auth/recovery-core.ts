@@ -5,6 +5,34 @@ const problem = (status: number) => Response.json({ error: 'recovery_unavailable
   status, headers: { 'cache-control': 'private, no-store' },
 });
 
+// Endpoint-local resilience ceiling, not a backend DTO constraint. The pinned
+// handlers return fixed JSON literals of at most 36 UTF-8 bytes. 4 KiB allows
+// ample serialization headroom without buffering an unbounded upstream body.
+const recoveryResponseBytes = 4096;
+async function readRecoveryPayload(response: Response): Promise<unknown> {
+  const reader = response.body?.getReader();
+  if (!reader) throw new Error('Missing recovery response');
+  const chunks: Uint8Array[] = []; let bytes = 0;
+  try {
+    const declared = response.headers.get('content-length');
+    if (declared && /^\d+$/.test(declared) && Number(declared) > recoveryResponseBytes) {
+      await reader.cancel(); throw new Error('Recovery response exceeded local bound');
+    }
+    for (;;) {
+      const {value, done} = await reader.read();
+      if (done) break;
+      bytes += value.byteLength;
+      if (bytes > recoveryResponseBytes) {
+        await reader.cancel(); throw new Error('Recovery response exceeded local bound');
+      }
+      chunks.push(value);
+    }
+    const body = new Uint8Array(bytes); let offset = 0;
+    for (const chunk of chunks) {body.set(chunk, offset);offset += chunk.byteLength;}
+    return JSON.parse(new TextDecoder('utf-8', {fatal:true}).decode(body));
+  } finally {reader.releaseLock();}
+}
+
 /** Exact frozen recovery operations only. No cookie/session or privileged header forwarding. */
 export async function relayRecovery(request: Request, config: AuthTopologyConfig, transport: typeof fetch): Promise<Response> {
   const url = new URL(request.url);
@@ -35,7 +63,7 @@ export async function relayRecovery(request: Request, config: AuthTopologyConfig
     });
     // Recovery has dedicated JSON responses; never forward redirects, cookies or raw errors.
     let payload: unknown;
-    try { payload = await response.json(); } catch { return problem(502); }
+    try { payload = await readRecoveryPayload(response); } catch { return problem(502); }
     const record = payload !== null && typeof payload === 'object' ? payload as Record<string, unknown> : {};
     const headers = { 'cache-control': 'private, no-store' };
     if (url.pathname.endsWith('/request') && response.status === 202 && record.accepted === true)

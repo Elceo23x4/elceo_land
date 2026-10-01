@@ -385,3 +385,17 @@ for (const width of [390, 1920]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }
+
+test('1920 closing sheet reaches final bottom and reverses over the intact entry chapter',async({page},testInfo)=>{
+ await page.setViewportSize({width:1920,height:1080});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto(origin);await page.locator('[data-landing-revealer]').waitFor();await settle(page);
+ await bringSceneToTop(page,'section-07-entry');
+ const geometry=()=>page.evaluate(()=>{const entry=document.querySelector('[data-landing-scene="section-07-entry"]')!.getBoundingClientRect(),footer=document.querySelector('footer[data-landing-scene]')!.getBoundingClientRect();return {entryTop:entry.top,entryBottom:entry.bottom,footerTop:footer.top,footerBottom:footer.bottom};});
+ const initial=await geometry();expect(initial.entryTop).toBeCloseTo(0,0);expect(initial.footerTop).toBeGreaterThanOrEqual(1075);
+ await page.evaluate(()=>scrollBy(0,innerHeight*.24));await settle(page);const closing=await geometry();expect(closing.entryTop).toBeCloseTo(0,0);expect(closing.footerTop).toBeLessThan(1080);expect(closing.footerTop).toBeGreaterThan(0);
+ await page.screenshot({path:testInfo.outputPath('footer-closing-1920.png')});
+ await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));await settle(page);expect((await geometry()).footerBottom).toBeCloseTo(1080,0);
+ await page.screenshot({path:testInfo.outputPath('footer-bottom-1920.png')});
+ await bringSceneToTop(page,'section-07-entry');const reversed=await geometry();expect(reversed.entryTop).toBeCloseTo(initial.entryTop,0);expect(reversed.footerTop).toBeCloseTo(initial.footerTop,0);
+ await page.screenshot({path:testInfo.outputPath('footer-reversed-1920.png')});
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});

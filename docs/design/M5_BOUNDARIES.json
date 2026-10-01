@@ -53,7 +53,7 @@
     {
       "path": "apps/frontend/features/workspace/RefreshWorkspace.tsx",
       "purpose": "Explicit user-requested workspace refresh with one in-flight mutation and stable logical idempotency key.",
-      "authority": "Uses the generated browser operation partition. No automatic retries, refresh-on-read, intelligence computation or local permission decisions. Unconfirmed results remain uncertain; follow-up reads are passive."
+      "authority": "Uses the generated browser operation partition. No automatic retries, refresh-on-read, intelligence computation or local permission decisions. Unconfirmed results remain uncertain; follow-up reads are passive. Browser waiting is bounded to 30 seconds and aborted on unmount, without implying server cancellation; uncertain results require passive authoritative readback."
     },
     {
       "path": "apps/frontend/features/settings/SignOut.tsx",
@@ -63,7 +63,7 @@
     {
       "path": "apps/frontend/features/review/GenerateReview.tsx",
       "purpose": "Explicit analytics/coaching generation using only the two frozen operations and server-owned default scope.",
-      "authority": "No scores, intelligence, permissions or generation outcomes computed locally. One logical idempotency key; no automatic retry or generation-on-read. Confirmed snapshots are re-read from the service."
+      "authority": "No scores, intelligence, permissions or generation outcomes computed locally. One logical idempotency key; no automatic retry or generation-on-read. Confirmed snapshots are re-read from the service. Browser waiting is bounded to 30 seconds and aborted on unmount, without implying server cancellation; uncertain results require passive authoritative readback."
     },
     {
       "path": "apps/frontend/features/journal/CreateDraft.tsx",

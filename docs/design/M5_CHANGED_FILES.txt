@@ -157,6 +157,7 @@ apps/frontend/tests/journal/projection.runtime.test.ts
 apps/frontend/tests/m5/account-entry.spec.ts
 apps/frontend/tests/m5/account-preferences.spec.ts
 apps/frontend/tests/m5/commercial.spec.ts
+apps/frontend/tests/m5/generation-lifecycle.spec.ts
 apps/frontend/tests/m5/journal.spec.ts
 apps/frontend/tests/m5/landing-motion-regression.spec.ts
 apps/frontend/tests/m5/landing.spec.ts
