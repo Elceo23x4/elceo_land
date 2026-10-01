@@ -1,6 +1,7 @@
 import {test,expect,type Page} from '@playwright/test';
 const origin='http://127.0.0.1:3102';
 const families=[
+ {path:'journal/influence',operation:'/api/journal/influence/generate',summary:'Generate case influence',button:'Request case influence',read:'Read latest snapshot'},
  {path:'analytics',operation:'/api/analytics/generate',summary:'Generate a new analytics review',button:'Request new review',read:'Read latest snapshot'},
  {path:'coaching',operation:'/api/coaching/generate',summary:'Generate a new coaching review',button:'Request new review',read:'Read latest snapshot'},
  {path:'workspace',operation:'/api/workspace/refresh',summary:'Refresh workspace',button:'Request workspace refresh',read:'Read current workspace'},

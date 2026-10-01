@@ -13,3 +13,14 @@ export function journalCaseProjection(value:unknown){
  if(!checklist||!notes||!wentWell||!wentWrong||!lessons||!behaviorTags||!followUp||!tags)return null;
  return {caseId:identity.caseId as string,asset:identity.asset as string,timeframe:identity.timeframe as string,title:identity.title as string,status:r.status as string,createdAt:r.createdAt as string,updatedAt:r.updatedAt as string,plan,execution,closure,review,checklist,notes,wentWell,wentWrong,lessons,behaviorTags,followUp,tags};
 }
+
+/** Replay is displayed in returned order. Raw snapshots and actor/subject IDs never leave this projection. */
+export function journalReplayProjection(value:unknown,caseId:string){
+ const r=record(value),c=journalCaseProjection(r?.caseData);
+ if(!r||!c||c.caseId!==caseId||!Array.isArray(r.revisions))return null;
+ const revisions=r.revisions.map(item=>{
+  const v=record(item);if(!v||v.caseId!==caseId||['revisionId','revisionType','nextStatus','changedAt','summary'].some(k=>typeof v[k]!=='string')||!(v.previousStatus===null||typeof v.previousStatus==='string'))return null;
+  return {revisionId:v.revisionId as string,revisionType:v.revisionType as string,previousStatus:v.previousStatus as string|null,nextStatus:v.nextStatus as string,changedAt:v.changedAt as string,summary:v.summary as string};
+ });
+ return revisions.some(v=>!v)?null:revisions as NonNullable<typeof revisions[number]>[];
+}

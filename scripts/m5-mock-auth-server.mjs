@@ -29,9 +29,31 @@ const server = createServer(async (request, response) => {
     }
     return json(200,{ok:true,data:account});
   }
+  if(request.url==='/api/journal/analytics'||request.url?.startsWith('/api/journal/influence/')){
+    const scenario=/(?:^|; )m5-journal-analysis=([^;]+)/.exec(request.headers.cookie??'')?.[1];
+    if(scenario==='forbidden')return json(403,{ok:false,error:{code:'forbidden',message:'Controlled forbidden'}});
+    if(scenario==='unavailable')return json(503,{ok:false,error:{code:'dependency_failed',message:'Controlled unavailable'}});
+    const analytics=request.url==='/api/journal/analytics';
+    const fixture=JSON.parse(readFileSync(new URL(`../apps/frontend/tests/journal/fixtures/${analytics?'analytics':'influence'}.json`,import.meta.url),'utf8'));
+    if(request.method==='POST'&&!request.headers['idempotency-key'])return json(400,{ok:false,error:{code:'validation_error',message:'Controlled missing key'}});
+    if(analytics){if(scenario==='empty'){fixture.performance.totalTrades=0;fixture.performance.bestMonth=null;}return json(200,scenario==='malformed'?{}:fixture);}
+    return json(200,{ok:true,data:{snapshot:scenario==='empty'?null:scenario==='malformed'?{}:fixture}});
+  }
   if(request.url?.startsWith('/api/journal/cases')) {
     const fixture=JSON.parse(readFileSync(new URL('../contracts/backend/mocks/journal-cases-list.json',import.meta.url),'utf8'));
     const scenario=/(?:^|; )m5-journal=([^;]+)/.exec(request.headers.cookie??'')?.[1];
+    const item=fixture.data.cases[0];
+    const status=/(?:^|; )m5-case-status=([^;]+)/.exec(request.headers.cookie??'')?.[1];
+    if(status)item.status=status;
+    if(request.url==='/api/journal/cases/jcase-demo-001/replay')return json(200,{ok:true,data:{replay:{caseData:item,caseRecord:{private:'not-for-browser'},revisions:[{revisionId:'controlled-revision',caseId:item.identity.caseId,revisionType:'planned',previousStatus:'draft',nextStatus:'planned',changedAt:'2026-09-30T10:00:00Z',summary:'Plan recorded for review.',changedById:'private-actor',snapshotJson:'private-snapshot'}]}}});
+    const action=/^\/api\/journal\/cases\/jcase-demo-001\/(plan|execute|adjust|partial-close|close|cancel|review)$/.exec(request.url??'')?.[1];
+    if(action&&request.method==='POST'){
+      let body='';for await(const chunk of request)body+=chunk;const input=JSON.parse(body);
+      if(!request.headers['idempotency-key'])return json(400,{ok:false,error:{code:'validation_error',message:'Controlled missing key'}});
+      if((action==='execute'&&!input.openedAt)||(action==='close'&&(!input.closedAt||!input.outcome||input.outcome==='open'))||(action==='review'&&!input.reviewedAt))return json(400,{ok:false,error:{code:'validation_error',message:'Controlled invalid lifecycle'}});
+      item.status=({plan:'planned',execute:'executed',adjust:item.status,'partial-close':'partially_closed',close:'closed',cancel:'canceled',review:'reviewed'})[action];
+      return json(200,{ok:true,data:{case:item}});
+    }
     if(request.method==='POST'){
       let body='';for await(const chunk of request)body+=chunk;const input=JSON.parse(body);
       if(!request.headers['idempotency-key']||!input.asset||!input.title||!input.timeframe)return json(400,{ok:false,error:{code:'validation_error',message:'Controlled invalid draft'}});

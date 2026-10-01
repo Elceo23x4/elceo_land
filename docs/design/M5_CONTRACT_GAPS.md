@@ -69,3 +69,7 @@ Recovery is a proven narrow exception: pinned `apps/web/lib/auth/reset-request-h
 ## Canonical admin inventory count discrepancy
 
 The frozen `ui-page-inventory.md` scope summary says “24 admin/control-plane pages,” while its explicitly enumerated route rows contain 23. `check-m5-coverage.mjs` derives 23 from those rows (61 total durable routes / 91 surfaces). The mirror is unchanged. No 24th route is invented; authoritative source clarification remains required.
+
+## Journal analytics / influence / lifecycle refinements
+
+See `M5_JOURNAL_SOURCE_EVIDENCE.md` for exact frozen blobs and field/response distinctions. No generated contract or mirrored file is edited. Legacy entry analytics and canonical case influence remain separate. Case-linked add/view entries cannot be proven because legacy entries have no caseId relationship. No association is invented. Clearing optional values to null/empty is not exposed by the current lifecycle forms. Controlled analytics/influence fixtures prove presentation shape only, not production readiness. No universal response-size ceiling is introduced.

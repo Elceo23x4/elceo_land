@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 31
+    "routeFilesPresent": 33
   },
   "surfaces": [
     {
@@ -335,8 +335,8 @@
         "`/api/journal/analytics/**`"
       ],
       "route": "/journal/analytics",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/journal/analytics/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "JRN-05",
@@ -347,8 +347,8 @@
         "`GET /api/journal/influence/latest`, `POST /api/journal/influence/generate`"
       ],
       "route": "/journal/influence",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/journal/influence/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "PTF-01",

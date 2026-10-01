@@ -1,0 +1,24 @@
+.lead { display:grid;grid-template-columns:minmax(0,1.5fr) minmax(220px,1fr);gap:clamp(2rem,5vw,5rem);margin:3rem 0;align-items:start; }
+.diagnosis { border-left:3px solid #caa57d;padding:0 0 0 1.5rem; }
+.diagnosis h2 { margin-top:0;font-size:clamp(1.5rem,2.5vw,2.3rem);line-height:1.2; }
+.diagnosis p { max-width:60ch;color:#bcc3bb; }
+.metrics { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.75rem; }
+.metrics div { border-top:1px solid #465043;padding-top:1rem; }
+.metrics dt { color:#b2bbb0;font-size:.95rem; }
+.metrics dd { font-size:clamp(1.5rem,2.5vw,2.3rem);margin:.5rem 0 0;overflow-wrap:anywhere; }
+.section { margin:3.5rem 0;min-width:0; }
+.section h2 { font-size:1.6rem;letter-spacing:-.025em; }
+.section p { color:#b2bbb0;max-width:70ch; }
+.table { width:100%;table-layout:fixed;border-collapse:collapse;text-align:left;font-variant-numeric:tabular-nums; }
+.table caption { text-align:left;font-size:1.2rem;padding:1.25rem 0;color:#e5e8e1; }
+.table th,.table td { padding:1rem .75rem;border-bottom:1px solid #313b31;vertical-align:top;overflow-wrap:anywhere; }
+.table th { font-weight:500;color:#b2bbb0; }
+.table td { color:#e5e8e1; }
+.columns { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.5rem; }
+.note { color:#b2bbb0;font-size:.95rem; }
+.links { display:flex;flex-wrap:wrap;gap:1rem; }
+.links a { display:inline-flex;align-items:center;min-height:44px;overflow-wrap:anywhere; }
+@media(max-width:900px){.lead{grid-template-columns:1fr;}.metrics{grid-template-columns:repeat(3,minmax(0,1fr));}.columns{grid-template-columns:1fr;}}
+@media(max-width:1100px){.table thead{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden;}.table,.table tbody,.table tr,.table td{display:block;}.table tr{padding:1rem 0;border-top:1px solid #465043;}.table td{display:grid;grid-template-columns:minmax(100px,.8fr) minmax(0,1.2fr);gap:1rem;border:0;padding:.4rem 0;}.table td::before{content:attr(data-label);color:#b2bbb0;}.table caption{display:block;}.section{margin:2.5rem 0;}}
+
+@media(max-width:600px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr));}}
