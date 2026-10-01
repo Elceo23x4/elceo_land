@@ -13,7 +13,7 @@ async function walk(directory) {
     ? walk(path.join(directory, entry.name)) : [path.join(directory, entry.name)]));
   return nested.flat();
 }
-const allowed = /^(journal-(case|new)|notifications|analytics|coaching|settings-profile|onboarding|workspace-current|recovery|candle-(assembled|split|fading)|section-0[1-8]-(hero|depth|blind-spots|principles|perspective|workspace|entry|footer)|landing|about|faq|help|pricing|demo|legal-(terms|privacy|risk-disclosure)|login|signup|dashboard-preview)-(390|768|1024|1440|1920)\.png$/u;
+const allowed = /^(settings-(assets|preferences)|journal-(case|new)|notifications|analytics|coaching|settings-profile|onboarding|workspace-current|recovery|candle-(assembled|split|fading)|section-0[1-8]-(hero|depth|blind-spots|principles|perspective|workspace|entry|footer)|landing|about|faq|help|pricing|demo|legal-(terms|privacy|risk-disclosure)|login|signup|dashboard-preview)-(390|768|1024|1440|1920)\.png$/u;
 for (const file of (await walk('apps/frontend/test-results')).sort()) {
   if (!allowed.test(path.basename(file))) continue;
   const output = await sharp(file).resize({ width: path.basename(file).startsWith('section-') ? 1920 : 960, withoutEnlargement: true }).jpeg({ quality: 72 }).toBuffer();

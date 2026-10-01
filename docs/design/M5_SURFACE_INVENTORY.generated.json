@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 27
+    "routeFilesPresent": 29
   },
   "surfaces": [
     {
@@ -467,8 +467,8 @@
         "`/api/account/watchlist`"
       ],
       "route": "/settings/assets",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/settings/assets/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "SET-04",
@@ -479,8 +479,8 @@
         "`/api/account/preferences`"
       ],
       "route": "/settings/preferences",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/settings/preferences/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "SET-05",

@@ -1,0 +1,12 @@
+.choices { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 2rem;padding:0;border:0;margin:2rem 0; }
+.choices legend { font-size:1.3rem;margin-bottom:1.25rem; }
+.choice { display:flex;align-items:center;gap:1rem;min-height:64px;border-bottom:1px solid #424b43;cursor:pointer; }
+.choice input { width:20px;height:20px;flex:none;accent-color:#dbab78; }
+.choice span { overflow-wrap:anywhere; }
+.form { max-width:75ch; }
+.form p { color:#a7aaa7; }
+.motion { display:block; }
+.motion .choice { min-height:88px; }
+.motion small { display:block;color:#a7aaa7;font-size:.9rem;margin-top:.25rem; }
+.form :focus-visible { outline:2px solid #e6a86e;outline-offset:4px; }
+@media(max-width:430px){.choices{grid-template-columns:1fr;}}

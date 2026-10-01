@@ -13,7 +13,9 @@ apps/frontend/app/(app)/journal/[caseId]/page.tsx
 apps/frontend/app/(app)/journal/new/page.tsx
 apps/frontend/app/(app)/journal/page.tsx
 apps/frontend/app/(app)/notifications/page.tsx
+apps/frontend/app/(app)/settings/assets/page.tsx
 apps/frontend/app/(app)/settings/page.tsx
+apps/frontend/app/(app)/settings/preferences/page.tsx
 apps/frontend/app/(app)/settings/profile/page.tsx
 apps/frontend/app/(app)/settings/security/page.tsx
 apps/frontend/app/(app)/workspace/agenda/page.tsx
@@ -78,8 +80,12 @@ apps/frontend/features/recovery/RecoveryPage.tsx
 apps/frontend/features/review/GenerateReview.tsx
 apps/frontend/features/review/ReviewPage.tsx
 apps/frontend/features/review/projection.ts
+apps/frontend/features/settings/AccountPreferenceForm.module.css
+apps/frontend/features/settings/AccountPreferenceForm.tsx
+apps/frontend/features/settings/PreferencePage.tsx
 apps/frontend/features/settings/SettingsPage.tsx
 apps/frontend/features/settings/SignOut.tsx
+apps/frontend/features/settings/account-projection.ts
 apps/frontend/features/workspace/Freshness.tsx
 apps/frontend/features/workspace/RefreshWorkspace.tsx
 apps/frontend/features/workspace/WorkspacePage.tsx
@@ -90,6 +96,7 @@ apps/frontend/lib/auth/core.ts
 apps/frontend/lib/auth/recovery-core.ts
 apps/frontend/lib/auth/recovery-server.ts
 apps/frontend/lib/auth/server.ts
+apps/frontend/lib/contracts/refinements/account-settings.ts
 apps/frontend/lib/contracts/refinements/journal.ts
 apps/frontend/lib/contracts/refinements/notifications.ts
 apps/frontend/lib/contracts/refinements/workspace.ts
@@ -137,11 +144,13 @@ apps/frontend/public/m5-assets/world-context-desktop.webp
 apps/frontend/public/m5-assets/world-context-mobile.webp
 apps/frontend/tests/auth/recovery.runtime.test.ts
 apps/frontend/tests/auth/topology.runtime.test.ts
+apps/frontend/tests/contracts/account-settings-refinement.typecheck.ts
 apps/frontend/tests/contracts/journal-refinement.typecheck.ts
 apps/frontend/tests/contracts/notifications-refinement.typecheck.ts
 apps/frontend/tests/contracts/workspace-refinement.typecheck.ts
 apps/frontend/tests/journal/projection.runtime.test.ts
 apps/frontend/tests/m5/account-entry.spec.ts
+apps/frontend/tests/m5/account-preferences.spec.ts
 apps/frontend/tests/m5/journal.spec.ts
 apps/frontend/tests/m5/landing-motion-regression.spec.ts
 apps/frontend/tests/m5/landing.spec.ts
@@ -156,6 +165,7 @@ apps/frontend/tests/m5/settings.spec.ts
 apps/frontend/tests/m5/workspace.spec.ts
 apps/frontend/tests/notifications/projection.runtime.test.ts
 apps/frontend/tests/review/projection.runtime.test.ts
+apps/frontend/tests/settings/account-projection.runtime.test.ts
 apps/frontend/tests/shell.spec.ts
 apps/frontend/tests/workspace/projection.runtime.test.ts
 design-qa.md

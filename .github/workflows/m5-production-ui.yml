@@ -32,7 +32,7 @@ jobs:
       - run: npm run typecheck:next
       - run: npm run test:m1
       - name: M5 hardening rejection tests
-        run: node --test scripts/m5-*-policy.test.mjs scripts/m5-asset-reachability.test.mjs scripts/m5-route-identity.test.mjs apps/frontend/tests/auth/recovery.runtime.test.ts apps/frontend/tests/workspace/projection.runtime.test.ts apps/frontend/tests/review/projection.runtime.test.ts apps/frontend/tests/notifications/projection.runtime.test.ts apps/frontend/tests/journal/projection.runtime.test.ts
+        run: node --test scripts/m5-*-policy.test.mjs scripts/m5-asset-reachability.test.mjs scripts/m5-route-identity.test.mjs apps/frontend/tests/auth/recovery.runtime.test.ts apps/frontend/tests/workspace/projection.runtime.test.ts apps/frontend/tests/review/projection.runtime.test.ts apps/frontend/tests/notifications/projection.runtime.test.ts apps/frontend/tests/journal/projection.runtime.test.ts apps/frontend/tests/settings/account-projection.runtime.test.ts
       - run: node scripts/check-m5-coverage.mjs
       - run: node scripts/check-m5-assets.mjs
       - run: npx playwright install --with-deps chromium

@@ -10,6 +10,16 @@ let lastSignIn = null;
 const server = createServer(async (request, response) => {
   const json = (status, value, headers = {}) => { response.writeHead(status, { 'content-type': 'application/json', 'cache-control': 'no-store', ...headers }); response.end(JSON.stringify(value)); };
   if (request.url === '/health') return json(200, { ok: true });
+  if(['/api/account/state','/api/account/preferences','/api/account/watchlist'].includes(request.url)) {
+    const account={profile:{motionIntensity:'medium'},watchlist:{assets:['XAU/USD']},notifications:{inApp:true,email:false,browserPush:false,biasChanges:true,contradictionSpikes:false,keyLevelInteractions:true,macroEventWarnings:false,postEventRegimeShift:true,journalCoaching:false}};
+    if(request.method==='PATCH'){
+      let body='';for await(const chunk of request)body+=chunk;const input=JSON.parse(body);
+      if(!request.headers['idempotency-key'])return json(400,{ok:false,error:{code:'validation_error',message:'Controlled missing key'}});
+      if(request.url==='/api/account/watchlist')account.watchlist.assets=input.assets;
+      else {account.profile.motionIntensity=input.motionIntensity;account.notifications={...input.notifications,...input.notificationClasses};}
+    }
+    return json(200,{ok:true,data:account});
+  }
   if(request.url?.startsWith('/api/journal/cases')) {
     const fixture=JSON.parse(readFileSync(new URL('../contracts/backend/mocks/journal-cases-list.json',import.meta.url),'utf8'));
     const scenario=/(?:^|; )m5-journal=([^;]+)/.exec(request.headers.cookie??'')?.[1];

@@ -69,6 +69,11 @@
       "path": "apps/frontend/features/journal/CreateDraft.tsx",
       "purpose": "Explicit journal draft form with one idempotent submission and confirmed saved-case navigation.",
       "authority": "Only the frozen owner-scoped draft operation. No trade execution, outcome computation, session authority, automatic retries or durable local storage. Unmount cancels the browser wait, not the server action."
+    },
+    {
+      "path": "apps/frontend/features/settings/AccountPreferenceForm.tsx",
+      "purpose": "Explicit tracked-market and motion preference forms using two frozen owner-scoped mutations.",
+      "authority": "No portfolio, session, entitlement or notification-delivery authority. Motion saves re-read and preserve all required notification flags; unknown outcomes are not retried. Device reduced-motion and protected dashboard behavior remain unchanged."
     }
   ],
   "landingMotionOwners": [
