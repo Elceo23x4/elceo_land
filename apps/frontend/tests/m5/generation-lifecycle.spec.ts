@@ -23,7 +23,9 @@ async function holdOperation(page:Page,operation:string){
 const probe=(page:Page)=>page.evaluate(()=>Reflect.get(window,'generationProbe') as {calls:number;aborts:number;key:string;signal:boolean});
 for(const family of families){
  test(`${family.path} timeout leaves one uncertain operation and only passive readback`,async({page})=>{
-  await holdOperation(page,family.operation);await page.goto(origin+'/'+family.path);await page.clock.install();
+  await holdOperation(page,family.operation);
+  await page.clock.install({time:new Date('2026-10-01T00:00:00Z')});await page.goto(origin+'/'+family.path);
+  await page.clock.pauseAt(new Date('2026-10-01T01:00:00Z'));
   await page.getByText(family.summary,{exact:true}).click();
   // Two synchronous activations must still create one logical operation.
   await page.getByRole('button',{name:family.button,exact:true}).evaluate((button:HTMLButtonElement)=>{button.click();button.click();});
@@ -38,7 +40,9 @@ for(const family of families){
   await page.clock.fastForward(60000);expect(await probe(page)).toEqual({...initial,aborts:1});
  });
  test(`${family.path} unmount aborts browser waiting without another generation`,async({page})=>{
-  await holdOperation(page,family.operation);await page.goto(origin+'/'+family.path);await page.clock.install();
+  await holdOperation(page,family.operation);
+  await page.clock.install({time:new Date('2026-10-01T00:00:00Z')});await page.goto(origin+'/'+family.path);
+  await page.clock.pauseAt(new Date('2026-10-01T01:00:00Z'));
   await page.getByText(family.summary,{exact:true}).click();await page.getByRole('button',{name:family.button,exact:true}).click();
   await expect.poll(async()=>(await probe(page)).calls).toBe(1);
   await page.getByRole('link',{name:'Journal',exact:true}).click();await expect(page).toHaveURL(origin+'/journal');
