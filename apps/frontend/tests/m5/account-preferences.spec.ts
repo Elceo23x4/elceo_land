@@ -3,7 +3,7 @@ const origin='http://127.0.0.1:3102';
 for(const width of [360,390,768,1024,1440,1920])test(`tracked market and motion settings at ${width}`,async({page},testInfo)=>{
  await page.setViewportSize({width,height:900});await page.goto(origin+'/settings/assets');await expect(page.getByRole('heading',{name:'Define your field of view.'})).toBeVisible();await expect(page.getByLabel('XAU/USD',{exact:true})).toBeChecked();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  if([390,1440].includes(width))await page.screenshot({path:testInfo.outputPath(`settings-assets-${width}.png`),fullPage:true});
- await page.getByRole('link',{name:'Motion preference',exact:true}).click();await expect(page.getByRole('heading',{name:'Set your preferred pace.'})).toBeVisible();await expect(page.getByRole('radio',{name:/Medium/})).toBeChecked();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.getByRole('link',{name:'Preferences',exact:true}).click();await expect(page.getByRole('heading',{name:'Set your preferred pace.'})).toBeVisible();await expect(page.getByRole('radio',{name:/Medium/})).toBeChecked();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  if(width===390)await page.screenshot({path:testInfo.outputPath('settings-preferences-390.png'),fullPage:true});
 });
 test('saving motion re-reads and preserves every current notification flag',async({page})=>{

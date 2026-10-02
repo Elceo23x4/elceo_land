@@ -22,6 +22,7 @@ apps/frontend/app/(app)/portfolio/watchlist/page.tsx
 apps/frontend/app/(app)/settings/access/page.tsx
 apps/frontend/app/(app)/settings/assets/page.tsx
 apps/frontend/app/(app)/settings/billing/page.tsx
+apps/frontend/app/(app)/settings/notifications/page.tsx
 apps/frontend/app/(app)/settings/page.tsx
 apps/frontend/app/(app)/settings/preferences/page.tsx
 apps/frontend/app/(app)/settings/profile/page.tsx
@@ -50,6 +51,7 @@ apps/frontend/app/api/auth/password-reset/confirm/route.ts
 apps/frontend/app/api/auth/password-reset/request/route.ts
 apps/frontend/assets/fonts/Geist-Variable.woff2
 apps/frontend/assets/fonts/OFL.txt
+apps/frontend/components/app/NotificationAffordance.tsx
 apps/frontend/components/app/Operational.module.css
 apps/frontend/components/app/OperationalChrome.tsx
 apps/frontend/components/app/ReadState.tsx
@@ -88,8 +90,12 @@ apps/frontend/features/landing/LandingViewport.module.css
 apps/frontend/features/landing/SceneMedia.tsx
 apps/frontend/features/landing/motion/scene-choreography.ts
 apps/frontend/features/landing/scene-media.json
+apps/frontend/features/notifications/DeliveryMutation.tsx
+apps/frontend/features/notifications/DeliverySettings.module.css
+apps/frontend/features/notifications/DeliverySettingsPage.tsx
 apps/frontend/features/notifications/NotificationsPage.tsx
 apps/frontend/features/notifications/projection.ts
+apps/frontend/features/notifications/settings-projection.ts
 apps/frontend/features/portfolio/Portfolio.module.css
 apps/frontend/features/portfolio/PortfolioMutations.tsx
 apps/frontend/features/portfolio/PortfolioPage.tsx
@@ -107,6 +113,7 @@ apps/frontend/features/settings/AccountPreferenceForm.tsx
 apps/frontend/features/settings/BillingPortal.tsx
 apps/frontend/features/settings/CommercialPage.tsx
 apps/frontend/features/settings/PreferencePage.tsx
+apps/frontend/features/settings/SettingsNav.tsx
 apps/frontend/features/settings/SettingsPage.tsx
 apps/frontend/features/settings/SignOut.tsx
 apps/frontend/features/settings/account-projection.ts
@@ -172,6 +179,7 @@ apps/frontend/tests/auth/recovery.runtime.test.ts
 apps/frontend/tests/auth/topology.runtime.test.ts
 apps/frontend/tests/contracts/account-settings-refinement.typecheck.ts
 apps/frontend/tests/contracts/journal-refinement.typecheck.ts
+apps/frontend/tests/contracts/notification-settings.typecheck.ts
 apps/frontend/tests/contracts/notifications-refinement.typecheck.ts
 apps/frontend/tests/contracts/portfolio-refinement.typecheck.ts
 apps/frontend/tests/contracts/workspace-refinement.typecheck.ts
@@ -182,6 +190,7 @@ apps/frontend/tests/journal/projection.runtime.test.ts
 apps/frontend/tests/m5/account-entry.spec.ts
 apps/frontend/tests/m5/account-preferences.spec.ts
 apps/frontend/tests/m5/commercial.spec.ts
+apps/frontend/tests/m5/delivery-settings.spec.ts
 apps/frontend/tests/m5/generation-lifecycle.spec.ts
 apps/frontend/tests/m5/journal-analysis.spec.ts
 apps/frontend/tests/m5/journal.spec.ts
@@ -198,6 +207,7 @@ apps/frontend/tests/m5/review.spec.ts
 apps/frontend/tests/m5/settings.spec.ts
 apps/frontend/tests/m5/workspace.spec.ts
 apps/frontend/tests/notifications/projection.runtime.test.ts
+apps/frontend/tests/notifications/settings.runtime.test.ts
 apps/frontend/tests/portfolio/action.fixture.json
 apps/frontend/tests/portfolio/position.fixture.json
 apps/frontend/tests/portfolio/projection.runtime.test.ts
@@ -223,6 +233,7 @@ docs/design/M5_LANDING_AUTHORITY.md
 docs/design/M5_LANDING_GENERATED_PROVENANCE.json
 docs/design/M5_LANDING_PREFLIGHT_REPORT.md
 docs/design/M5_LANDING_REVIEW_REPORT.md
+docs/design/M5_NOTIFICATION_SOURCE_EVIDENCE.md
 docs/design/M5_PORTFOLIO_SOURCE_EVIDENCE.md
 docs/design/M5_REVIEW_REPORT.md
 docs/design/M5_ROUTE_COVERAGE.md
@@ -249,6 +260,7 @@ scripts/m5-asset-reachability.mjs
 scripts/m5-asset-reachability.test.mjs
 scripts/m5-boundaries.test.mjs
 scripts/m5-boundary-lib.mjs
+scripts/m5-delivery-fixture.mjs
 scripts/m5-mock-auth-server.mjs
 scripts/m5-portfolio-fixture.mjs
 scripts/m5-resource-policy.mjs

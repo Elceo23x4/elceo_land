@@ -1,6 +1,6 @@
 import type { EvidencedPortfolioBodies } from '../contracts/refinements/portfolio';
 import type { EvidencedRequestBodies } from '../contracts/refinements/workspace';
-import type { EvidencedNotificationQueries } from '../contracts/refinements/notifications';
+import type { EvidencedNotificationQueries, EvidencedNotificationBodies } from '../contracts/refinements/notifications';
 import type { EvidencedJournalBodies } from '../contracts/refinements/journal';
 import type { EvidencedAccountSettingsBodies } from '../contracts/refinements/account-settings';
 import type { OpenApiOperationTypes } from '../contracts/generated/openapi-operation-map.generated';
@@ -13,7 +13,7 @@ import type {
 } from '../contracts/policy';
 import type { ContractResult, SafeBackendError } from '../contracts/result';
 
-type EvidencedBodies=EvidencedRequestBodies & EvidencedJournalBodies & EvidencedAccountSettingsBodies & EvidencedPortfolioBodies;
+type EvidencedBodies=EvidencedRequestBodies & EvidencedJournalBodies & EvidencedAccountSettingsBodies & EvidencedPortfolioBodies & EvidencedNotificationBodies;
 type BodyRefinedRequest<K extends OperationKey> = K extends keyof EvidencedBodies
   ? Omit<OpenApiOperationTypes[K]['request'], 'body'> & { body: EvidencedBodies[K] }
   : OpenApiOperationTypes[K]['request'];

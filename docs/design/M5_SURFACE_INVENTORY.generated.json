@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 37
+    "routeFilesPresent": 38
   },
   "surfaces": [
     {
@@ -491,8 +491,8 @@
         "notification targets, subscriptions, verification, health + account preferences where applicable"
       ],
       "route": "/settings/notifications",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/(app)/settings/notifications/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "SET-06",

@@ -33,3 +33,5 @@ Source: frozen `docs/backend-contract/ui-page-inventory.md`. A route listed belo
 | Other M5 routes/overlays | Pending | Must be mapped individually before implementation | No placeholder page files created |
 
 Responsive classification: public reading/content/navigation is Essential; large editorial title proportions are Adaptive; landing pointer lens/depth and scroll choreography are Desktop enhancements, confined to the registered landing owner. Mobile layouts stack intentionally with 16px+ body/input typography and 44px+ controls. Modal movement is removed under reduced motion. No new global provider or authenticated shell is installed.
+
+2026-10-02: portfolio checkpoint `1435edde` passes all eight exact-head workflows with 174 full browser tests. Notification settings/navigation implementation now brings mechanical route presence to 38/61; its acceptance is pending. The remaining 23 durable routes are the explicitly enumerated admin routes. Route presence is not acceptance; overlays, refinement and integrated review remain outstanding.

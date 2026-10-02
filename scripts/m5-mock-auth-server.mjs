@@ -1,5 +1,6 @@
 // Controlled browser-test service only. Never imported by application code.
 import { createServer } from 'node:http';
+import {deliveryFixture} from './m5-delivery-fixture.mjs';
 import {portfolioFixture} from './m5-portfolio-fixture.mjs';
 import { readFileSync } from 'node:fs';
 const workspaceFixture=JSON.parse(readFileSync(new URL('../contracts/backend/mocks/workspace-current.json',import.meta.url),'utf8'));
@@ -10,6 +11,7 @@ const session = {
 let lastSignIn = null;
 const server = createServer(async (request, response) => {
   const json = (status, value, headers = {}) => { response.writeHead(status, { 'content-type': 'application/json', 'cache-control': 'no-store', ...headers }); response.end(JSON.stringify(value)); };
+  if(await deliveryFixture(request,json))return;
   if(await portfolioFixture(request,json))return;
   if (request.url === '/health') return json(200, { ok: true });
   if(request.url==='/api/account/billing'){

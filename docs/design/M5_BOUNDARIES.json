@@ -94,6 +94,11 @@
       "path": "apps/frontend/features/portfolio/PortfolioMutations.tsx",
       "purpose": "Explicit portfolio entity and snapshot dialogs with exact frozen operation literals and reviewed request fields.",
       "authority": "Presentation and user-entered records only. No authority, business cognition, valuation, brokerage, entitlement or invented identity. One controller/key per submission, 30-second wait, unmount cleanup, shared dialog lock, no retry after uncertainty and passive authoritative readback. Server policy and transitions remain authoritative."
+    },
+    {
+      "path": "apps/frontend/features/notifications/DeliveryMutation.tsx",
+      "purpose": "Explicit owner-scoped target, subscription and verification dialogs.",
+      "authority": "Literal typed operations only. Shared record lock, one key/controller, 30-second browser wait, unmount cleanup, no retry and authoritative readback. Verification proof remains transient and is cleared before submission; no provider or session authority."
     }
   ],
   "landingMotionOwners": [
