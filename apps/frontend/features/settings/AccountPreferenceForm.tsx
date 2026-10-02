@@ -16,14 +16,14 @@ function failure(kind:string){
  return 'The save outcome is unconfirmed. No automatic retry was made. Read the saved preference before another submission.';
 }
 export function AccountPreferenceForm(props:Props){
- const request=useRef<AbortController|null>(null),mounted=useRef(true);const [pending,setPending]=useState(false),[settled,setSettled]=useState(false),[message,setMessage]=useState('');
- useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;request.current?.abort();};},[]);
+ const request=useRef<AbortController|null>(null),waitTimer=useRef<ReturnType<typeof setTimeout>|null>(null),mounted=useRef(true);const [pending,setPending]=useState(false),[settled,setSettled]=useState(false),[message,setMessage]=useState('');
+ useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;if(waitTimer.current)clearTimeout(waitTimer.current);request.current?.abort();};},[]);
  async function submit(event:FormEvent<HTMLFormElement>){
   event.preventDefault();if(request.current||settled)return;const fields=new FormData(event.currentTarget);
   const assets=fields.getAll('assets').map(String),motion=fields.get('motion');
   if(props.mode==='assets'&&(assets.length>50||assets.some(a=>a.length<1||a.length>32))){setMessage('Choose up to 50 identifiers, each between 1 and 32 characters.');return;}
   if(props.mode==='preferences'&&motion!=='low'&&motion!=='medium'&&motion!=='high'){setMessage('Choose a motion preference.');return;}
-  const controller=new AbortController();request.current=controller;setPending(true);setMessage('Saving your preference…');const timer=setTimeout(()=>controller.abort(),30000);
+  const controller=new AbortController();request.current=controller;setPending(true);setMessage('Saving your preference…');const timer=setTimeout(()=>controller.abort(),30000);waitTimer.current=timer;
   try{
    const client=createSessionBoundBrowserApiClient(),context={signal:controller.signal},idempotency={key:crypto.randomUUID()};
    if(props.mode==='assets'){
@@ -41,7 +41,7 @@ export function AccountPreferenceForm(props:Props){
     setMessage(saved?(props.mode==='notifications'?'The service returned saved notification preferences. Read them before another submission.':`Saved motion preference: ${saved.motionIntensity}.`):failure(result.kind));
    }
   }catch{if(mounted.current)setMessage('The save outcome is unconfirmed. No automatic retry was made. Read the saved preference before another submission.');}
-  finally{clearTimeout(timer);request.current=null;if(mounted.current){setPending(false);setSettled(true);}}
+  finally{clearTimeout(timer);waitTimer.current=null;request.current=null;if(mounted.current){setPending(false);setSettled(true);}}
  }
  const markets=props.mode==='assets'?Array.from(new Set<string>([...launchMarkets,...props.assets])):[];
  if(props.mode==='notifications')return <form className={styles.form} onSubmit={submit} aria-busy={pending}><fieldset className={styles.choices} disabled={pending||settled}><legend>Account notification preferences</legend>{Object.entries({...props.preferences.notifications,...props.preferences.notificationClasses}).map(([key,value])=><label key={key} className={styles.choice}><input type="checkbox" name={key} defaultChecked={value}/><span>{({inApp:'In app',email:'Email',browserPush:'Browser push',biasChanges:'Bias changes',contradictionSpikes:'Contradiction spikes',keyLevelInteractions:'Key-level interactions',macroEventWarnings:'Macro event warnings',postEventRegimeShift:'Post-event regime shift',journalCoaching:'Journal coaching'} as Record<string,string>)[key]}</span></label>)}</fieldset><p>These account preferences do not verify targets, enable providers or prove delivery. The current motion preference is re-read and preserved before saving.</p><button className={ui.button} disabled={pending||settled}>Save notification preferences</button><p role="status">{message}</p>{settled&&<a className={ui.button} href="/settings/notifications">Read saved preferences</a>}</form>;

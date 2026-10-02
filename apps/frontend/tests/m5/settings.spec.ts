@@ -7,7 +7,7 @@ for(const width of [360,390,768,1024,1440,1920])test(`account settings are reada
  await expect(page.locator('input:not([type="hidden"])')).toHaveCount(0);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  if([390,1440].includes(width))await page.screenshot({path:testInfo.outputPath(`settings-profile-${width}.png`),fullPage:true});
- await page.getByRole('link',{name:'Account security',exact:true}).click();await expect(page.getByRole('heading',{name:'Keep access deliberate.'})).toBeVisible();
+ const security=page.getByRole('navigation',{name:'Account settings'}).getByRole('link',{name:'Security',exact:true});await expect(security).toHaveAttribute('href','/settings/security');await security.click();await expect(page.getByRole('heading',{name:'Keep access deliberate.'})).toBeVisible();
  await page.goto(origin+'/onboarding');await expect(page.getByRole('heading',{name:'Compliance review is not ready.'})).toBeVisible();
  await expect(page.getByRole('checkbox')).toHaveCount(0);await expect(page.getByRole('button',{name:/complete/i})).toHaveCount(0);
  if(width===390)await page.screenshot({path:testInfo.outputPath('onboarding-390.png'),fullPage:true});
