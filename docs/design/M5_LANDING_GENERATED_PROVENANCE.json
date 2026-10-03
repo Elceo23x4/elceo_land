@@ -1,0 +1,72 @@
+[
+  {
+    "family": "hero wordmark",
+    "origin": "custom-generated using built-in imagegen from supplied reference",
+    "reference_upload": "hero(2).png",
+    "generated_source_sha256": "931450687db2281014048850ec3e85889128f096b1caf53501a5561597dc3229",
+    "generated_source_bytes": 2392463,
+    "derivative_operation": "resize only; WebP compression",
+    "alpha": "opaque; no alpha transparency claimed",
+    "limitation": "reconstruction; not exact pixel extraction from reference"
+  },
+  {
+    "family": "intro poster",
+    "origin": "custom-generated using built-in imagegen from supplied reference",
+    "reference_upload": "hero(2).png",
+    "generated_source_sha256": "e496a1fca6244ef82743e84edd426c926b880e8a3b5832e30ebc0a2136705a01",
+    "generated_source_bytes": 1876648,
+    "derivative_operation": "resize only; WebP compression",
+    "alpha": "opaque; no alpha transparency claimed",
+    "limitation": "reconstruction; not exact pixel extraction from reference"
+  },
+  {
+    "family": "principle objects",
+    "origin": "custom-generated using built-in imagegen from supplied reference",
+    "reference_upload": "5th(1).png",
+    "generated_source_sha256": "598676bf13e2839d496a0a7a488fc5e294d4fd5ca91b6d0e9aea440b8d1dc4cb",
+    "generated_source_bytes": 646388,
+    "derivative_operation": "five equal cells, y230..560; WebP compression",
+    "alpha": "opaque; no alpha transparency claimed",
+    "limitation": "reconstruction; not exact pixel extraction from reference"
+  },
+  {
+    "family": "perspective planes",
+    "origin": "custom-generated using built-in imagegen from supplied reference",
+    "reference_upload": "5rh(1).png",
+    "generated_source_sha256": "22cb1a81c31b2f903ef0c6ad2b8a0a9cadc579037334a185552f89809f1bd907",
+    "generated_source_bytes": 2128746,
+    "derivative_operation": "five equal 434px-wide cells; WebP compression",
+    "alpha": "opaque; no alpha transparency claimed",
+    "limitation": "reconstruction; not exact pixel extraction from reference"
+  },
+  {
+    "family": "workspace objects",
+    "origin": "custom-generated using built-in imagegen from supplied reference",
+    "reference_upload": "6th(1).png",
+    "generated_source_sha256": "31ca04e262d6cac5e60fce3782f2425b35344fe3e45a88006315880c2bcc5c74",
+    "generated_source_bytes": 1238935,
+    "derivative_operation": "four 627px-square quadrants; WebP compression",
+    "alpha": "opaque; no alpha transparency claimed",
+    "limitation": "reconstruction; not exact pixel extraction from reference"
+  },
+  {
+    "family": "CTA field",
+    "origin": "custom-generated using built-in imagegen from supplied reference",
+    "reference_upload": "7th(1).png",
+    "generated_source_sha256": "2b4559d1a874d90af43e4fb7d1162f20d3e6ef0c0090cf092d7aeb68f984f408",
+    "generated_source_bytes": 1500334,
+    "derivative_operation": "resize only; WebP compression",
+    "alpha": "opaque; no alpha transparency claimed",
+    "limitation": "reconstruction; not exact pixel extraction from reference"
+  },
+  {
+    "family": "principle material backgrounds",
+    "origin": "custom-generated using built-in imagegen from supplied reference",
+    "reference_upload": "5th(1).png",
+    "generated_source_sha256": "f496fe0d6381ce95ccd775156c95e1d6b04c19e7f4f8700389361049783ce340",
+    "generated_source_bytes": 1945096,
+    "derivative_operation": "five equal cells, WebP compression",
+    "alpha": "Measured translucent alpha retained; per-derivative ranges are recorded in M5_ASSET_INTEGRITY.json",
+    "limitation": "reconstruction; not exact pixel extraction from reference"
+  }
+]

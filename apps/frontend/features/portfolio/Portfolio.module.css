@@ -1,0 +1,39 @@
+.intro { display:grid;grid-template-columns:minmax(0,1.6fr) minmax(220px,1fr);gap:3rem;align-items:end;margin-bottom:3rem; }
+.intro h1 { font-size:clamp(2.7rem,5vw,5rem);font-weight:450;line-height:1.03;letter-spacing:-.055em;margin:0 0 1.25rem; }
+.intro p { color:#aeb8ae;max-width:62ch; }
+.intro aside { padding-left:1.5rem;border-left:2px solid #70856f;color:#c2c8bf; }
+.ledger { width:100%;border-collapse:collapse;table-layout:fixed;text-align:left;font-variant-numeric:tabular-nums; }
+.ledger caption { text-align:left;padding:2rem 0 1rem;font-size:1.4rem; }
+.ledger th { font-size:.875rem;font-weight:500;color:#aeb8ae; }
+.ledger th,.ledger td { padding:1.25rem .75rem;border-bottom:1px solid #354035;vertical-align:top;overflow-wrap:anywhere; }
+.ledger td:first-child { padding-left:0; }
+.ledger a { display:inline-flex;min-height:44px;align-items:center;text-decoration:underline;text-underline-offset:.3em; }
+.context { color:#aeb8ae;max-width:75ch; }
+.counts { display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1.5rem;margin:2rem 0 4rem; }
+.counts div { border-top:1px solid #70856f;padding-top:1rem; }
+.counts dt { color:#b4beb1; }.counts dd { font-size:2.4rem;margin:.5rem 0;font-variant-numeric:tabular-nums; }
+.queue { list-style:none;margin:2rem 0;padding:0; }
+.queue > li { display:grid;grid-template-columns:160px minmax(0,1fr) auto;gap:2rem;padding:2rem 0;border-bottom:1px solid #354035; }
+.queue h2 { font-size:1.65rem;font-weight:450;letter-spacing:-.025em;margin:0 0 .5rem; }
+.queue p { margin:.5rem 0;max-width:65ch;color:#bac2b7; }
+.queue a { min-height:44px;display:inline-flex;align-items:center;text-decoration:underline; }
+.priority { display:inline-flex;align-items:center;gap:.6rem;font-size:.95rem; }
+.priority::before { content:'';width:6px;height:6px;border-radius:50%;background:#93a38f;flex:none; }
+.priority[data-priority=critical]::before { background:#ee916b; }.priority[data-priority=high]::before{background:#ddb178;}
+.detail { margin-top:4rem;padding:2rem clamp(1rem,3vw,3rem);background:#131a14;border-top:2px solid #82957d;scroll-margin-top:2rem; }
+.detail h2 { font-size:clamp(1.7rem,3vw,2.5rem);font-weight:450;letter-spacing:-.035em;overflow-wrap:anywhere; }
+.detail h3 { margin-top:2rem; }
+.details { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem 3rem; }
+.details > div { min-width:0;padding:1rem 0;border-bottom:1px solid #354035; }
+.details dt { color:#aeb8ae; }.details dd { margin:.5rem 0 0;overflow-wrap:anywhere; }
+.controls { display:flex;flex-wrap:wrap;gap:.75rem 1.75rem;align-items:center;margin:1.5rem 0; }
+.action { display:inline-flex;align-items:center;min-height:48px;border:1px solid #80907b;color:inherit;background:transparent;padding:.7rem 1rem;font:inherit;cursor:pointer;text-decoration:none; }
+.form fieldset { margin:0;padding:0;border:0; }.form legend{font-size:1.3rem;}.form p{color:#b5bfb1;}
+.fields { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem;margin:1.5rem 0; }
+.field { display:flex;flex-direction:column;gap:.65rem;min-width:0;color:#e4e8de; }
+.field input,.field select,.field textarea { width:100%;min-height:52px;border:0;border-bottom:1px solid #768771;border-radius:0;background:#1b231b;color:inherit;padding:.8rem;font:inherit;font-size:16px;box-sizing:border-box;min-width:0; }
+.field textarea { min-height:110px;resize:vertical; }
+.history { list-style:none;margin:0;padding:0; }.history li{border-left:1px solid #63735e;padding:0 0 2rem 1.25rem;}.history time{color:#aeb8ae;}.history h3{margin:.5rem 0;}
+.lookup { display:flex;gap:1rem;align-items:end;flex-wrap:wrap;margin:2rem 0; }.lookup .field{flex:1;max-width:32rem;}
+@media(max-width:1100px){.counts{grid-template-columns:repeat(3,minmax(0,1fr));}.ledger thead{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden;}.ledger,.ledger tbody,.ledger tr,.ledger td{display:block;}.ledger caption{display:block;}.ledger tr{border-top:1px solid #70856f;padding:1rem 0;}.ledger td{display:grid;grid-template-columns:minmax(100px,.65fr) minmax(0,1.35fr);gap:1rem;border:0;padding:.45rem 0;}.ledger td::before{content:attr(data-label);color:#aeb8ae;}}
+@media(max-width:760px){.intro{grid-template-columns:1fr;gap:1rem;}.queue>li{grid-template-columns:1fr;gap:.5rem;}.details{grid-template-columns:1fr;}.fields{grid-template-columns:1fr;}.counts{grid-template-columns:repeat(2,minmax(0,1fr));}.detail{padding-inline:1rem;}}

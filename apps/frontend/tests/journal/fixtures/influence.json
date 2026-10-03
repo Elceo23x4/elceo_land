@@ -1,0 +1,58 @@
+{
+  "snapshotId": "controlled-journal-influence",
+  "createdAt": "2026-09-30T10:00:00Z",
+  "summary": {
+    "subjectKind": "user",
+    "subjectId": "private-subject",
+    "asset": "*",
+    "timeframe": "*",
+    "generatedAt": "2026-09-30T10:00:00Z",
+    "reviewedCaseCount": 1,
+    "closedCaseCount": 1,
+    "recentCaseCount": 1,
+    "setupPatterns": [
+      {
+        "setupType": "Recorded continuation",
+        "sampleCount": 0,
+        "winCount": 0,
+        "lossCount": 0,
+        "breakevenCount": 0,
+        "mixedCount": 0,
+        "avgRMultiple": null,
+        "avgPnlPercent": null,
+        "executionQualityBreakdown": {},
+        "influenceScore": 0
+      }
+    ],
+    "behaviorPatterns": [
+      {
+        "behaviorTag": "Patient review",
+        "sampleCount": 1,
+        "negativeAssociationScore": 0,
+        "positiveAssociationScore": 10,
+        "influenceScore": 10
+      }
+    ],
+    "directionPatterns": [
+      {
+        "direction": "long",
+        "sampleCount": 0,
+        "avgRMultiple": null,
+        "avgPnlPercent": null,
+        "winRate": null,
+        "influenceScore": 0
+      }
+    ],
+    "repeatedMistakes": [],
+    "repeatedStrengths": [
+      "Recorded patient review"
+    ],
+    "cautionNotes": [
+      "Limited recorded history."
+    ],
+    "confidenceBoostNotes": [],
+    "supportingCaseIds": [
+      "jcase-demo-001"
+    ]
+  }
+}

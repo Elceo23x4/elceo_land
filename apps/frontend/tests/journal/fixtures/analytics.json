@@ -1,0 +1,71 @@
+{
+  "performance": {
+    "totalTrades": 2,
+    "winRate": 50,
+    "expectancy": 0.25,
+    "averageGain": 120,
+    "averageLoss": -80,
+    "averageRiskReward": 1.5,
+    "bestMonth": {
+      "month": "2026-09",
+      "tradeCount": 2,
+      "netPnl": 40,
+      "winRate": 50
+    },
+    "worstMonth": null,
+    "bestTradedAssets": [
+      {
+        "asset": "XAU/USD",
+        "tradeCount": 2,
+        "netPnl": 40,
+        "winRate": 50
+      }
+    ],
+    "worstTradedAssets": [],
+    "highestGains": [],
+    "highestLosses": [],
+    "effectiveTradingTimeWindows": [
+      {
+        "session": "London",
+        "tradeCount": 2,
+        "netPnl": 40,
+        "expectancy": 0.25
+      }
+    ]
+  },
+  "behavior": {
+    "overtradingSignals": [],
+    "poorTimeWindowPatterns": [],
+    "repeatedMistakeCategories": [
+      {
+        "category": "Early entry",
+        "count": 1
+      }
+    ],
+    "biasViolationRate": 0,
+    "confidenceMismatchPatterns": []
+  },
+  "coaching": {
+    "summary": {
+      "diagnosis": "Review the recorded entry timing.",
+      "confidenceLevel": "low"
+    },
+    "evidence": [
+      {
+        "metric": "Recorded sample",
+        "value": "2 trades",
+        "interpretation": "Controlled historical observation."
+      }
+    ],
+    "interventions": [
+      {
+        "action": "Review entry notes",
+        "targetMetric": "Entry timing",
+        "successCriteria": "Recorded review completed"
+      }
+    ],
+    "monitoringPlan": [
+      "Compare the next recorded review."
+    ]
+  }
+}

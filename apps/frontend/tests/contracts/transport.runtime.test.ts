@@ -51,7 +51,7 @@ test('default transport performs no automatic retry after an ambiguous network f
       throw new TypeError('controlled network disconnect');
     },
   });
-  const result = await client.mutate('POST /api/account/access-check', {
+  const result = await client.mutate('POST /api/account/access-check', { body: { feature: 'admin.read' },
     idempotency: { key: 'one-logical-action' },
   });
   assert.equal(result.kind, 'unknown_error');
@@ -76,7 +76,7 @@ test('injected retry policy reuses one caller-supplied idempotency key', async (
       return context.attempt === 1;
     },
   });
-  const result = await client.mutate('POST /api/account/access-check', {
+  const result = await client.mutate('POST /api/account/access-check', { body: { feature: 'admin.read' },
     idempotency: { key: 'one-logical-action' },
   });
   assert.equal(result.kind, 'success');
@@ -103,7 +103,7 @@ test('AbortError preserves caller cancellation and is never passed to retry poli
   });
 
   await assert.rejects(
-    client.mutate('POST /api/account/access-check', {
+    client.mutate('POST /api/account/access-check', { body: { feature: 'admin.read' },
       idempotency: { key: 'cancelled-action' },
     }),
     (error: unknown) => error instanceof Error && error.name === 'AbortError',
@@ -157,7 +157,7 @@ test('caller cannot author Idempotency-Key directly even with casing variation',
   };
 
   await assert.rejects(
-    unsafeClient.mutate('POST /api/account/access-check', {
+    unsafeClient.mutate('POST /api/account/access-check', { body: { feature: 'admin.read' },
       headers: { 'idempotency-key': 'bypass' },
       idempotency: { key: 'canonical-key' },
     }),
@@ -222,7 +222,7 @@ test('unrecognized errors remain safe unknown outcomes', async () => {
     baseOrigin: 'https://backend.example.invalid',
     fetchImplementation: async () => new Response('<html>opaque failure</html>', { status: 418 }),
   });
-  const result = await client.mutate('POST /api/account/access-check', {
+  const result = await client.mutate('POST /api/account/access-check', { body: { feature: 'admin.read' },
     idempotency: { key: 'ambiguous-action' },
   });
   assert.equal(result.kind, 'unknown_error');

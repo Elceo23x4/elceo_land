@@ -1,10 +1,10 @@
-import { browserOperationRegistry } from '../contracts/generated/browser-operation-registry.generated';
-import type { BrowserUserOperationKey } from '../contracts/policy';
+import { browserOperationRegistry } from '../contracts/generated/browser-operation-registry.generated.ts';
+import type { BrowserUserOperationKey } from '../contracts/policy.ts';
 import {
   createPolicyClient,
   type PolicyClient,
   type TransportConfiguration,
-} from './transport';
+} from './transport.ts';
 
 export const M2_BROWSER_API_CLIENT_BUNDLE_PROOF = 'elceo-m2-browser-api-client-v1' as const;
 

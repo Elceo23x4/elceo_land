@@ -1,0 +1,340 @@
+/* Landing-only refinement layer.
+   Keeps the canonical scene artwork and copy intact while giving each chapter a full-viewport stage. */
+.scope {
+  position: fixed;
+  z-index: 40;
+  top: 50%;
+  left: 50%;
+  width: clamp(54px, 4.2vw, 82px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 0 18px rgb(255 111 24 / 0.32));
+}
+
+.ringOuter,
+.ringInner,
+.core,
+.axis,
+.spark {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+.ringOuter {
+  inset: 2%;
+  border: 1px solid rgb(245 130 47 / 0.78);
+  border-left-color: transparent;
+  border-radius: 50%;
+}
+
+.ringInner {
+  inset: 18%;
+  border: 1px solid rgb(255 208 147 / 0.58);
+  border-top-color: transparent;
+  border-bottom-color: rgb(240 98 22 / 0.85);
+  border-radius: 50%;
+}
+
+.core {
+  inset: 37%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #fff4df 0 8%, #ffb267 18%, #ed6b1d 42%, rgb(77 13 4 / 0.18) 70%, transparent 72%);
+  box-shadow: 0 0 24px rgb(255 106 23 / 0.58);
+}
+
+.axis {
+  top: -42%;
+  bottom: -42%;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(transparent, rgb(255 182 111 / 0.24) 24%, rgb(255 129 41 / 0.9) 50%, rgb(255 182 111 / 0.24) 76%, transparent);
+}
+
+.spark {
+  width: 7%;
+  aspect-ratio: 1;
+  left: 46.5%;
+  top: -7%;
+  border-radius: 50%;
+  background: #ffd8aa;
+  box-shadow: 0 0 12px #ff7a20;
+}
+
+/* The public route group already provides chrome. The landing owns its own cinematic chrome. */
+:global([data-elceo-ui="public"]):has(.scope) > :global(header),
+:global([data-elceo-ui="public"]):has(.scope) > :global(footer) {
+  display: none !important;
+}
+
+/* A scene is a viewport chapter, not a short strip. */
+:global([data-landing-root]):has(.scope) > :global(section[data-landing-scene]) {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100svh !important;
+  height: 100svh !important;
+  overflow: clip;
+}
+
+/* Hero: preserve the approved composition but give it enough vertical air. */
+:global([data-landing-root]):has(.scope) > :global(section[data-landing-scene="section-01-hero"]) {
+  background:
+    radial-gradient(circle at 73% 48%, rgb(158 55 8 / 0.13), transparent 42%),
+    #000;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-01-hero"] [data-scene-media="network-globe"] img) {
+  filter: saturate(1.16) contrast(1.09) brightness(1.03);
+}
+
+/* Section 2: deepen rather than globally filtering the page. */
+:global([data-landing-root]):has(.scope) > :global(section[data-landing-scene="section-02-depth"]) {
+  background: linear-gradient(104deg, #650817 0%, #3f0710 23%, #190306 46%, #020101 72%, #000 100%) !important;
+  box-shadow: inset 0 0 120px rgb(0 0 0 / 0.38);
+}
+
+/* Section 3: preserve the torn-paper material without stretching its source geometry. */
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] [data-scene-media="torn-paper-strip"] img) {
+  object-fit: cover !important;
+  object-position: 50% 50%;
+  filter: saturate(1.14) contrast(1.12) brightness(0.96);
+}
+
+/* Section 4 keeps the approved end-to-start geometry, now inside one viewport. */
+:global([data-landing-root]):has(.scope) > :global(section[data-landing-scene="section-04-principles"]) {
+  --card-height: clamp(250px, 34svh, 380px) !important;
+  --high-top: 31svh !important;
+  --low-top: calc(var(--high-top) + var(--card-height)) !important;
+  min-height: 100svh !important;
+  height: 100svh !important;
+  background:
+    radial-gradient(ellipse at 48% 54%, rgb(90 38 11 / 0.12), transparent 52%),
+    #000;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-04-principles"] > div:last-child) {
+  height: 100svh !important;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-placard]) {
+  box-shadow: 0 18px 55px rgb(0 0 0 / 0.58);
+  will-change: translate, opacity, filter;
+}
+
+/* Section 5: a stronger inward perspective. Inline runtime values take over during interaction. */
+:global([data-landing-root]):has(.scope) > :global(section[data-landing-scene="section-05-perspective"]) {
+  background: #020303;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-05-perspective"] [data-scene-media="world-environment"] img) {
+  filter: saturate(1.22) contrast(1.15) brightness(0.72);
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-planes]) {
+  perspective: 850px !important;
+  perspective-origin: 50% 62% !important;
+  transform-style: preserve-3d !important;
+  overflow: visible !important;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-plane]) {
+  transform-origin: 50% 54%;
+  border-color: rgb(183 114 61 / 0.68) !important;
+  box-shadow: 0 26px 60px rgb(0 0 0 / 0.72), inset 0 1px rgb(255 220 176 / 0.08) !important;
+  will-change: transform, filter, opacity;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-plane]:nth-child(1)) {
+  transform: translateZ(-220px) rotateY(22deg) scale(0.88) !important;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-plane]:nth-child(2)) {
+  transform: translateZ(-95px) rotateY(11deg) scale(0.94) !important;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-plane]:nth-child(3)) {
+  transform: translateZ(34px) rotateY(0deg) scale(1) !important;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-plane]:nth-child(4)) {
+  transform: translateZ(-95px) rotateY(-11deg) scale(0.94) !important;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-plane]:nth-child(5)) {
+  transform: translateZ(-220px) rotateY(-22deg) scale(0.88) !important;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-plane] > span),
+:global([data-landing-root]):has(.scope) :global([data-landing-plane] > p) {
+  transition: opacity 220ms ease;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-05-perspective"] [data-scene-media="observer-foreground"] img) {
+  filter: contrast(1.09) saturate(1.08) drop-shadow(0 24px 34px rgb(0 0 0 / 0.55));
+}
+
+/* Section 6: deepen the mosaic without flattening typography. */
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-06-workspace"] img) {
+  filter: contrast(1.1) saturate(1.13);
+}
+
+/* Section 7 gets a darker, more dimensional field and reserves a safe footer band. */
+:global([data-landing-root]):has(.scope) > :global(section[data-landing-scene="section-07-entry"]) {
+  padding-bottom: clamp(72px, 10svh, 116px) !important;
+  background: #050201;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-07-entry"] [data-scene-media="planetary-field"] img) {
+  filter: saturate(1.28) contrast(1.13) brightness(0.78);
+}
+
+/* Footer is a real visible scene. Runtime motion may lift its children but never the footer itself. */
+:global([data-landing-root]):has(.scope) > :global(footer[data-landing-scene="section-08-footer"]) {
+  box-sizing: border-box;
+  min-height: clamp(260px, 31svh, 380px) !important;
+  height: auto !important;
+  margin-top: 0 !important;
+  padding: clamp(54px, 7svh, 86px) 3.6% 22px !important;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  background: linear-gradient(180deg, rgb(0 0 0 / 0.94), #000 26%);
+  box-shadow: 0 -28px 60px rgb(0 0 0 / 0.42);
+}
+
+@media (max-width: 760px) {
+  .scope {
+    width: 52px;
+  }
+
+  :global([data-landing-root]):has(.scope) > :global(section[data-landing-scene]) {
+    height: auto !important;
+    min-height: 100svh !important;
+    overflow: clip;
+  }
+
+  :global([data-landing-root]):has(.scope) > :global(section[data-landing-scene="section-03-blind-spots"]) {
+    min-height: 100svh !important;
+    padding: clamp(108px, 15svh, 150px) 6% clamp(78px, 11svh, 118px) !important;
+    background: #000;
+  }
+
+  /* The canonical mobile derivative is a 3:1 physical-paper strip. Keep that ratio and
+     centre it in the black scene instead of enlarging it to a portrait-height canvas. */
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] [data-scene-media="torn-paper-strip"] img) {
+    top: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 3 / 1;
+    transform: translateY(-50%);
+    object-fit: contain !important;
+    object-position: 50% 50% !important;
+    filter: saturate(1.12) contrast(1.14) brightness(0.98);
+  }
+
+  :global([data-landing-root]):has(.scope) > :global(section[data-landing-scene="section-04-principles"]) {
+    height: auto !important;
+    min-height: 100svh !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-04-principles"] > div:last-child) {
+    height: auto !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-planes]) {
+    perspective: 700px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-plane]:nth-child(n)) {
+    transform: none !important;
+  }
+
+  :global([data-landing-root]):has(.scope) > :global(section[data-landing-scene="section-07-entry"]) {
+    padding-bottom: 92px !important;
+  }
+
+  :global([data-landing-root]):has(.scope) > :global(footer[data-landing-scene="section-08-footer"]) {
+    min-height: 420px !important;
+    margin-top: 0 !important;
+    padding: 82px 6% 44px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scope {
+    display: none;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-placard]),
+  :global([data-landing-root]):has(.scope) :global([data-landing-plane]) {
+    transform: none;
+    filter: none;
+    opacity: 1;
+  }
+}
+
+/* Section 3 → 4 only: one market candlestick becomes two reveal edges.
+   Fixed, inert and absent without motion; never part of either chapter's layout. */
+.splitCandle {
+  position: fixed;
+  z-index: 39;
+  top: 5svh;
+  left: 50%;
+  width: clamp(150px, 18vw, 346px);
+  height: 90svh;
+  transform: translateX(-50%);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.candleHalf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  pointer-events: none;
+}
+.candleHalf:first-child { left: 0; }
+.candleHalf:last-child { right: 0; }
+.candleHalf::before {
+  content: '';
+  position: absolute;
+  inset: 19% 0;
+  transform: scale(.9);
+  transform-origin: 100% 50%;
+  background: linear-gradient(90deg, #123f35, #2e8b57 55%, #83d4b2);
+  box-shadow: inset 0 1px rgb(177 240 216 / .65), inset 0 -1px rgb(68 170 126 / .35);
+  
+}
+.candleHalf:last-child::before {
+  transform-origin: 0% 50%;
+  background: linear-gradient(90deg, #83d4b2, #2e8b57 45%, #123f35);
+    
+}
+.candleHalf::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 2px;
+  /*background: linear-gradient(transparent, #2e8b57 7%, #b1f0d8 48%, #2e8b57 93%, transparent);*/
+   background: linear-gradient(90deg, #1A4731, #1A4731), 
+               linear-gradient(90deg, transparent 0%, rgba(255, 255, 0.25) 25%, transparent 50%, transparent 100%);
+}
+.candleHalf:last-child::after { right: auto; left: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .splitCandle { display: none; }
+}

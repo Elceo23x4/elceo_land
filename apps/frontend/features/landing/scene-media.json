@@ -1,0 +1,62 @@
+{
+  "network-globe": {
+    "desktop": {
+      "src": "/m5-assets/landing/hero/network-globe-desktop.webp",
+      "width": 950,
+      "height": 950
+    },
+    "mobile": {
+      "src": "/m5-assets/landing/hero/network-globe-mobile.webp",
+      "width": 600,
+      "height": 600
+    }
+  },
+  "torn-paper-strip": {
+    "desktop": {
+      "src": "/m5-assets/landing/blind-spots/torn-paper-strip-desktop.webp",
+      "width": 2048,
+      "height": 682
+    },
+    "mobile": {
+      "src": "/m5-assets/landing/blind-spots/torn-paper-strip-mobile.webp",
+      "width": 960,
+      "height": 320
+    }
+  },
+  "world-environment": {
+    "desktop": {
+      "src": "/m5-assets/landing/perspective/world-environment-desktop.webp",
+      "width": 1672,
+      "height": 941
+    },
+    "mobile": {
+      "src": "/m5-assets/landing/perspective/world-environment-mobile.webp",
+      "width": 960,
+      "height": 540
+    }
+  },
+  "observer-foreground": {
+    "desktop": {
+      "src": "/m5-assets/landing/perspective/observer-foreground-desktop.webp",
+      "width": 650,
+      "height": 975
+    },
+    "mobile": {
+      "src": "/m5-assets/landing/perspective/observer-foreground-mobile.webp",
+      "width": 390,
+      "height": 585
+    }
+  },
+  "planetary-field": {
+    "desktop": {
+      "src": "/m5-assets/landing/cta/planetary-field-desktop.webp",
+      "width": 2048,
+      "height": 683
+    },
+    "mobile": {
+      "src": "/m5-assets/landing/cta/planetary-field-mobile.webp",
+      "width": 960,
+      "height": 320
+    }
+  }
+}

@@ -43,13 +43,13 @@ const browser = createBrowserApiClient({
   fetchImplementation: fetch,
 });
 
-browser.mutate('POST /api/account/access-check', { idempotency: { key: 'logical-action-key' } });
+browser.mutate('POST /api/account/access-check', { body: { feature: 'admin.read' }, idempotency: { key: 'logical-action-key' } });
 
 // @ts-expect-error Required-idempotency operations cannot omit logical-action context.
-browser.mutate('POST /api/account/access-check', {});
+browser.mutate('POST /api/account/access-check', { body: { feature: 'admin.read' },});
 
 // @ts-expect-error Idempotency-Key is controlled by the logical idempotency context, not caller headers.
-browser.mutate('POST /api/account/access-check', { headers: { 'Idempotency-Key': 'bypass' }, idempotency: { key: 'logical-action-key' } });
+browser.mutate('POST /api/account/access-check', { body: { feature: 'admin.read' }, headers: { 'Idempotency-Key': 'bypass' }, idempotency: { key: 'logical-action-key' } });
 
 // @ts-expect-error Admin operations are absent from the browser-safe client key union.
 browser.read('GET /api/admin/system-summary', {});

@@ -8,6 +8,9 @@ on:
 
 permissions:
   contents: read
+  actions: read
+  pull-requests: read
+  statuses: write
 
 jobs:
   build:
@@ -29,6 +32,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: npm
 
+    - name: Invalidate previous aggregate on this workflow attempt
+      if: github.event_name == 'pull_request'
+      run: node scripts/m5-aggregate-status.mjs invalidate
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
     - name: Install locked dependencies
       run: npm ci
 

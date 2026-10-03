@@ -1,0 +1,461 @@
+/* Canonical landing viewport contract.
+   1920x1080 is the composition reference; smaller viewports reflow without weakening
+   the full-screen chapter model. This layer deliberately overrides legacy vw heights. */
+.viewport { --landing-viewport-contract: 1; }
+
+:global([data-landing-root]):has(.viewport) {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+:global([data-landing-root]):has(.viewport) > :global(section[data-landing-scene]) {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  max-height: 100svh;
+  overflow: clip !important;
+}
+
+/* SECTION 04 — canonical end-to-start constellation.
+   B1=B3=B5=T2=T4 while all five cards remain inside one 1080p viewport. */
+@media (min-width:1181px) {
+  :global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-04-principles"]) {
+    padding: 0 4.7% !important;
+    --card-height: 30svh !important;
+    --high-top: 31svh !important;
+    --low-top: 61svh !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [class*="approachLabel"]),
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] > h2),
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] > [class*="principlesCopy"]) {
+    top: 9svh !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] > h2) {
+    font-size: clamp(38px, 2.9vw, 58px) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] > [class*="principlesCopy"]) {
+    font-size: clamp(15px, 1.15vw, 22px) !important;
+    line-height: 1.36;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [class*="placards"]) {
+    height: 100svh !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [data-landing-placard]) {
+    height: var(--card-height) !important;
+    padding-top: clamp(12px, 1.6svh, 20px) !important;
+    padding-bottom: clamp(30px, 3.1svh, 44px) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [data-landing-placard]:nth-child(1)) {
+    top: calc(var(--high-top) - 2svh) !important;
+    height: calc(var(--card-height) + 2svh) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [data-landing-placard]:nth-child(2)),
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [data-landing-placard]:nth-child(4)) {
+    top: var(--low-top) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [data-landing-placard]:nth-child(3)),
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [data-landing-placard]:nth-child(5)) {
+    top: var(--high-top) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-placard] [class*="icon"]) {
+    width: clamp(90px, 7.5vw, 145px) !important;
+    height: clamp(72px, 9.5svh, 108px) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-placard] h3) {
+    font-size: clamp(24px, 1.9vw, 38px) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-placard] > p) {
+    font-size: clamp(11px, .88vw, 17px) !important;
+  }
+}
+
+:global([data-landing-root]):has(.viewport) :global([data-landing-placard]) {
+  border: 0 !important;
+  outline: 0 !important;
+}
+
+/* SECTION 05 — the environment is a real scene layer, never a negative-z image. */
+:global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-05-perspective"]) {
+  background: #080603;
+}
+
+:global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] > picture[data-scene-media="world-environment"]) {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+:global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] > picture[data-scene-media="world-environment"] > img) {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  opacity: 1;
+}
+
+:global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] > :not(picture)) {
+  z-index: 1;
+}
+
+/* The foreground observer remains above the independent information field. */
+:global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] > [class*="observer"]) {
+  z-index: 3;
+}
+
+:global([data-landing-root]):has(.viewport) :global([data-landing-planes]) {
+  max-height: 43svh;
+}
+
+:global([data-landing-root]):has(.viewport) :global([data-landing-plane]) {
+  scale: 1;
+  translate: 0 0;
+  transform-origin: 50% 52%;
+  transition:
+    scale 220ms cubic-bezier(.2,.8,.2,1),
+    translate 220ms cubic-bezier(.2,.8,.2,1),
+    box-shadow 220ms ease !important;
+  will-change: transform, scale, translate;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  :global([data-landing-root]):has(.viewport) :global([data-landing-plane]:hover),
+  :global([data-landing-root]):has(.viewport) :global([data-landing-plane][data-hovered="true"]) {
+    scale: 1.045;
+    translate: 0 -5px;
+    z-index: 8 !important;
+    box-shadow: 0 26px 70px rgb(0 0 0 / .72), 0 0 0 1px rgb(255 174 91 / .18) !important;
+  }
+}
+
+/* SECTION 07 / FOOTER — the seventh scene is a complete viewport. Motion-capable
+   browsers get the sticky overlap from LandingSticky; reduced motion stays sequential. */
+:global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-07-entry"]) {
+  z-index: 7;
+  height: 100svh !important;
+  min-height: 100svh !important;
+  padding-bottom: clamp(36px, 5svh, 64px) !important;
+}
+
+:global([data-landing-root]):has(.viewport) > :global(footer[data-landing-scene="section-08-footer"]) {
+  position: relative !important;
+  z-index: 20;
+  width: 100%;
+  min-height: clamp(320px, 42svh, 460px) !important;
+  margin: 0 !important;
+  padding: clamp(74px, 10svh, 112px) 3.6% 24px !important;
+  background: #000;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  box-shadow: 0 -42px 90px rgb(0 0 0 / .6);
+}
+
+/* Tablet: keep the scene full-screen but change dense constellations into deliberate
+   horizontal editorial rails instead of shrinking text/cards until they lose integrity. */
+@media (min-width:761px) and (max-width:1180px) {
+  :global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-04-principles"]) {
+    padding: 0 4.5% !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] > div[class*="placards"]:last-child) {
+    position: absolute !important;
+    left: 4.5%;
+    right: 0;
+    bottom: 6svh;
+    height: 43svh !important;
+    display: flex !important;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    padding: 10px 5vw 14px 0;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-placard]:nth-child(n)) {
+    position: relative !important;
+    inset: auto !important;
+    flex: 0 0 clamp(220px, 31vw, 300px);
+    width: auto !important;
+    height: 38svh !important;
+    scroll-snap-align: center;
+  }
+}
+
+/* Phone: every chapter still owns the viewport. Dense card families become compact
+   rails/grids so responsiveness does not turn into a multi-screen generic stack. */
+@media (max-width:760px) {
+  :global([data-landing-root]):has(.viewport) > :global(section[data-landing-scene]) {
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: 100svh;
+  }
+
+  :global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-03-blind-spots"]) {
+    padding: clamp(96px, 13svh, 126px) 6% clamp(58px, 8svh, 78px) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-03-blind-spots"] [class*="problems"]) {
+    margin-top: clamp(18px, 2.5svh, 26px) !important;
+    gap: clamp(11px, 1.7svh, 18px) 12px !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-04-principles"]) {
+    padding: clamp(42px, 5.5svh, 58px) 6% 0 !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] > h2) {
+    margin-top: clamp(14px, 1.8svh, 20px) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [class*="principlesCopy"]) {
+    width: 94% !important;
+    font-size: clamp(12px, 3.45vw, 15px) !important;
+    margin-top: clamp(10px, 1.5svh, 15px) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [class*="placards"]) {
+    position: absolute !important;
+    left: 6%;
+    right: 0;
+    bottom: 4svh;
+    height: clamp(230px, 32svh, 285px) !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    padding: 6px 12vw 10px 0;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-placard]:nth-child(n)) {
+    position: relative !important;
+    inset: auto !important;
+    align-self: auto !important;
+    flex: 0 0 min(72vw, 290px);
+    width: auto !important;
+    height: 100% !important;
+    padding: 16px 20px 48px !important;
+    scroll-snap-align: center;
+  }
+
+  :global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-05-perspective"]) {
+    height: 100svh !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] [class*="informationCopy"]) {
+    top: 4.5svh !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-planes]) {
+    top: 33svh !important;
+    height: clamp(195px, 25svh, 235px) !important;
+    max-height: 235px;
+    padding-block: 6px 14px !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-plane]:nth-child(n)) {
+    flex-basis: min(67vw, 275px) !important;
+    height: 100% !important;
+    padding: 14px !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] [class*="observer"]) {
+    top: 47svh !important;
+    width: min(56vw, 258px) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] [class*="perspectiveControls"]) {
+    top: 28svh !important;
+  }
+
+  /* Preserve the desktop mosaic grammar in a compact 3-column composition rather than
+     stacking four cards beyond the viewport. */
+  :global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-06-workspace"]) {
+    display: grid !important;
+    grid-template-rows: auto 1fr;
+    align-content: stretch;
+    gap: clamp(12px, 1.7svh, 18px);
+    padding: clamp(30px, 4svh, 42px) 5.5% !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] > header) {
+    width: 100% !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] > header h2) {
+    margin-top: 12px !important;
+    font-size: clamp(28px, 7.7vw, 34px) !important;
+    line-height: .98;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] > header > p:last-of-type) {
+    margin-top: 12px !important;
+    font-size: clamp(12px, 3.45vw, 14px) !important;
+    line-height: 1.34;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="explore"]) {
+    min-height: 34px !important;
+    margin-top: 9px !important;
+    font-size: 13px !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="mosaic"]) {
+    min-height: 0;
+    height: min(46svh, 390px) !important;
+    margin-top: 0 !important;
+    grid-template-columns: 46% 27% 27% !important;
+    grid-template-rows: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="tablet"]) {
+    grid-column: 1 !important;
+    grid-row: 1 / 3 !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="insights"]) {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="track"]) {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="routine"]) {
+    grid-column: 2 / 4 !important;
+    grid-row: 2 !important;
+    gap: 5% !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="mosaic"] article) {
+    padding: 8px !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="mosaic"] h3) {
+    font-size: clamp(10px, 3vw, 13px) !important;
+    line-height: 1.03;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="mosaic"] p) {
+    margin-top: 5px !important;
+    font-size: clamp(6px, 1.75vw, 8px) !important;
+    line-height: 1.35;
+  }
+
+  :global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-07-entry"]) {
+    padding: clamp(42px, 5.5svh, 58px) 6% clamp(28px, 3.5svh, 40px) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-07-entry"] [class*="trust"]) {
+    margin-top: clamp(20px, 2.7svh, 28px) !important;
+    gap: clamp(10px, 1.5svh, 16px) !important;
+  }
+
+  :global([data-landing-root]):has(.viewport) > :global(footer[data-landing-scene="section-08-footer"]) {
+    min-height: clamp(390px, 52svh, 500px) !important;
+    padding: clamp(66px, 8svh, 84px) 6% 34px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global([data-landing-root]):has(.viewport) :global([data-landing-plane]) {
+    transition: none !important;
+    scale: 1 !important;
+    translate: 0 0 !important;
+  }
+}
+
+/* Visual review: preserve readable content inside the physical paper aperture. */
+@media (min-width:1181px) {
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-03-blind-spots"] li) {
+    min-width: 0;
+    padding-inline: clamp(8px, .7vw, 14px);
+    font-size: clamp(14px, .95vw, 20px);
+    overflow-wrap: normal;
+  }
+}
+@media (max-width:760px) {
+  :global([data-landing-root]):has(.viewport) > :global([data-landing-scene="section-03-blind-spots"]) {
+    padding-top: 24svh !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-03-blind-spots"] > picture[data-scene-media="torn-paper-strip"]) {
+    inset: 12svh 0 auto;
+    height: 66svh;
+    transform: none;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-03-blind-spots"] > picture[data-scene-media="torn-paper-strip"] > img) {
+    /* Source opaque core occupies y=91..227 of 320px. Expand the material region,
+       preserving the supplied source and keeping the real deckled edge visible. */
+    position: absolute !important;
+    top: -48% !important;
+    height: 180% !important;
+    aspect-ratio: auto;
+    object-fit: cover !important;
+    object-position: center;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-04-principles"] [class*="placards"]) {
+    top: 40svh;
+    bottom: auto;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] [class*="informationCopy"] h2) {
+    margin-top: 18px;
+    font-size: clamp(30px, 8.8vw, 38px);
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] [class*="informationCopy"] > p:last-child) {
+    margin-top: 14px;
+    font-size: 16px;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-05-perspective"] [class*="perspectiveControls"]) {
+    top: 32svh !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-planes]) {
+    top: 39svh !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="mosaic"]) {
+    grid-template-columns: minmax(0, 42fr) minmax(0, 58fr) !important;
+    grid-template-rows: 1fr 1fr 1fr !important;
+    height: min(53svh, 450px) !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="tablet"]) {
+    grid-row: 1 / 4 !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="track"]) {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="routine"]) {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="mosaic"] h3) {
+    font-size: 14px !important;
+  }
+  :global([data-landing-root]):has(.viewport) :global([data-landing-scene="section-06-workspace"] [class*="mosaic"] p) {
+    font-size: 10px !important;
+  }
+}

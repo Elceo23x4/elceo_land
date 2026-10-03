@@ -1,3 +1,9 @@
+import type { EvidencedAdminQueries, EvidencedAdminBodies } from '../contracts/refinements/admin';
+import type { EvidencedPortfolioBodies } from '../contracts/refinements/portfolio';
+import type { EvidencedRequestBodies } from '../contracts/refinements/workspace';
+import type { EvidencedNotificationQueries, EvidencedNotificationBodies } from '../contracts/refinements/notifications';
+import type { EvidencedJournalBodies } from '../contracts/refinements/journal';
+import type { EvidencedAccountSettingsBodies } from '../contracts/refinements/account-settings';
 import type { OpenApiOperationTypes } from '../contracts/generated/openapi-operation-map.generated';
 import type {
   AllowedHeaderName,
@@ -8,7 +14,14 @@ import type {
 } from '../contracts/policy';
 import type { ContractResult, SafeBackendError } from '../contracts/result';
 
-type GeneratedRequest<K extends OperationKey> = OpenApiOperationTypes[K]['request'];
+type EvidencedBodies=EvidencedAdminBodies & EvidencedRequestBodies & EvidencedJournalBodies & EvidencedAccountSettingsBodies & EvidencedPortfolioBodies & EvidencedNotificationBodies;
+type BodyRefinedRequest<K extends OperationKey> = K extends keyof EvidencedBodies
+  ? Omit<OpenApiOperationTypes[K]['request'], 'body'> & { body: EvidencedBodies[K] }
+  : OpenApiOperationTypes[K]['request'];
+type EvidencedQueries=EvidencedNotificationQueries & EvidencedAdminQueries;
+type GeneratedRequest<K extends OperationKey> = K extends keyof EvidencedQueries
+  ? Omit<BodyRefinedRequest<K>, 'query'> & {query?:EvidencedQueries[K]}
+  : BodyRefinedRequest<K>;
 type GeneratedResponse<K extends OperationKey> = OpenApiOperationTypes[K]['response'];
 
 type NonIdempotencyHeader<H extends string> = H extends unknown
@@ -145,6 +158,10 @@ const mapResult = <K extends OperationKey>(
 
   const error = safeError(payload, 'The backend returned an unrecognized error response.');
   const base = { operation, status, responseContract: policy.responseContract, error };
+  // The HTTP rate-limit status takes precedence over generic envelope codes.
+  if (status === 429) {
+    return { kind: 'rate_limited', ...base } as ContractResult<K, GeneratedResponse<K>>;
+  }
   const statusIsDocumentedUnavailable = status === 503
     && (policy.unavailableStatuses?.includes(status) === true
       || policy.explicitStatuses?.includes(status) === true);
@@ -174,9 +191,6 @@ const mapResult = <K extends OperationKey>(
   }
   if (status === 409 || error.code === 'conflict') {
     return { kind: 'conflict', ...base } as ContractResult<K, GeneratedResponse<K>>;
-  }
-  if (status === 429) {
-    return { kind: 'rate_limited', ...base } as ContractResult<K, GeneratedResponse<K>>;
   }
   return { kind: 'unknown_error', ...base } as ContractResult<K, GeneratedResponse<K>>;
 };

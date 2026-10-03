@@ -1,8 +1,8 @@
 import 'server-only';
 
-import { trustedOperationRegistry } from '../contracts/generated/trusted-operation-registry.generated';
-import type { TrustedServerOperationKey } from '../contracts/policy';
-import { createPolicyClient, type PolicyClient, type TransportConfiguration } from './transport';
+import { trustedOperationRegistry } from '../contracts/generated/trusted-operation-registry.generated.ts';
+import type { TrustedServerOperationKey } from '../contracts/policy.ts';
+import { createPolicyClient, type PolicyClient, type TransportConfiguration } from './transport.ts';
 
 /**
  * Typed admin/super-admin bridge operations only. M2 deliberately does not

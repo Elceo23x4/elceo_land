@@ -1,0 +1,27 @@
+/** Canonical ui-page-inventory enumeration; exactly 23 durable admin destinations. */
+export const adminRoutes=[
+ ['/admin','Overview','System health','Status and failure counts recorded across the runtime.','Operations'],
+ ['/admin/freshness','Freshness','Data freshness','Fresh, stale, missing and failed domains remain distinct.','Operations'],
+ ['/admin/operations','Operations','Runtime operations','Recorded runs, blocked work and lease state.','Operations'],
+ ['/admin/providers','Providers','Provider capability','Configuration, enablement and live readiness are separate facts.','Operations'],
+ ['/admin/audit','Audit','Audit timeline','Recorded events and linked identities, without raw private metadata.','Operations'],
+ ['/admin/billing','Billing','Billing control','Commercial state and reconciliation belong to the service.','Billing'],
+ ['/admin/billing/operations','Payment operations','Payment operations','Failures, retry candidates and selected-subject state. No automatic retry.','Billing'],
+ ['/admin/billing/orchestration','Orchestration','Billing orchestration','Inspect stored retry plans and their recorded execution.','Billing'],
+ ['/admin/billing/policy','Policy','Policy transitions','Review the service’s recorded access transitions.','Billing'],
+ ['/admin/billing/provider-events','Provider events','Provider event inspection','Unprocessed events or events for a known subject.','Billing'],
+ ['/admin/billing/provider-mappings','Provider mappings','Provider plan mappings','Explicit external-price mappings. This is not a public price catalogue.','Billing'],
+ ['/admin/entitlements','Entitlements','Entitlement operations','Review a known subject before a recorded access change.','Commercial'],
+ ['/admin/commercial','Commercial','Commercial metrics','The frozen service reports fixture-only metrics; these are not live business totals.','Commercial'],
+ ['/admin/commercial/prices','Prices','Commercial prices','Price changes require backend step-up. A current-price read is unavailable.','Commercial'],
+ ['/admin/commercial/users','User lookup','Commercial user lookup','Open a known user ID. Search and user listing are not supplied by the service.','Commercial'],
+ ['/admin/commercial/users/[userId]','User control','User commercial control','Persisted gifts, restrictions and required verification.','Commercial'],
+ ['/admin/market-evidence','Market evidence','Evidence operations','Provider readiness, fixture coverage and ingestion state.','Evidence'],
+ ['/admin/market-evidence/payloads','Payloads','Evidence payload explorer','Inspect a selected market and recorded source lineage.','Evidence'],
+ ['/admin/market-evidence/quality','Quality','Evidence quality','Quality and weighting are returned by the service, never recomputed here.','Evidence'],
+ ['/admin/market-evidence/cognition','Cognition','Cognition inspection','Narrative, confidence and contradictions retain server ownership.','Evidence'],
+ ['/admin/market-evidence/inspection','Inspection','Operator inspection','Coverage and activation limits recorded by the frozen runtime.','Evidence'],
+ ['/admin/market-evidence/scheduled-ingestion','Scheduled ingestion','Scheduled ingestion','Policies, stored runs and explicit fixture dry runs. No live activation.','Evidence'],
+ ['/admin/seo','SEO','SEO feed inspection','Inspect recorded feed metadata and sitemap entries without publishing pages.','SEO'],
+] as const;
+export type AdminPath=typeof adminRoutes[number][0];

@@ -1,0 +1,44 @@
+.surface { --ink:#eeeae2; --muted:#a7aaa7; --line:#303431; color:var(--ink); background:#0a0d0c; min-height:100svh; font-size:16px; line-height:1.55; }
+:global(body):has(.surface) { margin:0; background:#0a0d0c; }
+.surface * { box-sizing:border-box; }
+.surface a { color:inherit; text-decoration:none; }
+.surface :is(a,button,input,summary):focus-visible { outline:2px solid #e6a86e; outline-offset:4px; }
+.bar { display:flex; align-items:center; justify-content:space-between; gap:2rem; min-height:80px; padding:1rem clamp(1.25rem,4vw,5rem); border-bottom:1px solid var(--line); }
+.brand { font-size:1.65rem; letter-spacing:.06em; }
+.bar nav,.tabs { display:flex; gap:1.5rem; flex-wrap:wrap; }
+.bar a,.bar span[aria-current],.tabs a,.tabs span { min-height:44px; display:inline-flex; align-items:center; }
+.bar [aria-current],.tabs [aria-current] { color:#f0ac74; }
+.identity { text-align:right; color:var(--muted); font-size:.875rem; overflow-wrap:anywhere; max-width:24ch; }
+.main { max-width:1600px; margin:auto; padding:clamp(2rem,4vw,5rem) clamp(1.25rem,4vw,5rem) 6rem; }
+.title { display:flex; justify-content:space-between; align-items:end; gap:2rem; margin-bottom:3rem; }
+.title h1 { font-size:clamp(2.5rem,4vw,4.5rem); font-weight:450; line-height:1.04; letter-spacing:-.055em; margin:0 0 1rem; }
+.title p { max-width:55ch; color:var(--muted); margin:0; }
+.tabs { border-bottom:1px solid var(--line); margin-bottom:2.5rem; padding-bottom:.5rem; }
+.split { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); gap:clamp(2rem,4vw,5rem); }
+.panel { border-top:1px solid #515a52; padding-top:1.5rem; margin-bottom:2rem; }
+.panel h2 { font-size:1.6rem; font-weight:450; letter-spacing:-.025em; margin:0 0 1.5rem; }
+.panel h3 { font-size:1.15rem; font-weight:500; margin:0 0 .5rem; }
+.metrics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); margin:0; gap:1.5rem; }
+.metrics dt { color:var(--muted); font-size:.875rem; }
+.metrics dd { margin:.35rem 0 0; font-size:2.1rem; font-variant-numeric:tabular-nums; font-weight:400; }
+.timeline { list-style:none; margin:0; padding:0; }
+.timeline li { padding:1.5rem 0; border-bottom:1px solid var(--line); }
+.timeline p { margin:.5rem 0; max-width:70ch; color:var(--muted); }
+.timeline :is(p,summary,h3) { overflow-wrap:anywhere; }
+.meta { display:flex; flex-wrap:wrap; gap:.5rem 1.5rem; color:var(--muted); font-size:.875rem; }
+.state { max-width:65ch; border-left:2px solid #bd885d; padding:1rem 1.5rem; background:#151a16; }
+.state h2 { font-weight:450; margin:0 0 .75rem; }
+.state p { color:var(--muted); }
+.state a,.button { display:inline-flex; align-items:center; justify-content:space-between; gap:1.5rem; min-height:48px; color:var(--ink); background:transparent; border:1px solid #515a52; padding:.65rem 1rem; font:inherit; cursor:pointer; }
+.details summary { min-height:48px; cursor:pointer; padding-block:1rem; }
+@media(max-width:760px) { .bar { align-items:start; flex-wrap:wrap; gap:.5rem 1.5rem; }.bar nav{order:3;width:100%;gap:1rem;}.title{display:block;}.title h1{font-size:2.7rem;}.split{grid-template-columns:1fr;}.tabs{gap:1rem;}.main{padding-top:2rem;}.metrics dd{font-size:1.8rem;}.identity{max-width:18ch;} }
+@media(prefers-reduced-motion:no-preference) { .surface button { transition:background 150ms ease; }.surface button:hover{background:#20261f;} }
+.identityFields { margin:0; }
+.identityFields > div { display:grid; grid-template-columns:minmax(110px,1fr) minmax(0,2fr); gap:1.5rem; border-bottom:1px solid var(--line); padding:1rem 0; }
+.identityFields dt { color:var(--muted); }
+.identityFields dd { margin:0; overflow-wrap:anywhere; }
+@media(max-width:430px) { .identityFields > div { grid-template-columns:1fr; gap:.5rem; } }
+@media(min-width:761px) and (max-width:1100px) { .bar { flex-wrap:wrap; }.bar nav { order:3; width:100%; } }
+
+.accountArea { display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; justify-content:flex-end; }
+@media(max-width:1100px){.bar{flex-wrap:wrap;}.bar nav{order:3;width:100%;}.accountArea{margin-left:auto;max-width:70%;}}

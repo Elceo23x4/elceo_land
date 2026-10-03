@@ -1,5 +1,7 @@
 # ELCEO Asset Register
 
+> Landing-specific revision: see `M5_LANDING_AUTHORITY.md` for the eight newly approved references and explicit user overrides dated 2026-09-25. All other protections remain in force.
+
 ## Classification
 
 Every asset must be classified before implementation as one of:
@@ -34,6 +36,8 @@ Origin must also be recorded as `custom-generated`, `procedural`, `licensed-sour
 
 ## Asset production rules
 
+M5 production derivatives and their exact origin, size, fallback and implementation status are tracked in `M5_ASSET_PROVENANCE.md`. The nine current stills are hash-pinned and fully decoded by `scripts/check-m5-assets.mjs` against `M5_ASSET_INTEGRITY.json`. This includes the actual controlled dashboard preview, not regenerated dashboard artwork. The approved authority PNG and original dashboard source remain unchanged. The globe still is an adaptive fallback, not the outstanding independent-continent 3D asset; the hero film remains unavailable.
+
 - Do not flatten independently animated/parallax layers into one image.
 - Do not use video for effects CSS/SVG can reproduce with materially lower cost.
 - Do not use WebGL merely to make an element feel premium.
@@ -45,3 +49,5 @@ Origin must also be recorded as `custom-generated`, `procedural`, `licensed-sour
 ## Status workflow
 
 For each produced asset record: owner/source, dimensions, format, compressed size, visual scene, responsive variants, reduced-motion fallback, license/provenance, and implementation status.
+
+M5 repair checkpoint: the nine registered stills are production-consumed and mechanically reachable. World, market-depth and information-horizon pairs now select the dedicated mobile source at <=760px via server-rendered picture/GetImageProps source sets. Desktop fidelity, source hashes and the approved reference remain unchanged. See `M5_ASSET_INTEGRITY.json` and `M5_HARDENING_CHECKPOINT.md` for reachability and empirical-selection evidence requirements.

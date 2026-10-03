@@ -1,0 +1,11 @@
+.trigger { min-height: 44px; padding: .5rem 0; border: 0; background: none; color: inherit; cursor: pointer; font: inherit; text-decoration: underline; text-underline-offset: .25em; }
+.dialog { color: #f3f0e9; background: #111311; border: 1px solid #454640; border-radius: 3px; width: min(620px, calc(100% - 32px)); max-height: calc(100svh - 40px); padding: clamp(24px, 4vw, 48px); overflow-y: auto; }
+.dialog::backdrop { background: #000b; }
+.heading { display: flex; gap: 1rem; align-items: start; justify-content: space-between; }
+.heading h2 { font-size: 1.75rem; line-height: 1.15; font-weight: 500; letter-spacing: -.035em; margin: 0; }
+.close { min-height: 44px; padding: .5rem 1rem; font: inherit; color: inherit; background: transparent; border: 1px solid #5e6158; cursor: pointer; border-radius: 30px; }
+.content { color: #c4c5bc; line-height: 1.6; }
+.content h3 { font-size: 1.125rem; color: #f3f0e9; }
+.dialog :focus-visible { outline: 2px solid #ffc49b; outline-offset: 4px; }
+@media (prefers-reduced-motion: no-preference) { .dialog[open] { animation: reveal 180ms ease-out; } }
+@keyframes reveal { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }

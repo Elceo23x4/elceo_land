@@ -1,0 +1,279 @@
+/* M5 landing hardening layer.
+   This module owns geometry/containment corrections only. Scroll choreography stays in
+   scene-choreography.ts so CSS and ScrollTrigger never compete for element state. */
+.scope { --landing-refinement-active: 1; }
+
+:global([data-landing-root]):has(.scope) {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+:global([data-landing-root]):has(.scope) > :global(section[data-landing-scene]) {
+  isolation: isolate;
+  overflow: clip !important;
+}
+
+/* Section 03 — the physical paper is a scene layer, never a negative-z descendant. */
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] > picture[data-scene-media="torn-paper-strip"]) {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] > picture[data-scene-media="torn-paper-strip"] > img) {
+  z-index: 0 !important;
+  opacity: 1;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] > :not(picture)) {
+  position: relative;
+  z-index: 2;
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] [data-landing-lens]) {
+  position: absolute;
+  z-index: 1;
+}
+
+/* Section 04 — preserve the approved end-to-start equation exactly. */
+:global([data-landing-root]):has(.scope) > :global([data-landing-scene="section-04-principles"]) {
+  --low-top: calc(var(--high-top) + var(--card-height)) !important;
+}
+
+/* Placards have no outline. Independent translate lifts the card without changing the
+   locked placement transform or allowing hover to collide with neighbouring lanes. */
+:global([data-landing-root]):has(.scope) :global([data-landing-placard]) {
+  border: 0 !important;
+  outline: 0 !important;
+  translate: 0 0;
+  transition:
+    translate 260ms cubic-bezier(.2,.8,.2,1),
+    box-shadow 260ms ease,
+    filter 260ms ease !important;
+  box-shadow: 0 18px 55px rgb(0 0 0 / .54) !important;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  :global([data-landing-root]):has(.scope) :global([data-landing-placard]:hover) {
+    translate: 0 -4px;
+    filter: brightness(1.055) saturate(1.035);
+    box-shadow: 0 24px 62px rgb(0 0 0 / .66), 0 8px 26px color-mix(in srgb,var(--tone),transparent 82%) !important;
+  }
+}
+
+/* Section 05 — the scene, rather than the perspective field, is the desktop clipping
+   boundary. The mobile field remains a native keyboard/touch scroll surface. */
+:global([data-landing-root]):has(.scope) > :global([data-landing-scene="section-05-perspective"]) {
+  overflow: clip !important;
+}
+
+/* Five information planes need real reading time. On motion-capable desktop the extra
+   180svh is not a visible gap: Section 05 remains pinned for 280svh while this exact
+   runway advances Section 06 from one viewport below to the top edge. */
+@media (min-width:761px) and (prefers-reduced-motion:no-preference) {
+  :global([data-landing-root]):has(.scope) > :global([data-landing-scene="section-05-perspective"]) {
+    margin-bottom: 180svh !important;
+  }
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-planes]) {
+  width: min(64%, 1040px) !important;
+  right: 2.8% !important;
+  contain: layout style;
+}
+
+@media (min-width:761px) {
+  :global([data-landing-root]):has(.scope) :global([data-landing-planes]) {
+    overflow: visible !important;
+  }
+}
+
+:global([data-landing-root]):has(.scope) :global([data-landing-plane]) {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: none !important;
+}
+
+/* Section 07 remains a complete viewport; footer follows as its own visible scene. */
+:global([data-landing-root]):has(.scope) > :global([data-landing-scene="section-07-entry"]) {
+  padding-bottom: clamp(72px, 10svh, 116px) !important;
+}
+
+/* Never hide the legal/footer scene behind an unreached transform state. */
+:global([data-landing-root]):has(.scope) > :global(footer[data-landing-scene="section-08-footer"]) {
+  min-height: clamp(260px, 31svh, 380px) !important;
+  margin-top: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  padding: clamp(54px, 7svh, 86px) 3.6% 22px !important;
+  justify-content: flex-end;
+}
+
+/* Tablet: protect reading size, measure and perspective containment while preserving
+   the desktop composition grammar instead of collapsing early to a generic stack. */
+@media (min-width:761px) and (max-width:1180px) {
+  /* Seven single-row labels crowd at tablet widths; preserve the left narrative
+     anchor and use three readable columns within the existing paper field. */
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] ul) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px 10px;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-01-hero"] > figure[class*="film"]) {
+    width: 32%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    bottom: 10%;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-01-hero"] figcaption),
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-01-hero"] figcaption span) {
+    font-size: 10px;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-planes]) {
+    width: 62% !important;
+    right: 2% !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] h2) {
+    font-size: clamp(24px,3vw,32px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] li) {
+    font-size: clamp(13px,1.25vw,15px) !important;
+    line-height: 1.35;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] svg) {
+    width: clamp(25px,3vw,34px) !important;
+    height: clamp(25px,3vw,34px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-04-principles"] > h2) {
+    max-width: 31vw;
+    font-size: clamp(28px,3.1vw,36px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-04-principles"] > p:last-of-type) {
+    font-size: clamp(13px,1.35vw,16px) !important;
+    line-height: 1.42;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-placard] h3) {
+    font-size: clamp(19px,2vw,24px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-placard] > p) {
+    font-size: clamp(11px,1vw,12px) !important;
+    line-height: 1.45;
+    letter-spacing: .1em;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-05-perspective"] [class*="informationCopy"] h2) {
+    font-size: clamp(30px,3.5vw,40px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-05-perspective"] [class*="informationCopy"] > p:last-child) {
+    font-size: clamp(13px,1.35vw,16px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-plane] > span) {
+    font-size: clamp(8px,.85vw,10px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-plane] > p) {
+    font-size: clamp(12px,1.25vw,15px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-06-workspace"] > header h2) {
+    font-size: clamp(27px,3vw,35px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-06-workspace"] > header > p:last-of-type) {
+    font-size: clamp(13px,1.3vw,16px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-06-workspace"] article h3) {
+    font-size: clamp(15px,1.65vw,19px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-06-workspace"] article p) {
+    font-size: clamp(8px,.85vw,10px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-07-entry"] h2) {
+    font-size: clamp(19px,2.1vw,25px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-07-entry"] [class*="trust"] h3) {
+    font-size: clamp(14px,1.35vw,17px) !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-07-entry"] [class*="trust"] p) {
+    font-size: clamp(12px,1.2vw,14px) !important;
+    line-height: 1.35;
+  }
+
+  :global([data-landing-root]):has(.scope) > :global(footer[data-landing-scene="section-08-footer"]) {
+    padding-inline: 4.5% !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global(footer[data-landing-scene="section-08-footer"] nav),
+  :global([data-landing-root]):has(.scope) :global(footer[data-landing-scene="section-08-footer"] [class*="footerBottom"]) {
+    font-size: clamp(10px,.9vw,12px) !important;
+  }
+}
+
+@media (max-width:760px) {
+  :global([data-landing-root]):has(.scope) > :global(section[data-landing-scene]) {
+    overflow-x: clip !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] > picture[data-scene-media="torn-paper-strip"]) {
+    inset: 50% 0 auto;
+    height: auto;
+    transform: translateY(-50%);
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-scene="section-03-blind-spots"] > picture[data-scene-media="torn-paper-strip"] > img) {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 3 / 1;
+    transform: none !important;
+    object-fit: contain !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-placard]) {
+    translate: 0 0 !important;
+    filter: none !important;
+  }
+
+  :global([data-landing-root]):has(.scope) :global([data-landing-planes]) {
+    width: 100% !important;
+    right: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    contain: none;
+  }
+
+  :global([data-landing-root]):has(.scope) > :global(footer[data-landing-scene="section-08-footer"]) {
+    min-height: 420px !important;
+    margin-top: 0 !important;
+    padding: 82px 6% 44px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global([data-landing-root]):has(.scope) :global([data-landing-placard]) {
+    transition: none !important;
+    translate: 0 0 !important;
+    filter: none !important;
+  }
+}

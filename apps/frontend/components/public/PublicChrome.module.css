@@ -1,0 +1,35 @@
+.header { width: min(100% - 8vw, 1440px); margin-inline: auto; display: flex; align-items: center; gap: 2rem; min-height: 104px; position: relative; z-index: 10; }
+.brand { font-size: 1.9rem; font-weight: 600; letter-spacing: .02em; text-decoration: none; display: inline-flex; align-items: center; gap: 1.5rem; min-height: 44px; }
+.brand span { font-size: .55rem; font-weight: 400; line-height: 1.65; letter-spacing: .13em; text-transform: uppercase; }
+.desktop { display: flex; gap: 1.5rem; margin-left: auto; font-size: .875rem; }
+.desktop a, .footerLinks a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+.desktop a:hover, .footerLinks a:hover { text-decoration: underline; }
+.signin { min-height: 44px; display: inline-flex; align-items: center; justify-content: space-between; gap: 1.5rem; border: 1px solid #79634a; border-radius: 100px; padding: .5rem 1.25rem; font-size: .875rem; text-decoration: none; }
+.mobile { display: none; }
+.skip { position: absolute; transform: translateY(-180%); top: 1rem; background: #fff; color: #000 !important; padding: .75rem 1rem; }
+.skip:focus { transform: none; }
+.footer { box-sizing: border-box; width: 100%; padding-inline: 4vw; padding-block: 4rem 2rem; border-top: 1px solid #343530; }
+.footerTop { display: flex; justify-content: space-between; gap: 2rem; margin-bottom: 3rem; }
+.footerTop p { color: #b4b0a8; margin: 0; }
+.footerLinks { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; font-size: .875rem; }
+.footerBottom { display: flex; justify-content: space-between; gap: 2rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #343530; color: #a7a8a0; font-size: .75rem; }
+@media (max-width: 1024px) { .brand span { display: none; } .header { gap: 1.25rem; } }
+@media (max-width: 760px) {
+  .header { width: calc(100% - 40px); }
+  .footer { width: 100%; padding-inline: 20px; }
+  .header { min-height: 84px; gap: 1rem; flex-wrap: wrap; }
+  .brand { font-size: 1.5rem; }
+  .desktop { display: none; }
+  .signin { margin-left: auto; }
+  .mobile { display: block; }
+  .mobile summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-size: .875rem; }
+  .mobile nav { position: absolute; left: 0; right: 0; top: 100%; display: grid; padding: 1rem 1.5rem; background: #181a17; border: 1px solid #41453b; }
+  .mobile nav a { min-height: 48px; display: flex; align-items: center; }
+  .footerTop, .footerBottom { flex-direction: column; }
+}
+
+.desktop [aria-current], .footerLinks [aria-current], .mobile nav [aria-current] { display: inline-flex; align-items: center; min-height: 44px; color: #e4ba94; }
+
+/* Landing owns its reference-specific chrome; all other public routes keep theirs. */
+:global([data-elceo-ui="public"]):has(:global([data-landing-root])) > .header,
+:global([data-elceo-ui="public"]):has(:global([data-landing-root])) > .footer { display: none; }

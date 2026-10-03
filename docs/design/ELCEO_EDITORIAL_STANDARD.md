@@ -1,5 +1,7 @@
 # ELCEO Editorial Standard
 
+> Landing-specific revision: see `M5_LANDING_AUTHORITY.md` for the eight newly approved references and explicit user overrides dated 2026-09-25. All other protections remain in force.
+
 ## Voice
 
 ELCEO should sound market-literate, precise, calm, diagnostic, and serious. Public copy should make a trader feel that the product understands the structure of their problem rather than selling hype.

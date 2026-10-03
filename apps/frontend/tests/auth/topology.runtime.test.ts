@@ -250,3 +250,9 @@ test('canonical session resolution distinguishes signed-out, authenticated, inva
     kind: 'unavailable', reason: 'network', status: null, setCookies: [],
   });
 });
+
+test('empty session response is malformed, not canonical signed-out JSON', async () => {
+ const result=await resolveCanonicalSession('',topology,async()=>new Response('',{status:200}));
+ assert.equal(result.kind,'unavailable');
+ if(result.kind==='unavailable') assert.equal(result.reason,'invalid_payload');
+});

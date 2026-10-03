@@ -1,0 +1,125 @@
+{
+  "clients": [
+    {
+      "path": "apps/frontend/features/landing/LandingMotion.tsx",
+      "purpose": "Lazy, capability-gated cinematic scene setup and disposal; no route tree is made client-owned.",
+      "authority": "Presentation only. No account, storage, cookie, business data or backend decisions. Static server content remains readable without motion."
+    },
+    {
+      "path": "apps/frontend/features/account-entry/GoogleEntry.tsx",
+      "purpose": "Google entry interaction: verify public provider availability, obtain canonical CSRF challenge and submit the existing same-origin sign-in form.",
+      "authority": "No session minting, identity decisions, credential storage, cookie inspection or backend origin. Canonical M3 relay owns provider redirects and opaque cookies. Callback path is sanitized by the server parent."
+    },
+    {
+      "path": "apps/frontend/components/primitives/Modal.tsx",
+      "purpose": "Native top-layer dialog opening, dismissal and focus restoration for public cookie information and later reviewed dialogs.",
+      "authority": "Presentation only; no cookies, storage, sessions, credentials or backend decisions are read or written."
+    },
+    {
+      "path": "apps/frontend/app/(app)/dashboard/error.tsx",
+      "purpose": "Next error boundary retry interaction inherited from M4.",
+      "authority": "Renders error recovery only; canonical session and access remain server-owned."
+    },
+    {
+      "path": "apps/frontend/app/m1-proof/M2BrowserClientProof.tsx",
+      "purpose": "Inherited noindex engineering proof of the same-origin typed browser client.",
+      "authority": "Only the generated browser operation partition is callable."
+    },
+    {
+      "path": "apps/frontend/components/primitives/ScopedPortal.tsx",
+      "purpose": "Browser portal mounting with protected dashboard typography inheritance.",
+      "authority": "Presentation only; no session or backend authority."
+    },
+    {
+      "path": "apps/frontend/features/dashboard/DashboardParityClient.tsx",
+      "purpose": "Narrow M4 browser-only dashboard parity bridge.",
+      "authority": "Preserves accepted fixture presentation; never derives production cognition or access."
+    },
+    {
+      "path": "apps/frontend/lib/api/authenticated-browser.ts",
+      "purpose": "Inherited typed same-origin browser transport binding.",
+      "authority": "Opaque cookies and upstream credentials remain exclusively in the canonical server relay."
+    },
+    {
+      "path": "apps/frontend/components/public/RouteLink.tsx",
+      "purpose": "Central active-destination navigation semantics; renders current destinations as non-action text.",
+      "authority": "Presentation pathname only. No session, cookies, permissions or backend access decisions."
+    },
+    {
+      "path": "apps/frontend/features/recovery/RecoveryForm.tsx",
+      "purpose": "Ephemeral credential-recovery form and explicit single submission to two reviewed same-origin recovery routes.",
+      "authority": "No session, identity or account-existence authority. No credential persistence or automatic retry. Only exact confirmed backend outcomes are rendered."
+    },
+    {
+      "path": "apps/frontend/features/workspace/RefreshWorkspace.tsx",
+      "purpose": "Explicit user-requested workspace refresh with one in-flight mutation and stable logical idempotency key.",
+      "authority": "Uses the generated browser operation partition. No automatic retries, refresh-on-read, intelligence computation or local permission decisions. Unconfirmed results remain uncertain; follow-up reads are passive. Browser waiting is bounded to 30 seconds and aborted on unmount, without implying server cancellation; uncertain results require passive authoritative readback."
+    },
+    {
+      "path": "apps/frontend/features/settings/SignOut.tsx",
+      "purpose": "Explicit sign-out confirmation using the existing canonical Auth.js CSRF and native POST relay.",
+      "authority": "No cookie inspection or session minting; session termination and redirects remain canonical server responsibilities. The only callback is the fixed local login route."
+    },
+    {
+      "path": "apps/frontend/features/review/GenerateReview.tsx",
+      "purpose": "Explicit analytics/coaching generation using only the two frozen operations and server-owned default scope.",
+      "authority": "No scores, intelligence, permissions or generation outcomes computed locally. One logical idempotency key; no automatic retry or generation-on-read. Confirmed snapshots are re-read from the service. Browser waiting is bounded to 30 seconds and aborted on unmount, without implying server cancellation; uncertain results require passive authoritative readback."
+    },
+    {
+      "path": "apps/frontend/features/journal/CreateDraft.tsx",
+      "purpose": "Explicit journal draft form with one idempotent submission and confirmed saved-case navigation.",
+      "authority": "Only the frozen owner-scoped draft operation. No trade execution, outcome computation, session authority, automatic retries or durable local storage. Unmount cancels the browser wait, not the server action."
+    },
+    {
+      "path": "apps/frontend/features/settings/AccountPreferenceForm.tsx",
+      "purpose": "Explicit tracked-market and motion preference forms using two frozen owner-scoped mutations.",
+      "authority": "No portfolio, session, entitlement or notification-delivery authority. Motion saves re-read and preserve all required notification flags; unknown outcomes are not retried. Device reduced-motion and protected dashboard behavior remain unchanged."
+    },
+    {
+      "path": "apps/frontend/features/settings/BillingPortal.tsx",
+      "purpose": "Explicit request for the canonical provider billing-management link.",
+      "authority": "Only the frozen portal operation. No checkout initiation, subscription edits, payment success inference or entitlement grant. HTTPS links are server returned, credential-free and require an explicit second navigation action."
+    },
+    {
+      "path": "apps/frontend/features/journal/GenerateInfluence.tsx",
+      "purpose": "Explicit generation of frozen canonical case influence; no generation on passive reading.",
+      "authority": "Typed owner-scoped browser operation only. One logical key/controller, 30-second wait, unmount cleanup, no retry after uncertainty. Server-owned patterns and scores are only projected; passive authoritative readback follows confirmation."
+    },
+    {
+      "path": "apps/frontend/features/journal/CaseLifecycle.tsx",
+      "purpose": "Seven explicit record-keeping dialogs drawn from the frozen case lifecycle; status-based display is advisory only.",
+      "authority": "Only literal typed owner-scoped operations; no market execution, identity generation, authority or calculations. One shared in-flight submission lock/key/controller across dialogs, 30-second wait, unmount cleanup, no retry. Full matching case/status confirmation and passive saved-case navigation required before another action."
+    },
+    {
+      "path": "apps/frontend/features/portfolio/PortfolioMutations.tsx",
+      "purpose": "Explicit portfolio entity and snapshot dialogs with exact frozen operation literals and reviewed request fields.",
+      "authority": "Presentation and user-entered records only. No authority, business cognition, valuation, brokerage, entitlement or invented identity. One controller/key per submission, 30-second wait, unmount cleanup, shared dialog lock, no retry after uncertainty and passive authoritative readback. Server policy and transitions remain authoritative."
+    },
+    {
+      "path": "apps/frontend/features/notifications/DeliveryMutation.tsx",
+      "purpose": "Explicit owner-scoped target, subscription and verification dialogs.",
+      "authority": "Literal typed operations only. Shared record lock, one key/controller, 30-second browser wait, unmount cleanup, no retry and authoritative readback. Verification proof remains transient and is cleared before submission; no provider or session authority."
+    },
+    {
+      "path": "apps/frontend/features/admin/AdminMutation.tsx",
+      "purpose": "Narrow explicit administrative dialogs and backend challenge/proof/submit presentation; one logical key per step, 30-second waiting and unmount/dismiss cleanup.",
+      "authority": "No role, entitlement, session or internal credential authority. One exact reviewed server command endpoint; backend verifies permission and step-up binding/freshness/single-use on every write. No retry after uncertainty; mandatory passive readback."
+    },
+    {
+      "path": "apps/frontend/features/workspace/GlobalRefresh.tsx",
+      "purpose": "Explicit global refresh dialog with bounded waiting, cleanup and passive readback.",
+      "authority": "Backend owns refresh, permission, session and run state. No automatic mutation or retry."
+    },
+    {
+      "path": "apps/frontend/app/error.tsx",
+      "purpose": "Route error recovery without exception exposure or automatic mutation replay.",
+      "authority": "Server-owned state remains unknown; explicit navigation rereads the workspace."
+    }
+  ],
+  "landingMotionOwners": [
+    {
+      "path": "apps/frontend/features/landing/motion/scene-choreography.ts",
+      "purpose": "Sole public landing owner of frame-coalesced native scroll choreography, reversible scene state, Section 5 perspective focus/pause and local pointer lens behavior; all listeners and frame handles are disposed on exit or reduced-motion change."
+    }
+  ]
+}

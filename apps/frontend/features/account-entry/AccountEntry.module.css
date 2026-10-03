@@ -1,0 +1,30 @@
+.entry { display: grid; grid-template-columns: 1.5fr 1fr; gap: 12%; padding-block: clamp(4rem, 9vw, 9rem); align-items: center; min-height: 80svh; }
+.statement { position: relative; }
+.statement h1 { font-size: clamp(3.3rem, 6vw, 7.5rem); }
+.statement > p { position: relative; z-index: 1; }
+.principle { display: flex; align-items: center; gap: 12px; height: 120px; margin-block: 2rem; width: fit-content; transform: skewY(-18deg); }
+.principle span { display: block; width: 10px; height: 36px; background: #b95527; }
+.principle span:nth-child(2) { height: 60px; background: #e76a2e; }
+.principle span:nth-child(3) { height: 94px; background: #ff8e46; }
+.principle span:nth-child(4) { height: 64px; background: #8b431f; }
+.principle span:nth-child(5) { height: 30px; background: #5a301c; }
+.limit, .note { color: var(--muted); font-size: .875rem; line-height: 1.65; }
+.access { border-top: 1px solid #62594b; padding-top: 2rem; max-width: 480px; }
+.access h2 { font-size: clamp(1.8rem, 3vw, 2.8rem); line-height: 1.1; letter-spacing: -.045em; font-weight: 500; margin: 0 0 1.5rem; }
+.access > p { color: var(--muted); }
+.form { margin-block: 2rem; }
+.google { display: flex; justify-content: space-between; align-items: center; gap: 1rem; width: 100%; min-height: 56px; padding: .875rem 1.25rem; color: #131310; background: #f3f0e9; border: 1px solid #f3f0e9; border-radius: 3px; cursor: pointer; }
+.google:hover { background: #ffdcc0; }
+.google:disabled { opacity: .6; cursor: wait; }
+.status { color: var(--muted); font-size: .875rem; min-height: 3em; }
+.error { padding: 1rem; border-left: 2px solid #ee9e83; background: #261917; }
+.readBefore { display: flex; gap: .25rem 1.5rem; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 1.5rem; }
+.readBefore p { width: 100%; margin: 0; color: var(--muted); font-size: .875rem; }
+.readBefore a, .alternative a { display: inline-flex; min-height: 44px; align-items: center; font-size: .875rem; }
+.alternative { display: flex; flex-direction: column; align-items: start; margin-top: 2rem; }
+@media (max-width: 760px) {
+  .entry { grid-template-columns: 1fr; gap: 3rem; padding-block: 3rem; }
+  .statement h1 { font-size: clamp(3rem, 12vw, 5rem); }
+  .principle { height: 64px; transform: skewY(-18deg) scale(.65); transform-origin: left center; margin-block: 1rem; }
+  .access { max-width: none; }
+}
