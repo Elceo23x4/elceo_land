@@ -49,3 +49,7 @@ test('every command dispatches exactly once with its original idempotency key',a
 });
 test('wrong selected subject cannot be presented as successful',async()=>{const b=backend({payload:{ok:true,data:{accountState:{subjectId:'other',planKind:'free',accountState:'active',updatedAt:'now',planStartedAt:null,planEndsAt:null,trialEndsAt:null,internalOverride:false}}}});assert.equal((await(await mediateAdminCommand(request(),config,credential,b.fetcher)).json()).kind,'unknown_error');});
 test('oversized request rejected before privileged access',async()=>{const b=backend();assert.equal((await mediateAdminCommand(request('verify',{challengeId:'c',providerKind:'totp',proof:'x'.repeat(65536)}),config,credential,b.fetcher)).status,413);assert.equal(b.calls.length,0);});
+
+test('JSON-escaped credential echo cannot cross the trusted boundary',async()=>{
+ const b=backend();const fetcher:typeof fetch=async(input,init)=>{const response=await b.fetcher(input,init);if(!String(input).includes('/api/admin/'))return response;const body=await response.text();const encoded=[...credential].map(c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0')).join('');return new Response(body.replace(credential,encoded),{status:200,headers:{'content-type':'application/json'}});};const response=await mediateAdminCommand(request(),config,credential,fetcher);assert.equal(response.status,502);assert(!(await response.text()).includes(credential));
+});

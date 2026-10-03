@@ -158,6 +158,10 @@ const mapResult = <K extends OperationKey>(
 
   const error = safeError(payload, 'The backend returned an unrecognized error response.');
   const base = { operation, status, responseContract: policy.responseContract, error };
+  // The HTTP rate-limit status takes precedence over generic envelope codes.
+  if (status === 429) {
+    return { kind: 'rate_limited', ...base } as ContractResult<K, GeneratedResponse<K>>;
+  }
   const statusIsDocumentedUnavailable = status === 503
     && (policy.unavailableStatuses?.includes(status) === true
       || policy.explicitStatuses?.includes(status) === true);
@@ -187,9 +191,6 @@ const mapResult = <K extends OperationKey>(
   }
   if (status === 409 || error.code === 'conflict') {
     return { kind: 'conflict', ...base } as ContractResult<K, GeneratedResponse<K>>;
-  }
-  if (status === 429) {
-    return { kind: 'rate_limited', ...base } as ContractResult<K, GeneratedResponse<K>>;
   }
   return { kind: 'unknown_error', ...base } as ContractResult<K, GeneratedResponse<K>>;
 };

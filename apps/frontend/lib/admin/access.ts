@@ -33,7 +33,9 @@ export async function adminClient(config:AuthTopologyConfig,cookie:string,creden
   const headers=new Headers(init?.headers);headers.set('cookie',cookie);headers.set('x-elceo-internal-token',credential);
   const response=await fetcher(url,{...init,headers,cache:'no-store',redirect:'manual'});
   const payload=await response.text();
-  if(payload.includes(credential))return Response.json({ok:false,error:{code:'dependency_failed',message:'Administrative response withheld'}},{status:502});
+  let credentialEcho=payload.includes(credential);
+  try{JSON.parse(payload,(key,value)=>{if(key.includes(credential)||typeof value==='string'&&value.includes(credential))credentialEcho=true;return value;});}catch{/* Transport rejects malformed JSON; no raw exception is forwarded. */}
+  if(credentialEcho)return Response.json({ok:false,error:{code:'dependency_failed',message:'Administrative response withheld'}},{status:502});
   return new Response(payload,{status:response.status,headers:{'content-type':response.headers.get('content-type')??'application/json'}});
  }});
 }
