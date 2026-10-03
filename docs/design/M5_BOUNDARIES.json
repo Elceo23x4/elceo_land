@@ -99,6 +99,21 @@
       "path": "apps/frontend/features/notifications/DeliveryMutation.tsx",
       "purpose": "Explicit owner-scoped target, subscription and verification dialogs.",
       "authority": "Literal typed operations only. Shared record lock, one key/controller, 30-second browser wait, unmount cleanup, no retry and authoritative readback. Verification proof remains transient and is cleared before submission; no provider or session authority."
+    },
+    {
+      "path": "apps/frontend/features/admin/AdminMutation.tsx",
+      "purpose": "Narrow explicit administrative dialogs and backend challenge/proof/submit presentation; one logical key per step, 30-second waiting and unmount/dismiss cleanup.",
+      "authority": "No role, entitlement, session or internal credential authority. One exact reviewed server command endpoint; backend verifies permission and step-up binding/freshness/single-use on every write. No retry after uncertainty; mandatory passive readback."
+    },
+    {
+      "path": "apps/frontend/features/workspace/GlobalRefresh.tsx",
+      "purpose": "Explicit global refresh dialog with bounded waiting, cleanup and passive readback.",
+      "authority": "Backend owns refresh, permission, session and run state. No automatic mutation or retry."
+    },
+    {
+      "path": "apps/frontend/app/error.tsx",
+      "purpose": "Route error recovery without exception exposure or automatic mutation replay.",
+      "authority": "Server-owned state remains unknown; explicit navigation rereads the workspace."
     }
   ],
   "landingMotionOwners": [

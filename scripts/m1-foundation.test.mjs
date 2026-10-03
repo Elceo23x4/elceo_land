@@ -39,6 +39,7 @@ test('candidate keeps reviewed client ownership and only reviewed frontend media
  const apiRoutes=walk('apps/frontend/app/api').filter(p=>/route\.[jt]s$/.test(p)).sort();
  assert.deepEqual(apiRoutes,[
   'apps/frontend/app/api/[...elceo]/route.ts',
+  'apps/frontend/app/api/admin-command/route.ts',
   'apps/frontend/app/api/auth/[...nextauth]/route.ts',
   'apps/frontend/app/api/auth/password-reset/confirm/route.ts',
   'apps/frontend/app/api/auth/password-reset/request/route.ts',

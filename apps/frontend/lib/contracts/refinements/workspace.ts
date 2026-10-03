@@ -10,4 +10,5 @@ export type WorkspaceRefreshBody = Readonly<{triggerKind:
 }>;
 export type EvidencedRequestBodies = {
   'POST /api/workspace/refresh': WorkspaceRefreshBody;
+  'POST /api/refresh/run': WorkspaceRefreshBody;
 };

@@ -10,5 +10,5 @@ const states:Record<string,[string,string]>={
 };
 export function ReadState({kind}:{kind:string}) {
   const [title,copy]=states[kind]??['We could not confirm this view.','The request did not return a usable response. No automatic retry or refresh has been started.'];
-  return <section className={styles.state} role="status"><h2>{title}</h2><p>{copy}</p>{kind==='unauthenticated'&&<Link href="/login">Return to sign in</Link>}</section>;
+  return <section className={styles.state} role="status"><h2>{title}</h2><p>{copy}</p>{kind==='forbidden'&&<Link href="/settings/access">Review access and usage</Link>}{kind==='unauthenticated'&&<Link href="/login">Return to sign in</Link>}</section>;
 }

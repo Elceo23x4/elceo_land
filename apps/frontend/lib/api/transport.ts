@@ -1,3 +1,4 @@
+import type { EvidencedAdminQueries, EvidencedAdminBodies } from '../contracts/refinements/admin';
 import type { EvidencedPortfolioBodies } from '../contracts/refinements/portfolio';
 import type { EvidencedRequestBodies } from '../contracts/refinements/workspace';
 import type { EvidencedNotificationQueries, EvidencedNotificationBodies } from '../contracts/refinements/notifications';
@@ -13,12 +14,13 @@ import type {
 } from '../contracts/policy';
 import type { ContractResult, SafeBackendError } from '../contracts/result';
 
-type EvidencedBodies=EvidencedRequestBodies & EvidencedJournalBodies & EvidencedAccountSettingsBodies & EvidencedPortfolioBodies & EvidencedNotificationBodies;
+type EvidencedBodies=EvidencedAdminBodies & EvidencedRequestBodies & EvidencedJournalBodies & EvidencedAccountSettingsBodies & EvidencedPortfolioBodies & EvidencedNotificationBodies;
 type BodyRefinedRequest<K extends OperationKey> = K extends keyof EvidencedBodies
   ? Omit<OpenApiOperationTypes[K]['request'], 'body'> & { body: EvidencedBodies[K] }
   : OpenApiOperationTypes[K]['request'];
-type GeneratedRequest<K extends OperationKey> = K extends keyof EvidencedNotificationQueries
-  ? Omit<BodyRefinedRequest<K>, 'query'> & {query?:EvidencedNotificationQueries[K]}
+type EvidencedQueries=EvidencedNotificationQueries & EvidencedAdminQueries;
+type GeneratedRequest<K extends OperationKey> = K extends keyof EvidencedQueries
+  ? Omit<BodyRefinedRequest<K>, 'query'> & {query?:EvidencedQueries[K]}
   : BodyRefinedRequest<K>;
 type GeneratedResponse<K extends OperationKey> = OpenApiOperationTypes[K]['response'];
 
