@@ -6,7 +6,7 @@
     "canonicalSurfaces": 91,
     "durableRoutes": 61,
     "adminRoutes": 23,
-    "routeFilesPresent": 38
+    "routeFilesPresent": 61
   },
   "surfaces": [
     {
@@ -715,8 +715,8 @@
         "`/api/admin/system-summary`"
       ],
       "route": "/admin",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ADM-02",
@@ -727,8 +727,8 @@
         "`/api/admin/freshness`"
       ],
       "route": "/admin/freshness",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/freshness/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ADM-03",
@@ -739,8 +739,8 @@
         "`/api/admin/ops`"
       ],
       "route": "/admin/operations",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/operations/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ADM-04",
@@ -751,8 +751,8 @@
         "`/api/admin/providers`"
       ],
       "route": "/admin/providers",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/providers/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ADM-05",
@@ -763,8 +763,8 @@
         "`/api/admin/audit`"
       ],
       "route": "/admin/audit",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/audit/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ABL-01",
@@ -775,8 +775,8 @@
         "Aggregated admin billing surfaces"
       ],
       "route": "/admin/billing",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/billing/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ABL-02",
@@ -787,8 +787,8 @@
         "summary, failures, retry candidates, subject snapshots"
       ],
       "route": "/admin/billing/operations",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/billing/operations/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ABL-03",
@@ -799,8 +799,8 @@
         "latest/runs/subject orchestration"
       ],
       "route": "/admin/billing/orchestration",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/billing/orchestration/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ABL-04",
@@ -811,8 +811,8 @@
         "admin policy read surfaces"
       ],
       "route": "/admin/billing/policy",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/billing/policy/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ABL-05",
@@ -823,8 +823,8 @@
         "provider-event admin routes"
       ],
       "route": "/admin/billing/provider-events",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/billing/provider-events/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ABL-06",
@@ -835,8 +835,8 @@
         "provider plan mappings"
       ],
       "route": "/admin/billing/provider-mappings",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/billing/provider-mappings/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ACM-01",
@@ -847,8 +847,8 @@
         "`/api/admin/entitlements/**`"
       ],
       "route": "/admin/entitlements",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/entitlements/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ACM-02",
@@ -859,8 +859,8 @@
         "`/api/admin/commercial/metrics`"
       ],
       "route": "/admin/commercial",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/commercial/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ACM-03",
@@ -871,8 +871,8 @@
         "`/api/admin/commercial/prices`"
       ],
       "route": "/admin/commercial/prices",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/commercial/prices/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ACM-04",
@@ -883,8 +883,8 @@
         "`/api/admin/commercial/users/**`"
       ],
       "route": "/admin/commercial/users",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/commercial/users/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "ACM-05",
@@ -895,8 +895,8 @@
         "user commercial read/mutations + super-admin step-up"
       ],
       "route": "/admin/commercial/users/[userId]",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/commercial/users/[userId]/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "AME-01",
@@ -907,8 +907,8 @@
         "Aggregate market-evidence admin reads"
       ],
       "route": "/admin/market-evidence",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/market-evidence/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "AME-02",
@@ -919,8 +919,8 @@
         "payloads + provider request/response"
       ],
       "route": "/admin/market-evidence/payloads",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/market-evidence/payloads/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "AME-03",
@@ -931,8 +931,8 @@
         "quality + weighted evidence"
       ],
       "route": "/admin/market-evidence/quality",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/market-evidence/quality/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "AME-04",
@@ -943,8 +943,8 @@
         "cognition + reasoning-input"
       ],
       "route": "/admin/market-evidence/cognition",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/market-evidence/cognition/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "AME-05",
@@ -955,8 +955,8 @@
         "inspection route"
       ],
       "route": "/admin/market-evidence/inspection",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/market-evidence/inspection/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "AME-06",
@@ -967,8 +967,8 @@
         "policies, runs, dry-run/replay where authorized"
       ],
       "route": "/admin/market-evidence/scheduled-ingestion",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/market-evidence/scheduled-ingestion/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "SEO-01",
@@ -979,8 +979,8 @@
         "`/api/admin/seo/**`"
       ],
       "route": "/admin/seo",
-      "routeFile": null,
-      "evidence": "implementation evidence pending"
+      "routeFile": "apps/frontend/app/admin/seo/page.tsx",
+      "evidence": "route-file-present; not acceptance"
     },
     {
       "id": "SYS-01",

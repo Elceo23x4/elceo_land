@@ -3,7 +3,7 @@ import type { CDPSession } from '@playwright/test';
 /** Test-only driver: avoids measuring Playwright's lazily compiled ARIA/selector
  * engine. Real CDP mouse input still activates Next links and pointer handlers.
  * No app bundle imports this module or exposes these helpers. */
-export async function createResourceDriver(session: CDPSession) {
+export async function createResourceDriver(session: CDPSession, navigationSelector = 'nav[aria-label="Main"] a') {
   const evaluate = async <T>(expression: string): Promise<T> => {
     const result = await session.send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
     if (result.exceptionDetails) throw new Error(`Resource journey failed: ${result.exceptionDetails.text}`);
@@ -29,15 +29,16 @@ export async function createResourceDriver(session: CDPSession) {
       },
       async link(path) {
         window.scrollTo({top:0,behavior:'instant'}); await frames();
-        const element=[...document.querySelectorAll('nav[aria-label="Main"] a[href="'+path+'"]')].find(el=>el.getClientRects().length);
+        const element=[...document.querySelectorAll(${JSON.stringify(navigationSelector)})].find(el=>el.getAttribute('href')===path&&el.getClientRects().length);
         if(!element) throw Error('Visible navigation target missing');
         const box=element.getBoundingClientRect();
         if (!box.width || !box.height) throw Error('Navigation is not visible');
         return {x:box.x+box.width/2,y:box.y+box.height/2};
       },
-      async ready(text) {
+      async button(text) {const element=[...document.querySelectorAll('button')].find(el=>el.textContent.trim()===text&&el.getClientRects().length);if(!element)throw Error('Visible button target missing: '+text);element.scrollIntoView({block:'center',behavior:'instant'});await frames();const box=element.getBoundingClientRect();return {x:box.x+box.width/2,y:box.y+box.height/2};},
+      async ready(text,path) {
         const deadline=Date.now()+5000;
-        while (!document.querySelector('h1')?.textContent.includes(text)) {
+        while (location.pathname!==path || !document.querySelector('h1')?.textContent.includes(text)) {
           if(Date.now()>deadline) throw Error('Route failed to render: '+text);
           await new Promise(resolve=>setTimeout(resolve,25));
         }
@@ -62,8 +63,10 @@ export async function createResourceDriver(session: CDPSession) {
       await move(point);
       await session.send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...point});
       await session.send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...point});
-      await call('ready',heading);
+      await call('ready',heading,path);
     },
+    async button(text:string){const point=await call<{x:number;y:number}>('button',text);await move(point);await session.send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...point});await session.send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...point});await call('frames');},
+    async close(){await session.send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});await session.send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});await call('frames');},
     frames: () => call('frames'),
     dispose: () => evaluate('delete globalThis.__m5ResourceDriver'),
   };

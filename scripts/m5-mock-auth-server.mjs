@@ -1,5 +1,6 @@
 // Controlled browser-test service only. Never imported by application code.
 import { createServer } from 'node:http';
+import {adminFixture} from './m5-admin-fixture.mjs';
 import {deliveryFixture} from './m5-delivery-fixture.mjs';
 import {portfolioFixture} from './m5-portfolio-fixture.mjs';
 import { readFileSync } from 'node:fs';
@@ -11,8 +12,16 @@ const session = {
 let lastSignIn = null;
 const server = createServer(async (request, response) => {
   const json = (status, value, headers = {}) => { response.writeHead(status, { 'content-type': 'application/json', 'cache-control': 'no-store', ...headers }); response.end(JSON.stringify(value)); };
+  if(await adminFixture(request,json))return;
   if(await deliveryFixture(request,json))return;
   if(await portfolioFixture(request,json))return;
+  if(request.url?.startsWith('/api/refresh/')){
+    const run={refreshRunId:'controlled-global-refresh',subjectId:'m4-parity-user',subjectKind:'user',overallStatus:'partial_success',generatedAt:'2026-10-03T00:00:00Z'};
+    if(request.url==='/api/refresh/freshness')return json(200,{ok:true,data:{freshness:[],summary:null}});
+    if(request.url==='/api/refresh/latest')return json(200,{ok:true,data:{latestRun:run}});
+    if(request.url==='/api/refresh/history')return json(200,{ok:true,data:{runs:[run]}});
+    if(request.method==='POST'){let raw='';for await(const chunk of request)raw+=chunk;const body=JSON.parse(raw);if(body.triggerKind!=='manual'||!request.headers['idempotency-key'])return json(400,{ok:false,error:{code:'validation_error',message:'Controlled invalid refresh'}});return json(200,{ok:true,data:{run}});}
+  }
   if (request.url === '/health') return json(200, { ok: true });
   if(request.url==='/api/account/billing'){
     if(request.headers.cookie?.includes('m5-billing=malformed'))return json(200,{ok:true,data:{snapshot:{}}});
@@ -97,7 +106,8 @@ const server = createServer(async (request, response) => {
       response.writeHead(200, { 'content-type': 'application/json', 'content-length': 1024 });
       response.write('{'); setTimeout(() => response.destroy(), 20); return;
     }
-    return json(200, state === 'signed-out' ? null : session);
+    const role=/(?:^|; )m5-admin-role=([^;]+)/.exec(request.headers.cookie??'')?.[1];
+    return json(200, state === 'signed-out' ? null : role?{...session,user:{...session.user,role}}:session);
   }
   if (request.url?.startsWith('/api/auth/password-reset/') && request.method === 'POST') {
     let body = ''; for await (const chunk of request) body += chunk;

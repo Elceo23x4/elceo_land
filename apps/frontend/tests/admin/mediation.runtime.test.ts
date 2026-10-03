@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {commandDefinitions,type Field} from '../../features/admin/commands.ts';
 import {mediateAdminCommand} from '../../lib/admin/mediation.ts';
 const config={backendOrigin:'https://backend.invalid',publicOrigin:'https://app.invalid'};
 const credential='ADMIN_PRIVATE_TEST_SENTINEL';
@@ -41,3 +42,10 @@ test('401/403/429/503 and ambiguous network outcomes do not retry or invent succ
  for(const status of [401,403,429,503]){const b=backend({status,payload:{ok:false,error:{code:status===503?'dependency_failed':'forbidden',message:'Controlled rejection'}}});const r=await mediateAdminCommand(request(),config,credential,b.fetcher);assert.equal(r.status,status);assert(!(await r.text()).includes(credential));assert.equal(b.calls.filter(c=>c.url.includes('/api/admin/')).length,1);}
  const b=backend({network:true});const r=await mediateAdminCommand(request(),config,credential,b.fetcher);assert.equal((await r.json()).kind,'unknown_error');assert.equal(b.calls.filter(c=>c.url.includes('/api/admin/')).length,1);
 });
+
+test('every command dispatches exactly once with its original idempotency key',async()=>{
+ const paths={trial:'billing/trial',activate:'billing/activate',renew:'billing/renew',changePlan:'billing/change-plan',pastDue:'billing/past-due',cancelPeriod:'billing/cancel-at-period-end',expire:'billing/expire',pause:'billing/pause',resume:'billing/resume',entitlementPlan:'entitlements/plan',entitlementState:'entitlements/state',entitlementOverride:'entitlements/override',mapping:'billing/provider-plan-mapping',dryRun:'market-evidence/scheduled-ingestion/dry-run',replay:'market-evidence/scheduled-ingestion/replay',gift:'commercial/users/target/gift-focus-plan',retract:'commercial/users/target/retract-focus-gift',restrict:'commercial/users/target/restrict',challenge:'security/step-up/challenge',verify:'security/step-up/verify'};
+ for(const [command,definition]of Object.entries(commandDefinitions)){const body:Record<string,unknown>={};for(const [key,spec]of Object.entries(definition.fields)as [string,Field][]){if(spec.kind==='optional')continue;body[key]=spec.kind==='choice'?spec.values![0]:spec.kind==='boolean'?false:spec.kind==='timestamp'?'2026-10-03T00:00:00Z':['userId','subjectId','targetUserId'].includes(key)?'target':'controlled';}const b=backend({status:403,payload:{ok:false,error:{code:'forbidden',message:'Controlled backend denial'}}});assert.equal((await mediateAdminCommand(request(command,body),config,credential,b.fetcher)).status,403,command);const calls=b.calls.filter(c=>c.url.includes('/api/admin/'));assert.equal(calls.length,1,command);assert.equal(calls[0].url,config.backendOrigin+'/api/admin/'+paths[command as keyof typeof paths]);assert.equal(calls[0].headers.get('idempotency-key'),'logical-key');}
+});
+test('wrong selected subject cannot be presented as successful',async()=>{const b=backend({payload:{ok:true,data:{accountState:{subjectId:'other',planKind:'free',accountState:'active',updatedAt:'now',planStartedAt:null,planEndsAt:null,trialEndsAt:null,internalOverride:false}}}});assert.equal((await(await mediateAdminCommand(request(),config,credential,b.fetcher)).json()).kind,'unknown_error');});
+test('oversized request rejected before privileged access',async()=>{const b=backend();assert.equal((await mediateAdminCommand(request('verify',{challengeId:'c',providerKind:'totp',proof:'x'.repeat(65536)}),config,credential,b.fetcher)).status,413);assert.equal(b.calls.length,0);});

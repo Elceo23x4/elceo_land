@@ -1,12 +1,10 @@
 # M5 Production UI — Review report
 
-Status: M5 in progress; not accepted or merge-ready. The independent-audit repair/hardening checkpoint passes its exact-head gates as recorded below. Public, recovery, workspace, review, inbox, journal draft and account/commercial presentation have controlled verification; complete product-family and integrated acceptance remain outstanding. The canonical session topology, protected dashboard, frozen backend and production deployment configuration remain preserved. The two explicitly reviewed recovery mediators are documented below.
+Current status: closure implementation published; integrated acceptance pending. All 61 durable route files, including 23 Admin routes, exist against 91 canonical surfaces. Existing draft PR #62 remains unmerged.
 
-## Current delivery boundary
+The verified notification baseline is `098434b9b9b1086abb62eba2dd77546bb062eda8` (eight workflows, 87 targeted and 195 full browser tests). Historical results do not certify this candidate. Current consolidated evidence is in `M5_CLOSURE_REPORT.md`; source/overlays/routes are in `M5_ADMIN_SOURCE_EVIDENCE.md`, `M5_SYSTEM_STATE_AUDIT.md` and `M5_ROUTE_COVERAGE.md`.
 
-The narrow inherited-gate correction is complete. M5 is **not complete and not merge-ready**. There are currently 37 canonical durable route files against 61 durable routes and 91 total surfaces; file presence is not acceptance. Onboarding is explicitly bounded by legal/age-persistence gaps. Journal lifecycle/analytics/influence exact-head verification, portfolio, remaining settings and notification infrastructure, admin, and integrated overlays/system-state acceptance remain outstanding. No placeholder product routes have been created to inflate coverage. The latest user-authored candle stylesheet is preserved exactly as blob `a916a80fc2766bd2e365899240accc04a593cfbc`.
-
-The current landing contains seven narrative chapters plus footer, with 41 decoded still assets and 12 preserved supplied PNG sources. Section 5 now has five distinct information-plane images; current responsive and closing-sheet captures were reviewed at the hardening checkpoint below. The complete M1–M4 baseline remains mandatory. Required film, independently transformable continent geometry and approved legal publication content remain separate acceptance dependencies. Historical checkpoint records below retain their original scope and results.
+The following sections preserve historical checkpoint chronology. Landing/dashboard sources, backend mirrors, lockfile and production configuration remain protected. Candle blob: `a916a80fc2766bd2e365899240accc04a593cfbc`. No merge, live-dashboard binding or Vite cutover.
 
 ## Authorized evolution of inherited phase assumptions
 

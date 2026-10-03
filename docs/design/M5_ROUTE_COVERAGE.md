@@ -1,37 +1,69 @@
-# M5 route/surface coverage — in progress
+# M5 route coverage
 
-Source: frozen `docs/backend-contract/ui-page-inventory.md`. A route listed below is not final acceptance until its visual, responsive, accessibility and integration evidence is complete.
+91 canonical surfaces; 61/61 durable route files present; 23/23 enumerated Admin routes. File presence is not acceptance. Final integrated verification remains required.
 
-`M5_SURFACE_INVENTORY.generated.json` mechanically enumerates every canonical ID and durable route, retains each source row, and maps actual Next route files. Regenerate with `node scripts/check-m5-coverage.mjs --write`; CI checks drift with `node scripts/check-m5-coverage.mjs`. This proves inventory/file coverage only, not complete UI or behavioral acceptance. Missing overlays and system states stay explicitly pending.
+| ID | Canonical route | File |
+|---|---|---|
+| PUB-01 | `/` | `apps/frontend/app/(public)/page.tsx` |
+| PUB-02 | `/pricing` | `apps/frontend/app/(public)/pricing/page.tsx` |
+| PUB-03 | `/about` | `apps/frontend/app/(public)/about/page.tsx` |
+| PUB-04 | `/faq` | `apps/frontend/app/(public)/faq/page.tsx` |
+| PUB-05 | `/demo` | `apps/frontend/app/(public)/demo/page.tsx` |
+| PUB-06 | `/help` | `apps/frontend/app/(public)/help/page.tsx` |
+| PUB-07 | `/legal/terms` | `apps/frontend/app/(public)/legal/terms/page.tsx` |
+| PUB-08 | `/legal/privacy` | `apps/frontend/app/(public)/legal/privacy/page.tsx` |
+| PUB-09 | `/legal/risk-disclosure` | `apps/frontend/app/(public)/legal/risk-disclosure/page.tsx` |
+| AUTH-01 | `/login` | `apps/frontend/app/(auth)/login/page.tsx` |
+| AUTH-02 | `/signup` | `apps/frontend/app/(auth)/signup/page.tsx` |
+| AUTH-03 | `/forgot-password` | `apps/frontend/app/(auth)/forgot-password/page.tsx` |
+| AUTH-04 | `/reset-password` | `apps/frontend/app/(auth)/reset-password/page.tsx` |
+| AUTH-05 | `/onboarding` | `apps/frontend/app/(auth)/onboarding/page.tsx` |
+| APP-01 | `/dashboard` | `apps/frontend/app/(app)/dashboard/page.tsx` |
+| WKS-01 | `/workspace` | `apps/frontend/app/(app)/workspace/page.tsx` |
+| WKS-02 | `/workspace/agenda` | `apps/frontend/app/(app)/workspace/agenda/page.tsx` |
+| WKS-03 | `/workspace/history` | `apps/frontend/app/(app)/workspace/history/page.tsx` |
+| JRN-01 | `/journal` | `apps/frontend/app/(app)/journal/page.tsx` |
+| JRN-02 | `/journal/new` | `apps/frontend/app/(app)/journal/new/page.tsx` |
+| JRN-03 | `/journal/[caseId]` | `apps/frontend/app/(app)/journal/[caseId]/page.tsx` |
+| JRN-04 | `/journal/analytics` | `apps/frontend/app/(app)/journal/analytics/page.tsx` |
+| JRN-05 | `/journal/influence` | `apps/frontend/app/(app)/journal/influence/page.tsx` |
+| PTF-01 | `/portfolio` | `apps/frontend/app/(app)/portfolio/page.tsx` |
+| PTF-02 | `/portfolio/watchlist` | `apps/frontend/app/(app)/portfolio/watchlist/page.tsx` |
+| PTF-03 | `/portfolio/positions` | `apps/frontend/app/(app)/portfolio/positions/page.tsx` |
+| PTF-04 | `/portfolio/actions` | `apps/frontend/app/(app)/portfolio/actions/page.tsx` |
+| ANL-01 | `/analytics` | `apps/frontend/app/(app)/analytics/page.tsx` |
+| COA-01 | `/coaching` | `apps/frontend/app/(app)/coaching/page.tsx` |
+| NTF-01 | `/notifications` | `apps/frontend/app/(app)/notifications/page.tsx` |
+| SET-01 | `/settings` | `apps/frontend/app/(app)/settings/page.tsx` |
+| SET-02 | `/settings/profile` | `apps/frontend/app/(app)/settings/profile/page.tsx` |
+| SET-03 | `/settings/assets` | `apps/frontend/app/(app)/settings/assets/page.tsx` |
+| SET-04 | `/settings/preferences` | `apps/frontend/app/(app)/settings/preferences/page.tsx` |
+| SET-05 | `/settings/notifications` | `apps/frontend/app/(app)/settings/notifications/page.tsx` |
+| SET-06 | `/settings/billing` | `apps/frontend/app/(app)/settings/billing/page.tsx` |
+| SET-07 | `/settings/access` | `apps/frontend/app/(app)/settings/access/page.tsx` |
+| SET-08 | `/settings/security` | `apps/frontend/app/(app)/settings/security/page.tsx` |
+| ADM-01 | `/admin` | `apps/frontend/app/admin/page.tsx` |
+| ADM-02 | `/admin/freshness` | `apps/frontend/app/admin/freshness/page.tsx` |
+| ADM-03 | `/admin/operations` | `apps/frontend/app/admin/operations/page.tsx` |
+| ADM-04 | `/admin/providers` | `apps/frontend/app/admin/providers/page.tsx` |
+| ADM-05 | `/admin/audit` | `apps/frontend/app/admin/audit/page.tsx` |
+| ABL-01 | `/admin/billing` | `apps/frontend/app/admin/billing/page.tsx` |
+| ABL-02 | `/admin/billing/operations` | `apps/frontend/app/admin/billing/operations/page.tsx` |
+| ABL-03 | `/admin/billing/orchestration` | `apps/frontend/app/admin/billing/orchestration/page.tsx` |
+| ABL-04 | `/admin/billing/policy` | `apps/frontend/app/admin/billing/policy/page.tsx` |
+| ABL-05 | `/admin/billing/provider-events` | `apps/frontend/app/admin/billing/provider-events/page.tsx` |
+| ABL-06 | `/admin/billing/provider-mappings` | `apps/frontend/app/admin/billing/provider-mappings/page.tsx` |
+| ACM-01 | `/admin/entitlements` | `apps/frontend/app/admin/entitlements/page.tsx` |
+| ACM-02 | `/admin/commercial` | `apps/frontend/app/admin/commercial/page.tsx` |
+| ACM-03 | `/admin/commercial/prices` | `apps/frontend/app/admin/commercial/prices/page.tsx` |
+| ACM-04 | `/admin/commercial/users` | `apps/frontend/app/admin/commercial/users/page.tsx` |
+| ACM-05 | `/admin/commercial/users/[userId]` | `apps/frontend/app/admin/commercial/users/[userId]/page.tsx` |
+| AME-01 | `/admin/market-evidence` | `apps/frontend/app/admin/market-evidence/page.tsx` |
+| AME-02 | `/admin/market-evidence/payloads` | `apps/frontend/app/admin/market-evidence/payloads/page.tsx` |
+| AME-03 | `/admin/market-evidence/quality` | `apps/frontend/app/admin/market-evidence/quality/page.tsx` |
+| AME-04 | `/admin/market-evidence/cognition` | `apps/frontend/app/admin/market-evidence/cognition/page.tsx` |
+| AME-05 | `/admin/market-evidence/inspection` | `apps/frontend/app/admin/market-evidence/inspection/page.tsx` |
+| AME-06 | `/admin/market-evidence/scheduled-ingestion` | `apps/frontend/app/admin/market-evidence/scheduled-ingestion/page.tsx` |
+| SEO-01 | `/admin/seo` | `apps/frontend/app/admin/seo/page.tsx` |
 
-| Inventory surface | Current implementation | State / backend owner | Authority and rendering |
-|---|---|---|---|
-| PUB-01 `/` | First seven-scene narrative implemented; fidelity/film/continent closure pending | Static public copy and clearly labelled controlled dashboard preview; no API or business authority | Approved PNG + written seven-scene contract; one registered, capability-gated landing motion owner |
-| PUB-02 `/pricing` | Two authored plan perspectives; price publication explicitly unavailable | Static supported capabilities only; no checkout or entitlement inference | Frozen integration map dashboard projections; server-rendered |
-| PUB-03 `/about` | Authored editorial page; controlled responsive/keyboard checks pass; final product acceptance pending | Static content; no API or mutation | Constitution/editorial standard; server-rendered type and code-native rules |
-| PUB-04 `/faq` | Grouped accessible disclosures; controlled responsive/keyboard checks pass; final product acceptance pending | Native disclosure state only; no business authority | Frozen product/auth/payment limits; server-rendered native details |
-| PUB-05 `/demo` | Illustrative market-review exercise with three native disclosures | No live data, generated values, session or API | Editorial standard; server-rendered and explicitly illustrative |
-| PUB-06 `/help` | Account/context/journal/billing guidance; controlled responsive/keyboard checks pass; final product acceptance pending | Static guidance; no ticket submission or fake support destination | Frozen inventory and editorial standard; server-rendered |
-| PUB-07 `/legal/terms` | Accessible document structure and supported product summary; approved full copy pending | Reading only; no acceptance persisted | Constitution/legal UX matrix; visible publication limitation |
-| PUB-08 `/legal/privacy` | Accessible document structure and current sign-in/cookie explanation; full policy pending | No invented data-processing commitments | Frozen auth topology/legal UX matrix; visible publication limitation |
-| PUB-09 `/legal/risk-disclosure` | Supported market-intelligence risk explanation; formal wording/version review pending | No acknowledgement persisted | Constitution/editorial/legal UX authorities; server-rendered |
-| AUTH-01 `/login`, AUTH-02 `/signup` | Authored account-entry pages; controlled relay tests pass | M3 canonical session authority; Google-only entry through existing relay | Server pages, narrow registered form boundary; scoped typography; no credential store |
-| Global public navigation/footer | Implemented; remaining destinations are pending within this M5 branch | Navigation only | Scoped public layout, touch targets, native mobile disclosure |
-| Cookie information dialog | Necessary-only explanation, no optional categories or persistence fabricated | Presentation only; canonical session cookies remain opaque/server-owned | Native modal top layer, focus restoration, keyboard dismissal; CSS-module styling |
-| APP-01 `/dashboard` | Accepted M4 implementation preserved | Exact inherited fixtures; no live intelligence binding | Full-frame cockpit and all protected assets unchanged |
-| AUTH-03/04 recovery | Request/reset forms and two exact mediators | Neutral acceptance, explicit confirmed reset, unknown outcomes never retried | Frozen recovery/password evidence; five-width tested |
-| AUTH-05 onboarding | Bounded status page | Canonical completion only; legal publication/age persistence blocks new completion | No fabricated consent controls or persistence |
-| WKS-01/02/03 | Current, agenda and history; explicit refresh | Canonical snapshots, passive reads, one logical refresh key | Scoped operational layout; six-width tested |
-| ANL-01 / COA-01 | Latest analytics/coaching and explicit generation | All scores, focus, cautions and priorities server supplied | Three-width tested; no intelligence computation |
-| NTF-01 | Inbox, native details, summary and bounded read windows | Owner inbox independent of summary entitlement; canonical unread count | Six-width tested; no invented mark-read/archive |
-| JRN-01/02/03 + OVL-08 | Case list/detail/draft, seven lifecycle dialogs and owner-scoped replay | Exact frozen request mappers and service transitions; shared logical submission lock, passive readback | Existing six-width list/draft evidence; new dialog/browser tests pass on db31d0c; Case-linked legacy entries lack authority |
-| JRN-04/05 | Legacy entry analytics and canonical case influence, deliberately separate | Server-reported values only; explicit idempotent influence generation | Five-width/state/lifecycle checks and exact-head gate pass on db31d0c; inspected captures recorded in report |
-| SET-01/02/08 | Hub, read-only identity, security/recovery/sign-out | Canonical session; social editing still pending | Six-width tested; no unsupported security authority |
-| SET-03/04 | Tracked markets and recorded motion preference | Exact account mutations; preserves notification flags | Six-width tested; no protected dashboard modification |
-| SET-06/07 | Billing/intention, portal, access/usage/decisions | No return-URL grants; new-checkout selection is blocked by documented contract gap | Four-width checks added; full commercial acceptance pending |
-| PTF-01/02/03/04 | Saved snapshot, watchlist, positions, action queue; 17 supported operations and selected-record/history dialogs | Literal owner-scoped frozen operations; attention GET excluded because it can generate | Seven runtime tests pass locally; browser, responsive/visual and exact-head verification pending |
-| Other M5 routes/overlays | Pending | Must be mapped individually before implementation | No placeholder page files created |
-
-Responsive classification: public reading/content/navigation is Essential; large editorial title proportions are Adaptive; landing pointer lens/depth and scroll choreography are Desktop enhancements, confined to the registered landing owner. Mobile layouts stack intentionally with 16px+ body/input typography and 44px+ controls. Modal movement is removed under reduced motion. No new global provider or authenticated shell is installed.
-
-2026-10-02: portfolio checkpoint `1435edde` passes all eight exact-head workflows with 174 full browser tests. Notification settings/navigation implementation now brings mechanical route presence to 38/61; its acceptance is pending. The remaining 23 durable routes are the explicitly enumerated admin routes. Route presence is not acceptance; overlays, refinement and integrated review remain outstanding.
+All 30 non-route surfaces are individually mapped in `M5_SYSTEM_STATE_AUDIT.md`. Frozen limitations remain in `M5_CONTRACT_GAPS.md`.

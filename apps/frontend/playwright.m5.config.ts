@@ -7,7 +7,7 @@ export default defineConfig({
   ...parity,
   webServer: [
     { command: 'node ../../scripts/m5-mock-auth-server.mjs', url: 'http://127.0.0.1:4010/health', reuseExistingServer: false },
-    ...(Array.isArray(parity.webServer) ? parity.webServer.slice(1) : []),
+    ...(Array.isArray(parity.webServer) ? parity.webServer.slice(1).map(server=>({...server,env:{...server.env,ELCEO_INTERNAL_API_TOKEN:'controlled-admin-credential'}})) : []),
   ],
   testDir: './tests/m5',
   timeout: 90_000,

@@ -40,7 +40,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
         working-directory: apps/frontend
       - name: Targeted commercial and lifecycle regressions
-        run: npx playwright test tests/m5/commercial.spec.ts tests/m5/generation-lifecycle.spec.ts tests/m5/journal-analysis.spec.ts tests/m5/portfolio.spec.ts tests/m5/delivery-settings.spec.ts --config=playwright.m5.config.ts
+        run: npx playwright test tests/m5/commercial.spec.ts tests/m5/generation-lifecycle.spec.ts tests/m5/journal-analysis.spec.ts tests/m5/portfolio.spec.ts tests/m5/delivery-settings.spec.ts tests/m5/admin.spec.ts tests/m5/system-states.spec.ts --config=playwright.m5.config.ts
         working-directory: apps/frontend
       - run: npx playwright test --config=playwright.m5.config.ts
         working-directory: apps/frontend
